@@ -1,5 +1,9 @@
 import React from 'react';
+
+
 import { Stack, Text, Link, FontWeights } from 'office-ui-fabric-react';
+//import {WebcamCapture} from "./components/WebcamCapture";
+import WidgetSlot from "./components/WidgetSlot";
 
 const boldStyle = { root: { fontWeight: FontWeights.semibold } };
 
@@ -19,10 +23,7 @@ export const App: React.FunctionComponent = () => {
             }}
             gap={15}
         >
-            <img
-                src="https://raw.githubusercontent.com/Microsoft/just/master/packages/just-stack-uifabric/template/src/components/fabric.png"
-                alt="logo"
-            />
+            <WidgetSlot />
             <Text variant="xxLarge" styles={boldStyle}>
                 Welcome to Your UI Fabric App
             </Text>
