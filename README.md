@@ -1,3 +1,8 @@
+See: Companion All Widgets: [![GitHub version](https://badge.fury.io/gh/blazinaj%2Fsmart-mirror-widgets.svg)](https://badge.fury.io/gh/blazinaj%2Fsmart-mirror-widgets)
+
+List of Supported Widgets:
+`camera-widget`: [![npm version](https://badge.fury.io/js/camera-widget.svg)](https://badge.fury.io/js/camera-widget)
+
 This is a Create React App based repo that comes with UI Fabric pre-installed!
 
 ## Available Scripts
