@@ -5,13 +5,12 @@ import WidgetSlot from "../../components/WidgetSlot/WidgetSlot";
 
 const Dashboard = (props) => {
 
-    // layout is an array of objects, see the demo for more complete usage
-    const layout = [
-        {i: 'a', x: 0, y: 0, w: 15, h: 15},
-        {i: 'b', x: 50, y: 0, w: 50, h: 10},
-        {i: 'c', x: 0, y: 25, w: 20, h: 35, minH: 35, minW: 20},
-        {i: 'd', x: 80, y: 0, w: 50, h: 40, isResizable:false}
-    ];
+    // const layout = [
+    //     {i: 'a', x: 0, y: 0, w: 15, h: 15},
+    //     {i: 'b', x: 50, y: 0, w: 50, h: 10},
+    //     {i: 'c', x: 0, y: 25, w: 20, h: 35, minH: 35, minW: 20},
+    //     {i: 'd', x: 80, y: 0, w: 50, h: 40, isResizable:false}
+    // ];
 
     const [widthConstraint, setWidthConstraint] = useState(1280);
     const [heightConstraint, setHeightConstraint] = useState(720);

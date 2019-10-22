@@ -10,7 +10,7 @@ const WidgetSlot = (props) => {
             }}
         >
             {
-                React.cloneElement(props.widget)
+                props.widget
             }
         </div>
     )
