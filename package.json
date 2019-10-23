@@ -4,13 +4,17 @@
   "version": "0.1.0",
   "private": true,
   "dependencies": {
+    "bootstrap": "^4.3.1",
     "camera-widget": "^1.0.1",
     "office-ui-fabric-react": "^7.47.0",
-    "react": "^16.10.2",
-    "react-dom": "^16.10.2",
+    "prop-types": "latest",
+    "react": "^16.11.0",
+    "react-clock": "^2.4.0",
+    "react-dom": "^16.11.0",
     "react-grid-layout": "^0.16.6",
     "react-scripts": "3.2.0",
-    "prop-types": "latest"
+    "react-smart-mirror-clock-widget": "^0.2.0",
+    "reactstrap": "^8.1.1"
   },
   "scripts": {
     "start": "react-scripts start",
