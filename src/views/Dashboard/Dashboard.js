@@ -1,16 +1,10 @@
-import React, { useState, useRef } from "react";
-import GridLayout from 'react-grid-layout';
+import React, { useState, useRef, useEffect } from "react";
+import GridLayout, { WidthProvider} from "react-grid-layout";
 import CameraWidget from "camera-widget";
-import WidgetSlot from "../../components/WidgetSlot/WidgetSlot";
+import {Clock} from "react-clock";
+import CameraSettings from "../../components/CameraSettings/CameraSettings";
 
 const Dashboard = (props) => {
-
-    // const layout = [
-    //     {i: 'a', x: 0, y: 0, w: 15, h: 15},
-    //     {i: 'b', x: 50, y: 0, w: 50, h: 10},
-    //     {i: 'c', x: 0, y: 25, w: 20, h: 35, minH: 35, minW: 20},
-    //     {i: 'd', x: 80, y: 0, w: 50, h: 40, isResizable:false}
-    // ];
 
     const [widthConstraint, setWidthConstraint] = useState(1280);
     const [heightConstraint, setHeightConstraint] = useState(720);
@@ -34,28 +28,56 @@ const Dashboard = (props) => {
         "audio": componentAudio
     };
 
+    const cameraAPI = {
+      setWidthConstraint,
+      setHeightConstraint,
+      setComponentWidth,
+      setComponentHeight,
+      setComponentAudio
+    };
+
     const selectedWidgets = [
-        <CameraWidget coreAPI={coreAPI}/>
+        <div key={1} data-grid={{x: 1, y: 0, w: 3, h: 2, minW: 2, maxW: 4}}>
+            <CameraWidget coreAPI={coreAPI}/>
+        </div>,
+        <div key={2} data-grid={{x: 1, y: 0, w: 3, h: 2, minW: 2, maxW: 4}}>
+            <ClockWidget coreAPI={coreAPI}/>
+        </div>,
+        <div key={3} data-grid={{x: 1, y: 0, w: 3, h: 2, minW: 2, maxW: 4}}>
+            <CameraSettings cameraAPI={cameraAPI} coreAPI={coreAPI}/>
+        </div>,
     ];
+
 
     return (
         <>
-            {/*<GridLayout*/}
-                {/*autoSize={true}*/}
-                {/*className="layout"*/}
-                {/*verticalCompact={true}*/}
-                {/*layout={layout}*/}
-                {/*cols={100}*/}
-                {/*rowHeight={1}*/}
-                {/*width={1200}*/}
-            {/*>*/}
+            <GridLayout className="layout" cols={12} rowHeight={120} width={1200} autoSize={true} verticalCompact={true}>
                 {
                     selectedWidgets.map((widget, index) =>
-                        <WidgetSlot key={index} widget={widget}/>
+                        widget
                     )
                 }
-            {/*</GridLayout>*/}
+            </GridLayout>
         </>
+    )
+};
+
+// Temporary to check out Anatoli's widget
+export const ClockWidget = (props) => {
+
+    const [time, setTime] = useState(new Date());
+
+    useEffect(() => {
+        setInterval(
+            () => setTime(new Date()),
+            1000
+        );
+    }, []);
+
+    return (
+        <div>
+            <Clock value={time}/>
+        </div>
     )
 };
 
