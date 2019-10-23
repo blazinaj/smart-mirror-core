@@ -10,7 +10,7 @@ const WidgetSlot = (props) => {
             }}
         >
             {
-                props.widget
+                props.widget || props.children
             }
         </div>
     )
