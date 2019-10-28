@@ -5,21 +5,26 @@ import Dashboard from "./views/Dashboard/Dashboard";
 const App = () => {
   return (
     <div className="App">
-        <h1>
-            Smart Mirror Core
-        </h1>
-        <div
-            style={{
-                "marginTop":"25px",
-                "width":"80vw",
-                "height":"90vh",
-                "backgroundColor":"silver"
-            }}
-        >
-            <Dashboard/>
-        </div>
+        <AppHeader />
+        <Dashboard/>
     </div>
   );
 };
 
 export default App;
+
+const AppHeader = (props) => {
+
+    return (
+        <div
+            style={{
+                width: "100%",
+                height: "5%",
+                backgroundColor: "white"
+            }}
+        >
+            <h1>Smart Mirror Core</h1>
+        </div>
+    )
+
+};
