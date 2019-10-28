@@ -1,5 +1,7 @@
-/*
-DEPRECATED (JB 10/21/19)
+/** WIP = FOR TESTING ONLY
+ * Author: Jacob Blazina
+ *
+ * Description: A settings menu for adjusting the scaling of the Camera widget.
  */
 
 import React from "react";
@@ -14,6 +16,12 @@ const CameraSettings = (props) => {
         setComponentHeight
     } = props.cameraAPI;
 
+    const {
+        videoConstraints,
+        width,
+        height
+    } = props.coreAPI;
+
     return (
         <>
             <Stack  styles={{ root: { maxWidth: 300 } }}>
@@ -22,7 +30,7 @@ const CameraSettings = (props) => {
                     min={1}
                     max={2000}
                     step={1}
-                    defaultValue={1280}
+                    defaultValue={videoConstraints.width}
                     showValue={true}
                     onChange={(value) => setWidthConstraint(value)}
                 />
@@ -31,7 +39,7 @@ const CameraSettings = (props) => {
                     min={1}
                     max={2000}
                     step={1}
-                    defaultValue={1280}
+                    defaultValue={width}
                     showValue={true}
                     onChange={(value) => setComponentWidth(value)}
                 />
@@ -42,7 +50,7 @@ const CameraSettings = (props) => {
                     min={1}
                     max={1000}
                     step={1}
-                    defaultValue={720}
+                    defaultValue={videoConstraints.height}
                     showValue
                     vertical
                     onChange={(value) => setHeightConstraint(value)}
@@ -52,7 +60,7 @@ const CameraSettings = (props) => {
                     min={1}
                     max={1000}
                     step={1}
-                    defaultValue={720}
+                    defaultValue={height}
                     showValue
                     vertical
                     onChange={(value) => setComponentHeight(value)}
