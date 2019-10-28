@@ -1,3 +1,12 @@
+/**
+ * Author: Jacob Blazina
+ *
+ * Description: A test component for prototyping things
+ *
+ *              Unless something needs to be tested on the Cloud using this page,
+ *              please refrain from pushing changes
+ */
+
 import React from "react";
 import {Table} from "reactstrap";
 
