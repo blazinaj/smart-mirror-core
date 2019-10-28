@@ -8,6 +8,7 @@
 import React, { useState, useRef, useEffect } from "react";
 import GridLayout from "react-grid-layout";
 import CameraWidget from "camera-widget";
+import DigitalClock from "react-digital-clock";
 import {Clock} from "react-clock";
 import CameraSettings from "../../components/CameraSettings/CameraSettings";
 import '../../components/WidgetSlot/css/styles.css';
@@ -70,6 +71,9 @@ const Dashboard = (props) => {
             <Calendar
                 value={new Date()}
             />
+        </div>,
+        <div key="digital-clock-widget" data-grid={{x: 12, y: 5, w: 2, h: 5}}>
+            <DigitalClock />
         </div>
     ];
 
@@ -78,7 +82,8 @@ const Dashboard = (props) => {
             <GridLayout style={{"background":"lightGrey"}} cols={12} rowHeight={30} width={1200}>
                 {
                     selectedWidgets.map((widget) =>
-                        widget
+                            widget
+
                     )
                 }
             </GridLayout>
