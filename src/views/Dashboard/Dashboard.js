@@ -1,15 +1,26 @@
+/**
+ * Author: Jacob Blazina
+ *
+ * Description: The dashboard component. Displays the selected widgets in a defined layout.
+ *
+ */
+
 import React, { useState, useRef, useEffect } from "react";
-import GridLayout, { WidthProvider} from "react-grid-layout";
+import GridLayout from "react-grid-layout";
 import CameraWidget from "camera-widget";
 import {Clock} from "react-clock";
 import CameraSettings from "../../components/CameraSettings/CameraSettings";
+import '../../components/WidgetSlot/css/styles.css';
+import '../../components/WidgetSlot/css/test.css';
+import ReactWeather from "react-open-weather";
+import Calendar from 'react-calendar';
 
 const Dashboard = (props) => {
 
     const [widthConstraint, setWidthConstraint] = useState(1280);
     const [heightConstraint, setHeightConstraint] = useState(720);
-    const [componentWidth, setComponentWidth] = useState(1280);
-    const [componentHeight, setComponentHeight] = useState(720);
+    const [componentWidth, setComponentWidth] = useState(500);
+    const [componentHeight, setComponentHeight] = useState(500);
     const [componentAudio, setComponentAudio] = useState(false);
 
     const webcamRef = useRef(null);
@@ -37,28 +48,41 @@ const Dashboard = (props) => {
     };
 
     const selectedWidgets = [
-        <div key={1} data-grid={{x: 1, y: 0, w: 3, h: 2, minW: 2, maxW: 4}}>
+        <div key="camera-widget" data-grid={{x: 4, y: 0, w: 5, h: 10}}>
             <CameraWidget coreAPI={coreAPI}/>
         </div>,
-        <div key={2} data-grid={{x: 1, y: 0, w: 3, h: 2, minW: 2, maxW: 4}}>
+        <div key="clock-widget" data-grid={{x: 12, y: 0, w: 2, h: 5}}>
             <ClockWidget coreAPI={coreAPI}/>
         </div>,
-        <div key={3} data-grid={{x: 1, y: 0, w: 3, h: 2, minW: 2, maxW: 4}}>
+        <div key="camera-settings" data-grid={{ x: 0, y: 10, w: 2, h: 10}}>
             <CameraSettings cameraAPI={cameraAPI} coreAPI={coreAPI}/>
         </div>,
+        <div key="weather-widget" data-grid={{ x: 12, y: 10, w: 2, h: 10}}>
+            <ReactWeather
+                forecast="5days"
+                apikey="3a672a5bca657693859413a963d7b698"
+                type="city"
+                city="Spokane"
+                unit="imperial"
+            />
+        </div>,
+        <div key="calendar-widget" data-grid={{ x: 0, y: 0, w: 3, minW: 3, h: 8}}>
+            <Calendar
+                value={new Date()}
+            />
+        </div>
     ];
 
-
     return (
-        <>
-            <GridLayout className="layout" cols={12} rowHeight={120} width={1200} autoSize={true} verticalCompact={true}>
+        <div className="layoutRoot">
+            <GridLayout style={{"background":"lightGrey"}} cols={12} rowHeight={30} width={1200}>
                 {
-                    selectedWidgets.map((widget, index) =>
+                    selectedWidgets.map((widget) =>
                         widget
                     )
                 }
             </GridLayout>
-        </>
+        </div>
     )
 };
 
