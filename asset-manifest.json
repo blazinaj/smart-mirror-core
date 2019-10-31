@@ -1,15 +1,15 @@
 {
   "files": {
     "main.css": "/smart-mirror-core/static/css/main.d6856313.chunk.css",
-    "main.js": "/smart-mirror-core/static/js/main.a5f68dfd.chunk.js",
-    "main.js.map": "/smart-mirror-core/static/js/main.a5f68dfd.chunk.js.map",
+    "main.js": "/smart-mirror-core/static/js/main.f7299cb1.chunk.js",
+    "main.js.map": "/smart-mirror-core/static/js/main.f7299cb1.chunk.js.map",
     "runtime-main.js": "/smart-mirror-core/static/js/runtime-main.038e1885.js",
     "runtime-main.js.map": "/smart-mirror-core/static/js/runtime-main.038e1885.js.map",
     "static/css/2.ba96d803.chunk.css": "/smart-mirror-core/static/css/2.ba96d803.chunk.css",
     "static/js/2.675fd423.chunk.js": "/smart-mirror-core/static/js/2.675fd423.chunk.js",
     "static/js/2.675fd423.chunk.js.map": "/smart-mirror-core/static/js/2.675fd423.chunk.js.map",
     "index.html": "/smart-mirror-core/index.html",
-    "precache-manifest.6727d1fec6cffb510a7ba39d901dedb9.js": "/smart-mirror-core/precache-manifest.6727d1fec6cffb510a7ba39d901dedb9.js",
+    "precache-manifest.11cb1acf0bee3251b8d3a29337abcf3b.js": "/smart-mirror-core/precache-manifest.11cb1acf0bee3251b8d3a29337abcf3b.js",
     "service-worker.js": "/smart-mirror-core/service-worker.js",
     "static/css/2.ba96d803.chunk.css.map": "/smart-mirror-core/static/css/2.ba96d803.chunk.css.map",
     "static/css/main.d6856313.chunk.css.map": "/smart-mirror-core/static/css/main.d6856313.chunk.css.map"
@@ -19,6 +19,6 @@
     "static/css/2.ba96d803.chunk.css",
     "static/js/2.675fd423.chunk.js",
     "static/css/main.d6856313.chunk.css",
-    "static/js/main.a5f68dfd.chunk.js"
+    "static/js/main.f7299cb1.chunk.js"
   ]
 }

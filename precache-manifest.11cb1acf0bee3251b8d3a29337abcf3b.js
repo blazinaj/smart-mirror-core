@@ -1,6 +1,6 @@
 self.__precacheManifest = (self.__precacheManifest || []).concat([
   {
-    "revision": "f980f968225ab54fd8fbba7b7f0db9b3",
+    "revision": "d07f9eb4edab8ed283bc8ed3313de662",
     "url": "/smart-mirror-core/index.html"
   },
   {
@@ -8,7 +8,7 @@ self.__precacheManifest = (self.__precacheManifest || []).concat([
     "url": "/smart-mirror-core/static/css/2.ba96d803.chunk.css"
   },
   {
-    "revision": "de8baf464074a07b1f41",
+    "revision": "e490403c70429d313b5d",
     "url": "/smart-mirror-core/static/css/main.d6856313.chunk.css"
   },
   {
@@ -16,8 +16,8 @@ self.__precacheManifest = (self.__precacheManifest || []).concat([
     "url": "/smart-mirror-core/static/js/2.675fd423.chunk.js"
   },
   {
-    "revision": "de8baf464074a07b1f41",
-    "url": "/smart-mirror-core/static/js/main.a5f68dfd.chunk.js"
+    "revision": "e490403c70429d313b5d",
+    "url": "/smart-mirror-core/static/js/main.f7299cb1.chunk.js"
   },
   {
     "revision": "945e3b9d93bca44a83ec",
