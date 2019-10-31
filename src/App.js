@@ -20,7 +20,8 @@ const AppHeader = (props) => {
             style={{
                 width: "100%",
                 height: "5%",
-                backgroundColor: "white"
+                backgroundColor: "black",
+                color: "white"
             }}
         >
             <h1>Smart Mirror Core</h1>

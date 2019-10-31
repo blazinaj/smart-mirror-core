@@ -48,18 +48,23 @@ const Dashboard = (props) => {
       setComponentAudio
     };
 
+    const style = {
+        background: "dimGrey",
+    };
+
     const selectedWidgets = [
-        <div key="camera-widget" data-grid={{x: 4, y: 0, w: 5, h: 10}}>
+        <div key="camera-widget" data-grid={{x: 4, y: 4, w: 5, h: 10}}>
             <CameraWidget coreAPI={coreAPI}/>
         </div>,
-        <div key="clock-widget" data-grid={{x: 12, y: 0, w: 2, h: 5}}>
+        <div key="clock-widget" data-grid={{x: 12, y: 0, w: 2, h: 4}} style={style}>
             <ClockWidget coreAPI={coreAPI}/>
         </div>,
         <div key="camera-settings" data-grid={{ x: 0, y: 10, w: 2, h: 10}}>
             <CameraSettings cameraAPI={cameraAPI} coreAPI={coreAPI}/>
         </div>,
-        <div key="weather-widget" data-grid={{ x: 12, y: 10, w: 2, h: 10}}>
+        <div key="weather-widget" data-grid={{ x: 12, y: 10, w: 2, h: 13}} >
             <ReactWeather
+                style={{color: "white"}}
                 forecast="5days"
                 apikey="3a672a5bca657693859413a963d7b698"
                 type="city"
@@ -72,18 +77,17 @@ const Dashboard = (props) => {
                 value={new Date()}
             />
         </div>,
-        <div key="digital-clock-widget" data-grid={{x: 12, y: 5, w: 2, h: 5}}>
+        <div key="digital-clock-widget" data-grid={{x: 6, y: 0, w: 2, h: 1}}>
             <DigitalClock />
         </div>
     ];
 
     return (
-        <div className="layoutRoot">
-            <GridLayout style={{"background":"lightGrey"}} cols={12} rowHeight={30} width={1200}>
+        <div>
+            <GridLayout style={{"background":"black"}} cols={12} rowHeight={30} width={1200}>
                 {
                     selectedWidgets.map((widget) =>
-                            widget
-
+                            React.cloneElement(widget)
                     )
                 }
             </GridLayout>
