@@ -167,12 +167,14 @@ class Config extends Component {
 }
 
 const Configuration = () => {
+    document.body.style.backgroundColor = "black";
     return (
-        <div style={{...cardStyle, padding: '1.5rem 2rem', margin: '5em auto'}}>
+        <div style={{...cardStyle, padding: '1.5rem 2rem', margin: '5em auto', backgroundColor: "lightblue"}}>
             <strong>Login:</strong>
             <hr style={hrStyle}/>
             <Config/>
-        </div>)
+        </div>
+    )
 };
 
 export default Configuration;
