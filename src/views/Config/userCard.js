@@ -106,7 +106,7 @@ export default class UserCard extends Component {
 
         return (
             <div style={styles.container}>
-                <img style={styles.avatar} src={avatar} />
+                <img style={styles.avatar} src={avatar} alt="userCard" />
                 <div style={styles.content}>
                     <div style={styles.dataContainer}>
                         <div style={styles.id}>ID {_profile.id}</div>
