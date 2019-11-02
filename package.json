@@ -18,11 +18,13 @@
     "react-icons": "^3.8.0",
     "react-open-weather": "^0.5.2",
     "react-resizable": "^1.9.0",
+    "react-router-dom": "^5.1.2",
     "react-scripts": "3.2.0",
+    "react-social-login": "^3.4.6",
     "reactstrap": "^8.1.1"
   },
   "scripts": {
-    "start": "react-scripts start",
+    "start": "set HTTPS=true&&react-scripts start",
     "build": "react-scripts build",
     "test": "react-scripts test",
     "eject": "react-scripts eject",
