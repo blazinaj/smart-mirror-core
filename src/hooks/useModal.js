@@ -8,7 +8,10 @@ import {Button, Modal, ModalBody, ModalHeader} from "reactstrap";
  * @param button
  * @returns {{display: *, modalButton: *, modalIsOpen, setModalIsOpen}}
  */
-export const useModal = (body, header, button) => {
+
+const DefaultModalButton = <Button>Open Modal</Button>;
+
+export const useModal = (body, header, button = DefaultModalButton) => {
 
     const [modalIsOpen, setModalIsOpen] = useState(false);
 
@@ -22,18 +25,15 @@ export const useModal = (body, header, button) => {
             </ModalBody>
         </Modal>;
 
-        const modalButton =
-            <>
-                {
-                    button ?
-                        React.cloneElement(button, {onClick: () => setModalIsOpen(!modalIsOpen)})
-                        :
-                        <Button onClick={() => setModalIsOpen(!modalIsOpen)}>Open Modal</Button>
-                }
-                {
-                    display
-                }
-            </>;
+    const modalButton =
+        <>
+            {
+                React.cloneElement(button, {onClick: () => setModalIsOpen(!modalIsOpen)})
+            }
+            {
+                display
+            }
+        </>;
 
     return {
         display,
