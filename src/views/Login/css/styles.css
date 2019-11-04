@@ -1,0 +1,56 @@
+html, body {
+    background-color: #282c34;
+}
+
+.authButton {
+    color: black;
+    background-color: #09d3ac;
+    margin: 10px;
+}
+
+.dropdownItem {
+    background-color: #282c34;
+    color: #09d3ac;
+}
+
+.dropdownItem:hover {
+    background-color: #202e34;
+    color: #7493ac;
+}
+
+.inputField {
+}
+
+.pre-pend {
+}
+
+.inputGroupLogin {
+}
+
+#dropdownMenu {
+    background-color: black;
+}
+
+#dropdown {
+    color: white;
+    font-weight: bolder;
+    margin: 10px;
+}
+
+#companyName {
+    color: #09d3ac;
+    font-size: xx-large;
+}
+
+#navbar {
+    background-color: #2B2927;
+}
+
+#loginPage {
+    width: 100%;
+    height: 100%;
+    background-color: #282c34;
+}
+
+#inputFieldsLogin {
+}
