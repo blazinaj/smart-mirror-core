@@ -19,6 +19,7 @@ html, body {
 }
 
 .inputField {
+    width: 400px;
 }
 
 .pre-pend {
@@ -38,6 +39,8 @@ html, body {
 }
 
 #companyName {
+    display: flex;
+    justify-content: center;
     color: #09d3ac;
     font-size: xx-large;
 }
@@ -53,4 +56,5 @@ html, body {
 }
 
 #inputFieldsLogin {
+    margin: auto;
 }

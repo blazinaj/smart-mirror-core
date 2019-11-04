@@ -15,17 +15,22 @@ export const useMongo = (input) => {
     const [isLoggedIn, setIsLoggedIn] = useState(false);
     const [authenticatedUser, setAuthenticatedUser] = useState({});
 
-    const login = (email, password) => {
+    const login = async (email, password) => {
         let client = Stitch.defaultAppClient;
         const credential = new UserPasswordCredential(email, password);
-        client.auth.loginWithCredential(credential)
+        let error;
+        await client.auth.loginWithCredential(credential)
         // Returns a promise that resolves to the authenticated user
             .then(authedUser => {
                 console.log(`successfully logged in with id: ${authedUser.id}`);
                 setAuthenticatedUser(authedUser);
                 setIsLoggedIn(true);
             })
-            .catch(err => console.error(`login failed with error: ${err}`))
+            .catch(err => {
+                console.error(`login failed with error: ${err}`);
+                error = err;
+            })
+        return error;
     };
 
     const register = (email, password) => {

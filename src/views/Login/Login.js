@@ -21,18 +21,18 @@ const Login = (props) => {
     const [password, setPassword] = useState('FakePassword');
 
     //Login function
-    const login = () => {
-        props.mongoHook.login(email, password);
-        /*if(props.mongoHook.isLoggedIn === false){
+    const login = async () => {
+        let result = await props.mongoHook.login(email, password);
+        if(result){
             setVisibleIncorrectInformation();
-        }*/
+        }
     };
 
-    //These setting hide and display developer dropdown menu
+    //These settings hide and display developer dropdown menu on navbar
     const [isOpenNav, setIsOpenNav] = useState(false);
     const toggleNav = () => setIsOpenNav(!isOpenNav);
 
-    //These setting hide and display the alert
+    //These settings hide and display the alert
     const [visibleIncorrectInformation, setVisibleIncorrectInformation] = useState(false);
     const onDismiss = () => setVisibleIncorrectInformation(false);
 
@@ -61,7 +61,7 @@ const Login = (props) => {
                 Incorrect email or password!
             </Alert>
             <Form>
-                <div id={"inputFieldsLogin"}>
+                <div class="col-xs-9 col-md-7" id={"inputFieldsLogin"}>
                     <InputGroup className={"inputGroupLogin"}>
                         <InputGroupAddon className={"pre-pend"} addonType="prepend">Email</InputGroupAddon>
                         <Input className={"inputField"} type="email" value={email} placeholder="Email..." onChange={(e) => setEmail(e.target.value)}/>
