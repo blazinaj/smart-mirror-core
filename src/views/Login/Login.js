@@ -15,6 +15,7 @@ import {
 import React from "react";
 import Styles from "./css/styles.css";
 import CameraWidget from "camera-widget";
+import FaceAPI from "face-api.js"
 
 const Login = (props) => {
 
@@ -29,6 +30,17 @@ const Login = (props) => {
         "webcamRef": webcamRef,
         "videoConstraints": videoConstraints
     };
+
+    const [cameraEnabled, setCameraEnabled] = useState(true);
+    const [cameraButtonText, setCameraButtonText] = useState("Disable Camera");
+    const toggleCamera = () => {
+        setCameraEnabled(!cameraEnabled);
+        switch(cameraButtonText){
+            case "Disable Camera": setCameraButtonText("Enable Camera"); break;
+            case "Enable Camera": setCameraButtonText("Disable Camera");
+        }
+    };
+    //End Testing Purposes
 
 
 
@@ -91,7 +103,16 @@ const Login = (props) => {
                 <Button className={"authButton"}  onClick={() => login()}>Login</Button>
                 <Button className={"authButton"}  onClick={() => props.mongoHook.register(email, password)}>Register</Button>
             </Form>
-            <CameraWidget id={"loginCamera"} coreAPI={coreAPI}/>
+            <>
+                {
+                    cameraEnabled ?
+                        <CameraWidget id={"loginCamera"} coreAPI={coreAPI} />
+                        :
+                        <h2 id={"loginCameraDisabled"}>Camera Not Enabled</h2>
+                }
+            </>
+            <br />
+            <Button color="primary" onClick={toggleCamera}>{cameraButtonText}</Button>
         </div>
     )
 };

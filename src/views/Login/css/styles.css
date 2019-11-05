@@ -63,3 +63,7 @@ video {
 #inputFieldsLogin {
     margin: auto;
 }
+
+#loginCameraDisabled {
+    color: #7493ac;
+}
