@@ -1,5 +1,10 @@
-html, body {
+body {
     background-color: #282c34;
+}
+
+video {
+    -webkit-transform: scaleX(-1);
+    transform: scaleX(-1);
 }
 
 .authButton {

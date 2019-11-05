@@ -5,7 +5,7 @@
  *              NOTE: AutoConfirm is currently turned on in Stitch settings.
  */
 
-import {useState, useContext} from "react";
+import {useState, useContext, useRef} from "react";
 import PropTypes from "prop-types";
 import {
     Alert, Button, Collapse, DropdownItem, DropdownMenu, DropdownToggle,
@@ -14,8 +14,24 @@ import {
 } from "reactstrap";
 import React from "react";
 import Styles from "./css/styles.css";
+import CameraWidget from "camera-widget";
 
 const Login = (props) => {
+
+    //Testing Purposes - WON'T STAY HERE LIKE THIS...
+    const webcamRef = useRef(null);
+    let videoConstraints = {
+        width: '1000px',
+        height: '1000px',
+        facingMode: "user"
+    };
+    const coreAPI = {
+        "webcamRef": webcamRef,
+        "videoConstraints": videoConstraints
+    };
+
+
+
     //These setting store state of email and password
     const [email, setEmail] = useState('lichtschwert@live.com');
     const [password, setPassword] = useState('FakePassword');
@@ -75,6 +91,7 @@ const Login = (props) => {
                 <Button className={"authButton"}  onClick={() => login()}>Login</Button>
                 <Button className={"authButton"}  onClick={() => props.mongoHook.register(email, password)}>Register</Button>
             </Form>
+            <CameraWidget id={"loginCamera"} coreAPI={coreAPI}/>
         </div>
     )
 };
