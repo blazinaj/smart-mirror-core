@@ -1,0 +1,60 @@
+import {Button, Input, InputGroup, InputGroupAddon} from 'reactstrap';
+import React, {useState, useEffect} from "react";
+import axios from "axios";
+
+const GoogleCalendarConfig = () => {
+
+    const [authorizeURL, setAuthorizeURL] = useState(null);
+    const [code, setCode] = useState('');
+    const [apiResponse, setApiResponse] = useState('');
+
+    useEffect(() => {
+
+        axios.get("https://mysterious-cliffs-04726.herokuapp.com/googleAuth").then(res => {
+            const url = res.data;
+            setAuthorizeURL(url);
+        }).catch((err) => console.log(err));
+
+    }, []);
+
+    const apiCall = () => {
+        axios.post("https://mysterious-cliffs-04726.herokuapp.com/google-get-code", {
+            code: code
+        }).then((res) => setApiResponse("Success! You all set"))
+            .catch((err) => setApiResponse("Something when wrong, please try again!"));
+    };
+
+
+    return (
+        <div align="center" style={{position: "absolute", left: "50%", top: "50%"}}>
+            <InputGroup className="justify-content-center">
+                <Button
+                    color="primary"
+                    onClick={
+                        () => window.open(authorizeURL, "_blank")
+                    }
+                >
+                    Get Authorization Code
+                </Button>
+            </InputGroup>
+            <br/>
+            <InputGroup className="justify-content-center">
+                <InputGroupAddon className={"pre-pend"} addonType="prepend">Code: </InputGroupAddon>
+                <Input type="text" value={code} placeholder="Paste Code here..."
+                       onChange={(e) => setCode(e.target.value)}/>
+            </InputGroup>
+            <br/>
+            <InputGroup className="justify-content-center">
+                <Button
+                    disabled={!code}
+                    onClick={() => apiCall()}
+                >
+                    Send Code
+                </Button>
+            </InputGroup>
+            {apiResponse ? <p style={{color: "white"}}>{apiResponse}</p> : null}
+        </div>
+    )
+};
+
+export default GoogleCalendarConfig;
