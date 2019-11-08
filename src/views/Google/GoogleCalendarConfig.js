@@ -1,12 +1,15 @@
 import {Button, Input, InputGroup, InputGroupAddon} from 'reactstrap';
-import React, {useState, useEffect} from "react";
+import React, {useState, useEffect, useContext} from "react";
 import axios from "axios";
+import {AppContext} from "../../context/AppContext";
 
 const GoogleCalendarConfig = () => {
 
     const [authorizeURL, setAuthorizeURL] = useState(null);
     const [code, setCode] = useState('');
     const [apiResponse, setApiResponse] = useState('');
+
+    const context = useContext(AppContext);
 
     useEffect(() => {
 
@@ -19,14 +22,15 @@ const GoogleCalendarConfig = () => {
 
     const apiCall = () => {
         axios.post("https://mysterious-cliffs-04726.herokuapp.com/google-get-code", {
-            code: code
+            code: code,
+            userId: context && context.mongoHook && context.mongoHook.authenticatedUser && context.mongoHook.authenticatedUser.id
         }).then((res) => setApiResponse("Success! You all set"))
             .catch((err) => setApiResponse("Something when wrong, please try again!"));
     };
 
 
     return (
-        <div align="center" style={{position: "absolute", left: "50%", top: "50%"}}>
+        <div align="center">
             <InputGroup className="justify-content-center">
                 <Button
                     color="primary"
@@ -52,7 +56,7 @@ const GoogleCalendarConfig = () => {
                     Send Code
                 </Button>
             </InputGroup>
-            {apiResponse ? <p style={{color: "white"}}>{apiResponse}</p> : null}
+            {apiResponse ? <p>{apiResponse}</p> : null}
         </div>
     )
 };
