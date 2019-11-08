@@ -15,6 +15,7 @@ import '../../components/WidgetSlot/css/styles.css';
 import '../../components/WidgetSlot/css/test.css';
 import ReactWeather from "react-open-weather";
 import Calendar from 'react-calendar';
+import GoogleCalendarWrapper from "../Google/GoogleCalendarWrapper";
 
 const Dashboard = (props) => {
 
@@ -37,7 +38,10 @@ const Dashboard = (props) => {
         "videoConstraints": videoConstraints,
         "width": componentWidth,
         "height": componentHeight,
-        "audio": componentAudio
+        "audio": componentAudio,
+        "googleCalendarURL": "https://mysterious-cliffs-04726.herokuapp.com/google-calendar",
+        "googleCalendarWidth": "100%",
+        "googleCalendarHeight": "100%"
     };
 
     const cameraAPI = {
@@ -79,6 +83,9 @@ const Dashboard = (props) => {
         </div>,
         <div key="digital-clock-widget" data-grid={{x: 6, y: 0, w: 2, h: 1}}>
             <DigitalClock />
+        </div>,
+        <div key="google-calendar-widget" data-grid={{x: 3, y: 0, w: 3, h: 5}}>
+            <GoogleCalendarWrapper googleCalendarAPI={coreAPI}/>
         </div>
     ];
 
