@@ -8,7 +8,6 @@ import App from './App';
 import { Route, BrowserRouter as Router, Switch } from 'react-router-dom'
 import * as serviceWorker from './serviceWorker';
 import Configuration from "./views/Config/Config";
-import GoogleCalendarConfig from "./views/Google/GoogleCalendarConfig";
 
 const routing = (
     <Router>
@@ -16,7 +15,6 @@ const routing = (
             <Switch>
                 <Route exact path="/" component={App} />
                 <Route path="/config" component={Configuration} />
-                <Route path="/google-api-config" component={GoogleCalendarConfig} />
             </Switch>
         </div>
     </Router>
