@@ -17,7 +17,7 @@
     "react-digital-clock": "^0.1.2",
     "react-dom": "^16.11.0",
     "react-draggable": "latest",
-    "react-google-calendar-smart-mirror": "^0.12.0",
+    "react-google-calendar-smart-mirror": "^0.13.0",
     "react-grid-layout": "^0.16.6",
     "react-icons": "^3.8.0",
     "react-open-weather": "^0.5.2",
