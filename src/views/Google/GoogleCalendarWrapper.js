@@ -1,11 +1,16 @@
 import GoogleCalendar from "react-google-calendar-smart-mirror";
-import React from "react";
+import React, {useContext} from "react";
+import {AppContext} from "../../context/AppContext";
 
 
 const GoogleCalendarWrapper = (props) => {
-    return(
+
+    const context = useContext(AppContext);
+
+    return (
         <GoogleCalendar
-            url={ props.googleCalendarAPI && props.googleCalendarAPI.googleCalendarURL}
+            userId={context && context.mongoHook && context.mongoHook.authenticatedUser && context.mongoHook.authenticatedUser.id}
+            url={props.googleCalendarAPI && props.googleCalendarAPI.googleCalendarURL}
             width={props.googleCalendarAPI && props.googleCalendarAPI.googleCalendarWidth}
             height={props.googleCalendarAPI && props.googleCalendarAPI.googleCalendarHeight}
         />
