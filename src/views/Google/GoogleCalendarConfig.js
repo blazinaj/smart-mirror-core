@@ -1,6 +1,7 @@
 import {Button, Input, InputGroup, InputGroupAddon} from 'reactstrap';
 import React, {useState, useEffect, useContext} from "react";
 import axios from "axios";
+import qs from 'qs';
 import {AppContext} from "../../context/AppContext";
 
 const GoogleCalendarConfig = () => {
@@ -8,6 +9,12 @@ const GoogleCalendarConfig = () => {
     const [authorizeURL, setAuthorizeURL] = useState(null);
     const [code, setCode] = useState('');
     const [apiResponse, setApiResponse] = useState('');
+
+    const config = {
+        headers: {
+            'Content-Type': 'application/x-www-form-urlencoded'
+        }
+    };
 
     const context = useContext(AppContext);
 
@@ -21,10 +28,10 @@ const GoogleCalendarConfig = () => {
     }, []);
 
     const apiCall = () => {
-        axios.post("https://mysterious-cliffs-04726.herokuapp.com/google-get-code", {
+        axios.post("https://mysterious-cliffs-04726.herokuapp.com/google-get-code", qs.stringify({
             code: code,
             userId: context && context.mongoHook && context.mongoHook.authenticatedUser && context.mongoHook.authenticatedUser.id
-        }).then((res) => setApiResponse("Success! You all set"))
+        }), config).then((res) => setApiResponse("Success! You all set! Please Logout"))
             .catch((err) => setApiResponse("Something when wrong, please try again!"));
     };
 
