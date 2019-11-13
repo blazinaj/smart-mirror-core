@@ -4,6 +4,7 @@ import {useTable} from "./useTable";
 import {useModal} from "./useModal";
 import React from "react";
 import {AppContext} from "../context/AppContext";
+import GoogleCalendarConfig from "../views/Google/GoogleCalendarConfig";
 
 /**
  * @description A Custom hook that can be used to get Authenticated user,
@@ -27,10 +28,15 @@ export const useProfile = () => {
     // Creates a Modal Hook to display User Profile details.
     const userModalHook = useModal(profileTableHook.display, "User Profile", profileButton);
 
+    const GoogleCalendarButton = <Button size="sm" className="btn-pill" color="warning">Google Calendar Config</Button>;
+
+    const useModalGoogleCalendarConfig = useModal(<GoogleCalendarConfig />, "Google Calendar Configuration", GoogleCalendarButton);
+
     return {
         userModalHook,
         authenticatedUser: context.mongoHook.authenticatedUser,
-        profileTableHook
+        profileTableHook,
+        useModalGoogleCalendarConfig
     }
 };
 

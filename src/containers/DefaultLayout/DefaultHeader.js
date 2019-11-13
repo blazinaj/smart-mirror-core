@@ -29,6 +29,9 @@ const DefaultHeader = () => {
             {
                 profileHook.userModalHook.modalButton
             }
+            {
+                profileHook.useModalGoogleCalendarConfig.modalButton
+            }
         </div>
     )
 
