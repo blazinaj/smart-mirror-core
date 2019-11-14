@@ -25,8 +25,8 @@ const FacialCamera = (props) => {
         "audio": false
     };
 
-    //const loginCamera = () => <video id={"loginCamera"} coreAPI={coreAPI} />;
-    const WebcamComponent = <CameraWidget videoConstraints={videoConstraints}/>;
+    const loginCamera = <CameraWidget id={"loginCamera"} coreAPI={coreAPI} />;
+    //const WebcamComponent = <CameraWidget videoConstraints={videoConstraints}/>;
 
     Promise.all([
         faceapi.nets.tinyFaceDetector.loadFromUri('/models'),
@@ -36,13 +36,13 @@ const FacialCamera = (props) => {
     ]);
 
     const setCamera = () => {
-        const canvas = faceapi.createCanvasFromMedia(WebcamComponent);
+        const canvas = faceapi.createCanvasFromMedia(loginCamera);
         //const canvas = faceapi.createCanvas(videoConstraints);
         document.body.append(canvas);
         const displaySize = { width: videoConstraints, height: videoConstraints };
         faceapi.matchDimensions(canvas, displaySize);
         setInterval(async () => {
-            const detections = await faceapi.detectAllFaces(WebcamComponent, new faceapi.TinyFaceDetectorOptions()).withFaceLandmarks().withFaceExpressions();
+            const detections = await faceapi.detectAllFaces(loginCamera, new faceapi.TinyFaceDetectorOptions()).withFaceLandmarks().withFaceExpressions();
             const resizedDetections = faceapi.resizeResults(detections, displaySize);
             canvas.getContext('2d').clearRect(0, 0, canvas.width, canvas.height);
             faceapi.draw.drawDetections(canvas, resizedDetections);
@@ -55,7 +55,7 @@ const FacialCamera = (props) => {
     //Once working will be replaced!
     return(
         <>
-            {WebcamComponent}
+            {loginCamera}
             <button onClick={setCamera}>Test</button>
         </>
     )
