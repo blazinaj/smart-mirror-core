@@ -67,3 +67,8 @@ video {
 #loginCameraDisabled {
     color: #7493ac;
 }
+
+#testImage {
+    width: 200px;
+    height: 250px;
+}

@@ -5,7 +5,7 @@
  *              NOTE: AutoConfirm is currently turned on in Stitch settings.
  */
 
-import {useState, useContext, useRef} from "react";
+import {useState, useRef} from "react";
 import PropTypes from "prop-types";
 import {
     Alert, Button, Collapse, DropdownItem, DropdownMenu, DropdownToggle,
@@ -14,41 +14,15 @@ import {
 } from "reactstrap";
 import React from "react";
 import Styles from "./css/styles.css";
-import CameraWidget from "camera-widget";
-import FaceAPI from "face-api.js"
+import FacialRecognitionLogin from "./face-recognition-logic/FacialRecognitionLogin";
 
 const Login = (props) => {
 
-    //Testing Purposes - WON'T STAY HERE LIKE THIS...
-    const webcamRef = useRef(null);
-    let videoConstraints = {
-        width: '1000px',
-        height: '1000px',
-        facingMode: "user"
-    };
-    const coreAPI = {
-        "webcamRef": webcamRef,
-        "videoConstraints": videoConstraints
-    };
-
-    const [cameraEnabled, setCameraEnabled] = useState(true);
-    const [cameraButtonText, setCameraButtonText] = useState("Disable Camera");
-    const toggleCamera = () => {
-        setCameraEnabled(!cameraEnabled);
-        switch(cameraButtonText){
-            case "Disable Camera": setCameraButtonText("Enable Camera"); break;
-            case "Enable Camera": setCameraButtonText("Disable Camera");
-        }
-    };
-    //End Testing Purposes
-
-
-
-    //These setting store state of email and password
+    // These settings store state of email and password
     const [email, setEmail] = useState('lichtschwert@live.com');
     const [password, setPassword] = useState('FakePassword');
 
-    //Login function
+    // Login function
     const login = async () => {
         let result = await props.mongoHook.login(email, password);
         if(result){
@@ -56,11 +30,11 @@ const Login = (props) => {
         }
     };
 
-    //These settings hide and display developer dropdown menu on navbar
+    // These settings hide and display developer dropdown menu on navbar
     const [isOpenNav, setIsOpenNav] = useState(false);
     const toggleNav = () => setIsOpenNav(!isOpenNav);
 
-    //These settings hide and display the alert
+    // These settings hide and display the alert
     const [visibleIncorrectInformation, setVisibleIncorrectInformation] = useState(false);
     const onDismiss = () => setVisibleIncorrectInformation(false);
 
@@ -103,16 +77,7 @@ const Login = (props) => {
                 <Button className={"authButton"}  onClick={() => login()}>Login</Button>
                 <Button className={"authButton"}  onClick={() => props.mongoHook.register(email, password)}>Register</Button>
             </Form>
-            <>
-                {
-                    cameraEnabled ?
-                        <CameraWidget id={"loginCamera"} coreAPI={coreAPI} />
-                        :
-                        <h2 id={"loginCameraDisabled"}>Camera Not Enabled</h2>
-                }
-            </>
-            <br />
-            <Button color="primary" onClick={toggleCamera}>{cameraButtonText}</Button>
+            <FacialRecognitionLogin/>
         </div>
     )
 };
