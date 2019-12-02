@@ -14,6 +14,7 @@ import {
 } from "reactstrap";
 import React from "react";
 import Styles from "./css/styles.css";
+import {useFaceDatabase} from "../../hooks/useFaceDatabase";
 
 const Login = (props) => {
     //These setting store state of email and password
@@ -35,6 +36,21 @@ const Login = (props) => {
     //These settings hide and display the alert
     const [visibleIncorrectInformation, setVisibleIncorrectInformation] = useState(false);
     const onDismiss = () => setVisibleIncorrectInformation(false);
+
+
+    //Face Database testing
+    //--------------------------------------------------
+    let descriptors = "";
+    const FaceDB = useFaceDatabase();
+
+    const insertInto = () => {
+        console.log("test_0");
+        descriptors = FaceDB.getAllUserDescriptors();
+        console.log(descriptors);
+    };
+
+
+    //--------------------------------------------------
 
     return (
         <div id="loginPage">
@@ -75,6 +91,7 @@ const Login = (props) => {
                 <Button className={"authButton"}  onClick={() => login()}>Login</Button>
                 <Button className={"authButton"}  onClick={() => props.mongoHook.register(email, password)}>Register</Button>
             </Form>
+            <Button onClick={() => insertInto()}>InsertIntoFaceDB</Button>
         </div>
     )
 };
