@@ -4,36 +4,36 @@
  *              through the useMongo hook.
  */
 
-import {useEffect, useState} from "react";
+import {useEffect, useState, useContext} from "react";
 import {useMongo} from "../../hooks/useMongo";
 import React from "react";
 import {Stitch} from "mongodb-stitch-browser-sdk";
 import Login from "./Login";
 import {AppContext} from "../../context/AppContext";
+import {LoggingContext} from "../../context/LoggingContext";
 
 const LoginGate = (props) => {
 
     const [client, setClient] = useState(null);
 
+    const logger = useContext(LoggingContext).logger;
+
     useEffect(() => {
-        setClient(Stitch.initializeDefaultAppClient('smart-mirror-jshfq'))
+        setClient(Stitch.initializeDefaultAppClient('smart-mirror-jshfq'));
+        logger.addLog("Client Intitialized")
     }, []);
 
     const mongoHook = useMongo(client);
 
     return (
-        <>
+        <AppContext.Provider value={{mongoHook}}>
             {
                 !mongoHook.isLoggedIn ?
                     <Login mongoHook={mongoHook} />
                     :
-                    <AppContext.Provider value={{mongoHook}}>
-                        {
-                            props.children
-                        }
-                    </AppContext.Provider>
+                    props.children
             }
-        </>
+        </AppContext.Provider>
     )
 };
 
