@@ -4,6 +4,7 @@ import {useTable} from "./useTable";
 import {useModal} from "./useModal";
 import React from "react";
 import {AppContext} from "../context/AppContext";
+import FaceLoginSetup from "../views/Config/FaceLoginSetup/FaceLoginSetup";
 
 /**
  * @description A Custom hook that can be used to get Authenticated user,
@@ -24,13 +25,18 @@ export const useProfile = () => {
     // Generates a Reactstrap Table out of the authenicatedUser object
     const profileTableHook = useTable(context.mongoHook.authenticatedUser);
 
+
+    const faceLoginSetupButton = <Button size="sm" className="btn-pill" color="info">Setup Face Login</Button>;
+    const faceLoginSetupHook = useModal(<FaceLoginSetup/>, "Set Up Face Login", faceLoginSetupButton);
+
     // Creates a Modal Hook to display User Profile details.
-    const userModalHook = useModal(profileTableHook.display, "User Profile", profileButton);
+    const userModalHook = useModal(profileTableHook.display, (<div>User Profile {faceLoginSetupHook.modalButton}</div>), profileButton);
 
     return {
         userModalHook,
         authenticatedUser: context.mongoHook.authenticatedUser,
-        profileTableHook
+        profileTableHook,
+        faceLoginSetupHook
     }
 };
 
