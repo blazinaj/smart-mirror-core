@@ -5,18 +5,104 @@
  *              NOTE: AutoConfirm is currently turned on in Stitch settings.
  */
 
-import {useState, useRef} from "react";
+import {useState, useEffect} from "react";
 import PropTypes from "prop-types";
 import {
     Alert, Button, Collapse, DropdownItem, DropdownMenu, DropdownToggle,
-    Form, Input, InputGroup, InputGroupAddon, Nav, Navbar, NavbarBrand,
+    Form, Input, InputGroup, InputGroupAddon, ModalBody, Nav, Navbar, NavbarBrand,
     NavbarToggler, UncontrolledDropdown
 } from "reactstrap";
 import React from "react";
 import Styles from "./css/styles.css";
-import FacialRecognitionLogin from "./face-recognition-logic/FacialRecognitionLogin";
+import useFace from "../../hooks/useFace";
+import * as faceapi from "face-api.js";
+import {Stitch} from "mongodb-stitch-browser-core";
+import {RemoteMongoClient} from "mongodb-stitch-browser-services-mongodb-remote";
 
 const Login = (props) => {
+
+    const [loginAttempt, setLoginAttempt] = useState(0);
+    const [enableFaceLogin, setEnableFaceLogin] = useState(true);
+    const [faceLoginStatus, setFaceLoginStatus] = useState(null);
+
+    const matchFace = async (descriptor) => {
+        const client = Stitch.defaultAppClient;
+
+        const db = client.getServiceClient(RemoteMongoClient.factory, 'mongodb-atlas').db('smart_mirror');
+        console.log("Trying to match Face to user ID: " + client.auth.user.id + "...");
+        let faces = await db.collection('face_descriptors').find({}, { limit: 100}).asArray();
+        console.log("Fetched Faces from database: " + JSON.stringify(faces));
+        console.log("Trying to match face..");
+
+        if (!descriptor) {
+            // alert("Could not match face!!!");
+            setFaceLoginStatus("Could not match face!!!")
+            return null;
+        }
+
+        let match = null;
+
+        for (let faceObjectInDatabase of faces) {
+
+            let descArray = [];
+
+            for (let entry of faceObjectInDatabase.descriptor.descriptors) {
+                let desc = [];
+
+                for (let num of entry) {
+                    desc.push(num)
+                }
+
+                descArray.push(desc)
+            }
+
+            const dist = await faceapi.euclideanDistance(descArray[0], descriptor.descriptors[0]);
+
+            console.log("euclidean distance: " + dist);
+
+            if (dist < 0.35) {
+                match = faceObjectInDatabase.owner_id;
+                setEmail(faceObjectInDatabase.email);
+                setPassword(faceObjectInDatabase.password);
+                setFaceLoginStatus("Hello - " + faceObjectInDatabase.email + ". Logging you in now..");
+                // alert("Hello - " + faceObjectInDatabase.email + ". Logging you in now..");
+                setEnableFaceLogin(false);
+                setTimeout(() => {
+                    props.mongoHook.login(faceObjectInDatabase.email, faceObjectInDatabase.password);
+                }, 5000);
+            } else {
+                setTimeout(() => {
+                    setFaceLoginStatus("Hmm.. we couldn't recognize your face. Please try again.");
+                }, 5000);
+                // alert("Hmm.. we couldn't recognize your face. Please try again.")
+            }
+
+        }
+
+        console.log("Match = " + match);
+        setLoginAttempt(loginAttempt + 1)
+    };
+
+    const faceApiHook = useFace();
+
+    useEffect(() => {
+        let tryFaceLogin = async () => {
+            let descriptor = await faceApiHook.getDescriptorsFromImage("jacob", "video-feed");
+            console.log("Got Descriptor: " + JSON.stringify(descriptor));
+            await matchFace(descriptor);
+        };
+
+        if (enableFaceLogin) {
+            setTimeout(() => {
+                if (!faceApiHook.modelsAreLoading) {
+                    tryFaceLogin();
+                } else {
+                    setLoginAttempt(loginAttempt + 1)
+                }
+            }, 1000);
+        }
+
+    }, [loginAttempt]);
 
     // These settings store state of email and password
     const [email, setEmail] = useState('lichtschwert@live.com');
@@ -77,7 +163,35 @@ const Login = (props) => {
                 <Button className={"authButton"}  onClick={() => login()}>Login</Button>
                 <Button className={"authButton"}  onClick={() => props.mongoHook.register(email, password)}>Register</Button>
             </Form>
-            <FacialRecognitionLogin/>
+            <div>
+            {
+                faceApiHook.videoFeed
+            }
+                {
+                    faceLoginStatus &&
+                    <Alert color="info" isOpen={faceLoginStatus !== null}>
+                        {faceLoginStatus}
+                    </Alert>
+                }
+            <Button
+                onClick={
+                    async () => {
+                        let descriptor = await faceApiHook.getDescriptorsFromImage("jacob", "video-feed");
+                        console.log("Got Descriptor: " + JSON.stringify(descriptor));
+                        matchFace(descriptor)
+                    }
+                }
+            >
+                Facial Recognition Login (Attempt: {loginAttempt})
+            </Button>
+                {" "}
+                <Button
+                    color="danger"
+                    onClick={() => setEnableFaceLogin(false)}
+                >
+                    Cancel Auto Login
+                </Button>
+            </div>
         </div>
     )
 };
