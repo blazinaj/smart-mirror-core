@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from "react";
 import {
+    RemoteMongoClient,
     Stitch,
     UserPasswordAuthProviderClient,
     UserPasswordCredential
@@ -29,16 +30,40 @@ export const useMongo = (input) => {
             .catch(err => {
                 console.error(`login failed with error: ${err}`);
                 error = err;
-            })
+            });
         return error;
     };
 
-    const register = (email, password) => {
+    const register = async (email, password) => {
         let client = Stitch.defaultAppClient;
         let emailPasswordClient = client.auth.getProviderClient(UserPasswordAuthProviderClient.factory);
         emailPasswordClient.registerWithEmail(email, password)
-            .then(() => console.log("Successfully sent account confirmation email!"))
+            .then(async (data) => {
+                console.log("Registration data: " + JSON.stringify(data));
+                const credential = new UserPasswordCredential(email, password);
+                let error;
+                await client.auth.loginWithCredential(credential)
+                // Returns a promise that resolves to the authenticated user
+                    .then(authedUser => {
+                        console.log(`successfully logged in with id: ${authedUser.id} and email: ${authedUser.email}`);
+                        setAuthenticatedUser(authedUser);
+                        setIsLoggedIn(true);
+
+                        // THIS IS TEMPORARY
+                        // ADDING USERNAME AND PASSWORD AS PLAIN TEXT FOR FACE REC. LOGIN
+                        const db = client.getServiceClient(RemoteMongoClient.factory, 'mongodb-atlas').db('smart_mirror');
+                        db.collection('face_descriptors')
+                            .updateOne({owner_id: authedUser.id}, {$set: {email: email, password: password}}, {upsert: true})
+                            .then((data) => console.log("(TEMP) Added email and password to descriptor db: " + JSON.stringify(data)))
+                    })
+                    .catch(err => {
+                        console.error(`login failed with error: ${err}`);
+                        error = err;
+                    });
+                return error;
+            })
             .catch(err => console.error("Error registering new user:", err));
+
     };
 
     const logout = () => {
