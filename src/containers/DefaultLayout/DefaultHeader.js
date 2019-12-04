@@ -32,6 +32,9 @@ const DefaultHeader = () => {
             {
                 profileHook.faceLoginSetupHook.modalButton
             }
+            {
+                profileHook.useModalGoogleCalendarConfig.modalButton
+            }
         </div>
     )
 

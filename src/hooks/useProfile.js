@@ -4,6 +4,7 @@ import {useTable} from "./useTable";
 import {useModal} from "./useModal";
 import React from "react";
 import {AppContext} from "../context/AppContext";
+import GoogleCalendarConfig from "../views/Google/GoogleCalendarConfig";
 import FaceLoginSetup from "../views/Config/FaceLoginSetup/FaceLoginSetup";
 
 /**
@@ -32,10 +33,15 @@ export const useProfile = () => {
     // Creates a Modal Hook to display User Profile details.
     const userModalHook = useModal(profileTableHook.display, (<div>User Profile {faceLoginSetupHook.modalButton}</div>), profileButton);
 
+    const GoogleCalendarButton = <Button size="sm" className="btn-pill" color="warning">Google Calendar Config</Button>;
+
+    const useModalGoogleCalendarConfig = useModal(<GoogleCalendarConfig />, "Google Calendar Configuration", GoogleCalendarButton);
+
     return {
         userModalHook,
         authenticatedUser: context.mongoHook.authenticatedUser,
         profileTableHook,
+        useModalGoogleCalendarConfig,
         faceLoginSetupHook
     }
 };
