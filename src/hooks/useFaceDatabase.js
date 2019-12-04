@@ -10,50 +10,106 @@ import {AppContext} from "../context/AppContext";
 export const useFaceDatabase = (input) => {
 
     //This code currently can hit the database collection (inserting a new document)
-    //WIP for pulling and updating data in the collection already
+    //WIP for pulling and updating data in the face_descriptors collection
 
-    const getAllUserDescriptors = async () => {
 
+    //Updates descriptors - Requires (userid, new descriptors)
+    //Note, only needs new descriptors, it automatically calls Database to add or remove old ones
+    const updateData = async (userid, descriptors) => {
         let client = Stitch.defaultAppClient;
         const db = client.getServiceClient(RemoteMongoClient.factory, "mongodb-atlas")
             .db("smart_mirror");
 
-        //const collection = db.collection("face_descriptors");
+        const collection = db.collection("face_descriptors");
 
+        let userInfo = await getOneUserDescriptors(userid);
+        let oldDescriptors = userInfo.descriptors;
+        if(oldDescriptors.length > 9){
+            oldDescriptors.shift();
+        }
+        oldDescriptors.push(descriptors);
+
+        let error;
         await client.auth.loginWithCredential(new AnonymousCredential())
             .then(authedUser => {
-                    db.collection("face_descriptors").insertOne(
-                        {
-                            test: "test"
-                        }
-                    );
+                    collection.updateOne({userid: userid}, {$set: {descriptors: oldDescriptors}})
                 }
             )
-            .catch(err => alert("Problem with connection!"));
-        console.log("test1");
+            .catch(err => {
+                console.log("Problem with connection!");
+                error = err;
+            });
+        return error;
+    };
 
+    //Insert new descriptors document to collection
+    const insertNewData = async (userid, name, descriptors) => {
+        let client = Stitch.defaultAppClient;
+        const db = client.getServiceClient(RemoteMongoClient.factory, "mongodb-atlas")
+            .db("smart_mirror");
 
-        // Log in to access the database. Anonymous Authentication is enabled from the Stitch UI.
-        // client.auth
-        //     .loginWithCredential(new AnonymousCredential())
-        //     .then(() => {
-        //         // Retrieve a database object
-        //         const db = mongoClient.db('smart_mirror');
-        //
-        //         // Retrieve the collection in the database
-        //         const movieDetails = db.collection('face_descriptors');
-        //
-        //         // Find 10 documents and log them to console.
-        //         movieDetails.find({}, {limit: 10})
-        //             .toArray()
-        //             .then(results => console.log('Results:', results))
-        //             .catch(console.error)
-        //     })
-        //     .catch(console.error)
+        const collection = db.collection("face_descriptors");
+
+        let error;
+        await client.auth.loginWithCredential(new AnonymousCredential())
+            .then(authedUser => {
+                    collection.insertOne({userid: userid, name: name, descriptors: descriptors})
+                }
+            )
+            .catch(err => {
+                console.log("Problem with connection!");
+                error = err;
+            });
+        return error;
+    };
+
+    //Returns one user object, which contains name, userid and descriptor array
+    const getOneUserDescriptors = async (userId) => {
+        let client = Stitch.defaultAppClient;
+        const db = client.getServiceClient(RemoteMongoClient.factory, "mongodb-atlas")
+            .db("smart_mirror");
+
+        const collection = db.collection("face_descriptors");
+
+        let returnData = "";
+        await client.auth.loginWithCredential(new AnonymousCredential())
+            .then(authedUser => {
+                    returnData = collection.findOne({userid: userId})
+                        .then((data) => {
+                            return data;
+                        })
+                }
+            )
+            .catch(err => console.log("Problem with connection!"));
+        return returnData;
+    };
+
+    //Returns all user objects as array, which contains name, userid and descriptor arrays
+    const getAllUserDescriptors = async () => {
+        let client = Stitch.defaultAppClient;
+        const db = client.getServiceClient(RemoteMongoClient.factory, "mongodb-atlas")
+            .db("smart_mirror");
+
+        const collection = db.collection("face_descriptors");
+
+        let returnData = [];
+        await client.auth.loginWithCredential(new AnonymousCredential())
+            .then(authedUser => {
+                returnData = collection.find().toArray()
+                    .then(data => {
+                        return data;
+                    })
+                }
+            )
+            .catch(err => console.log("Problem with connection! " + err));
+        return returnData;
     };
 
     return {
-        getAllUserDescriptors
+        getOneUserDescriptors,
+        getAllUserDescriptors,
+        insertNewData,
+        updateData
     }
 
 };

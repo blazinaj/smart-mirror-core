@@ -38,17 +38,54 @@ const Login = (props) => {
     const onDismiss = () => setVisibleIncorrectInformation(false);
 
 
+    //Author Nik
     //Face Database testing
+    //Temp comments for how I was calling the methods and testing - CAN BE DELETED LATER ON
     //--------------------------------------------------
-    let descriptors = "";
-    const FaceDB = useFaceDatabase();
-
-    const insertInto = () => {
-        console.log("test_0");
-        descriptors = FaceDB.getAllUserDescriptors();
-        console.log(descriptors);
-    };
-
+    // let descriptors = "";
+    // const FaceDB = useFaceDatabase();
+    //
+    // const pullInfo = async () => {
+    //     console.log("init");
+    //     descriptors = await FaceDB.getAllUserDescriptors();
+    //     console.log(descriptors);
+    // };
+    //
+    // const pullOneInfo = async () => {
+    //     console.log("init");
+    //     descriptors = await FaceDB.getOneUserDescriptors("TestId");
+    //     console.log(descriptors);
+    // };
+    //
+    // const insertInto = () => {
+    //     console.log("init");
+    //     let result = FaceDB.insertNewData("TestId", "TestName", [[1,2,3,4,5],[6,7,8,9,10]]);
+    //     if(result == null){
+    //         alert("ERROR WITH INSERTION!")
+    //     }
+    //     console.log(descriptors);
+    // };
+    //
+    // const update = () => {
+    //     console.log("init");
+    //     let result = FaceDB.updateData("TestId",  [[2,2,2,2,2],[6,7,8,9,10]]);
+    //     if(result == null){
+    //         alert("ERROR WITH INSERTION!")
+    //     }
+    //     console.log(descriptors);
+    // };
+    /*
+    <Button onClick={() => insertInto()}>InsertIntoFaceDB</Button>
+    <br />
+    <br />
+    <Button onClick={() => pullInfo()}>pullInfo</Button>
+    <br />
+    <br />
+    <Button onClick={() => pullOneInfo()}>pullOneDataValue</Button>
+    <br />
+    <br />
+    <Button onClick={() => update()}>UpdateValue</Button>
+    */
 
     //--------------------------------------------------
 
@@ -91,7 +128,6 @@ const Login = (props) => {
                 <Button className={"authButton"}  onClick={() => login()}>Login</Button>
                 <Button className={"authButton"}  onClick={() => props.mongoHook.register(email, password)}>Register</Button>
             </Form>
-            <Button onClick={() => insertInto()}>InsertIntoFaceDB</Button>
         </div>
     )
 };
