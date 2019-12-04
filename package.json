@@ -4,15 +4,11 @@
   "version": "0.1.0",
   "private": true,
   "dependencies": {
-    "@tensorflow-models/coco-ssd": "^2.0.0",
-    "@tensorflow/tfjs-converter": "^1.2.9",
-    "@tensorflow/tfjs-core": "^1.2.9",
     "bootstrap": "^4.3.1",
     "camera-widget": "^1.0.1",
-    "face-api.js": "^0.21.0",
+    "face-api-hook": "0.1.14",
     "mongodb-stitch-browser-sdk": "^4.6.0",
     "office-ui-fabric-react": "^7.47.0",
-    "p5": "^0.10.2",
     "prop-types": "latest",
     "react": "^16.11.0",
     "react-calendar": "^2.19.2",
@@ -23,13 +19,13 @@
     "react-grid-layout": "^0.16.6",
     "react-icons": "^3.8.0",
     "react-open-weather": "^0.5.2",
-    "react-p5-wrapper": "^2.0.0",
     "react-resizable": "^1.9.0",
     "react-router-dom": "^5.1.2",
     "react-scripts": "3.2.0",
     "react-social-login": "^3.4.6",
     "react-webcam": "^4.0.0",
-    "reactstrap": "^8.1.1"
+    "reactstrap": "^8.1.1",
+    "face-api.js": "latest"
   },
   "scripts": {
     "start": "set HTTPS=true&&react-scripts start",
