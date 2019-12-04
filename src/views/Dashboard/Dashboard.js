@@ -16,6 +16,7 @@ import '../../components/WidgetSlot/css/test.css';
 import ReactWeather from "react-open-weather";
 import Calendar from 'react-calendar';
 import GoogleCalendarWrapper from "../Google/GoogleCalendarWrapper";
+// import GoogleCalendarWrapper from "../Google/GoogleCalendarWrapper";
 
 const Dashboard = (props) => {
 
@@ -90,7 +91,7 @@ const Dashboard = (props) => {
     ];
 
     return (
-        <div>
+        <div style={{"background":"black", height: "100vh"}}>
             <GridLayout style={{"background":"black"}} cols={12} rowHeight={30} width={1200}>
                 {
                     selectedWidgets.map((widget) =>

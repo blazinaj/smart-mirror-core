@@ -19,7 +19,7 @@ const App = () => {
     const logger = useLogger(["App Initialized"]);
 
   return (
-    <div className="App">
+    <div style={{background: "black"}} className="App">
         <LoggingContext.Provider value={{logger}}>
             <Col>
                 <LoginGate>
