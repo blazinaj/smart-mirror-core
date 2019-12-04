@@ -46,6 +46,10 @@ const Login = (props) => {
 
             let descArray = [];
 
+            if (!faceObjectInDatabase || !faceObjectInDatabase.descriptor || !faceObjectInDatabase.descriptor.descriptors || faceObjectInDatabase.descriptor.descriptors.length < 1) {
+                return;
+            }
+
             for (let entry of faceObjectInDatabase.descriptor.descriptors) {
                 let desc = [];
 

@@ -1,0 +1,90 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="ChangeListManager">
+    <list default="true" id="c31de74f-db4a-4d9a-a242-24062e3da27a" name="Default Changelist" comment="" />
+    <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
+    <option name="SHOW_DIALOG" value="false" />
+    <option name="HIGHLIGHT_CONFLICTS" value="true" />
+    <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
+    <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="Git.Settings">
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
+  </component>
+  <component name="ProjectId" id="1TZskuRZPVplRodshA1HmuvasLb" />
+  <component name="PropertiesComponent">
+    <property name="WebServerToolWindowFactoryState" value="false" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$" />
+    <property name="nodejs_package_manager_path" value="npm" />
+    <property name="ts.external.directory.path" value="C:\Program Files\JetBrains\WebStorm 2019.2.4\plugins\JavaScriptLanguage\jsLanguageServicesImpl\external" />
+  </component>
+  <component name="RecentsManager">
+    <key name="MoveFile.RECENT_KEYS">
+      <recent name="C:\smart-mirror-core\src\components\FacialRecognition\functions" />
+      <recent name="C:\smart-mirror-core\src\components\FacialRecognition" />
+    </key>
+    <key name="CopyFile.RECENT_KEYS">
+      <recent name="C:\smart-mirror-core\src\hooks\useFaceApi" />
+      <recent name="C:\smart-mirror-core\src\components\FacialRecognition" />
+      <recent name="C:\smart-mirror-core\public\models" />
+      <recent name="C:\smart-mirror-core\src\components\FacialRecognition\views" />
+      <recent name="C:\smart-mirror-core\src\context" />
+    </key>
+  </component>
+  <component name="RunDashboard">
+    <option name="ruleStates">
+      <list>
+        <RuleState>
+          <option name="name" value="ConfigurationTypeDashboardGroupingRule" />
+        </RuleState>
+        <RuleState>
+          <option name="name" value="StatusDashboardGroupingRule" />
+        </RuleState>
+      </list>
+    </option>
+  </component>
+  <component name="SvnConfiguration">
+    <configuration />
+  </component>
+  <component name="TaskManager">
+    <task active="true" id="Default" summary="Default task">
+      <changelist id="c31de74f-db4a-4d9a-a242-24062e3da27a" name="Default Changelist" comment="" />
+      <created>1573679098743</created>
+      <option name="number" value="Default" />
+      <option name="presentableId" value="Default" />
+      <updated>1573679098743</updated>
+      <workItem from="1573679099930" duration="1095000" />
+      <workItem from="1574215636190" duration="4087000" />
+      <workItem from="1574290482153" duration="2929000" />
+      <workItem from="1574393098532" duration="4022000" />
+      <workItem from="1574443361910" duration="32000" />
+      <workItem from="1574443406359" duration="6000" />
+      <workItem from="1574555604508" duration="8863000" />
+      <workItem from="1574700040682" duration="597000" />
+      <workItem from="1574719266998" duration="8394000" />
+      <workItem from="1574746855660" duration="8840000" />
+      <workItem from="1574869008193" duration="25000" />
+      <workItem from="1574869065183" duration="293000" />
+      <workItem from="1575421334387" duration="23852000" />
+      <workItem from="1575478402553" duration="1981000" />
+      <workItem from="1575480436733" duration="1741000" />
+    </task>
+    <servers />
+  </component>
+  <component name="TypeScriptGeneratedFilesManager">
+    <option name="version" value="1" />
+  </component>
+  <component name="Vcs.Log.Tabs.Properties">
+    <option name="TAB_STATES">
+      <map>
+        <entry key="MAIN">
+          <value>
+            <State>
+              <option name="COLUMN_ORDER" />
+            </State>
+          </value>
+        </entry>
+      </map>
+    </option>
+  </component>
+</project>
