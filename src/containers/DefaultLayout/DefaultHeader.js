@@ -3,11 +3,14 @@
  *              Includes the Log Out and User Profile buttons.
  */
 
-import {useContext} from "react";
+import {useContext, useState} from "react";
 import {useProfile} from "../../hooks/useProfile";
 import {Button} from "reactstrap";
 import React from "react";
 import {AppContext} from "../../context/AppContext";
+import AccountManager from "../../views/AccountManager/AccountManager";
+import {useModal} from "../../hooks/useModal";
+import GoogleCalendarConfig from "../../views/Google/GoogleCalendarConfig";
 
 const DefaultHeader = () => {
 
@@ -26,15 +29,10 @@ const DefaultHeader = () => {
         >
             <h1>Smart Mirror Core</h1>
             <Button color="danger" onClick={() => context.mongoHook.logout()}>Log Out</Button>
-            {
-                profileHook.userModalHook.modalButton
-            }
-            {
-                profileHook.faceLoginSetupHook.modalButton
-            }
-            {
-                profileHook.useModalGoogleCalendarConfig.modalButton
-            }
+            <label>--</label>
+                {
+                    profileHook.accountManagerHook.modalButton
+                }
         </div>
     )
 

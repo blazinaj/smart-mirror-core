@@ -5,6 +5,7 @@
 
 import React from 'react';
 import Dashboard from "../../views/Dashboard/Dashboard";
+import DefaultHeader from "./DefaultHeader";
 
 const DefaultLayout = (props) => {
     return (
