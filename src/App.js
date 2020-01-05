@@ -13,23 +13,26 @@ import {LoggingContext} from "./context/LoggingContext";
 import {useLogger} from "./hooks/useLogger";
 import {Col} from "reactstrap";
 import TestPage from "./views/TestPage/TestPage";
+import Dictaphone from "./views/VoiceRecognition/Dictaphone";
 
 const App = () => {
 
     const logger = useLogger(["App Initialized"]);
 
-  return (
-    <div style={{background: "black"}} className="App">
-        <LoggingContext.Provider value={{logger}}>
-            <Col>
-                <LoginGate>
-                    <DefaultHeader />
-                    <DefaultLayout />
-                </LoginGate>
-            </Col>
-        </LoggingContext.Provider>
-    </div>
-  );
+    return (
+        <div style={{background: "black"}} className="App">
+            <LoggingContext.Provider value={{logger}}>
+                <Col>
+                    <LoginGate>
+                        <DefaultHeader/>
+                        <DefaultLayout/>
+                    </LoginGate>
+                </Col>
+            </LoggingContext.Provider>
+
+            <Dictaphone/>
+        </div>
+    );
 };
 
 export default App;
