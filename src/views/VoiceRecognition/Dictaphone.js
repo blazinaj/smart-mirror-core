@@ -1,8 +1,12 @@
 import React, {useEffect} from "react";
 import PropTypes from "prop-types";
 import SpeechRecognition from "react-speech-recognition";
+import {useHistory, withRouter} from "react-router-dom";
+import {Spinner} from "reactstrap";
 
-const Dictaphone = ({transcript, resetTranscript, browserSupportsSpeechRecognition}) => {
+const Dictaphone = ({transcript, resetTranscript, browserSupportsSpeechRecognition, startListening, listening, history}) => {
+
+    // const history = useHistory();
 
     const intendArray = [
         {
@@ -37,10 +41,23 @@ const Dictaphone = ({transcript, resetTranscript, browserSupportsSpeechRecogniti
             command: "mirror mirror on the wall turn off display",
             answer: "Turning off!",
             func: "turnOff"
+        },
+        {
+            key: "6",
+            command: "mirror mirror on the wall show me the test page",
+            answer: "Okay, showing you the test page",
+            func: () => history.push("/test")
+        },
+        {
+            key: "7",
+            command: "mirror mirror on the wall hello",
+            answer: "Hello Sir",
+            func: () => alert("Hello Sir")
         }
     ];
 
     useEffect(() => {
+        startListening();
         intendArray.map((intent) => {
             if (transcript.toString().toLocaleLowerCase().includes(intent["command"].toString().toLocaleLowerCase())) {
 
@@ -75,8 +92,10 @@ const Dictaphone = ({transcript, resetTranscript, browserSupportsSpeechRecogniti
 
     return (
         <div id="dictaphone">
-            {/*<button id="reset" onClick={resetTranscript}>Reset</button>*/}
-            {/*<span>{transcript}</span>*/}
+            DICTAPHONE ON
+            {listening && <Spinner/>}
+            <button id="reset" onClick={resetTranscript}>Reset</button>
+            <span>{transcript}</span>
         </div>
     );
 };
@@ -87,4 +106,11 @@ Dictaphone.propTypes = {
     browserSupportsSpeechRecognition: PropTypes.bool
 };
 
-export default SpeechRecognition(Dictaphone);
+const options = {
+    autoStart: true
+};
+
+const DictaphoneWithSpeechRecognition =  SpeechRecognition(options)(Dictaphone);
+
+// export default DictaphoneWithSpeechRecognition;
+export default withRouter(DictaphoneWithSpeechRecognition)
