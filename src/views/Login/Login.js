@@ -18,12 +18,18 @@ import useFace from "../../hooks/useFace";
 import * as faceapi from "face-api.js";
 import {Stitch} from "mongodb-stitch-browser-core";
 import {RemoteMongoClient} from "mongodb-stitch-browser-services-mongodb-remote";
+import {useHistory, useLocation} from "react-router-dom";
 
 const Login = (props) => {
 
     const [loginAttempt, setLoginAttempt] = useState(0);
     const [enableFaceLogin, setEnableFaceLogin] = useState(true);
     const [faceLoginStatus, setFaceLoginStatus] = useState(null);
+
+    const history = useHistory();
+    const location = useLocation();
+
+    const { from } = location.state || { from: { pathname: "/" } };
 
     const matchFace = async (descriptor) => {
         const client = Stitch.defaultAppClient;
@@ -117,6 +123,9 @@ const Login = (props) => {
         let result = await props.mongoHook.login(email, password);
         if(result){
             setVisibleIncorrectInformation();
+        }
+        else {
+            history.replace(from);
         }
     };
 
