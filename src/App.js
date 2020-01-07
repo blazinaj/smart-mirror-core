@@ -12,25 +12,26 @@ import LoginGate from "./views/Login/LoginGate";
 import {LoggingContext} from "./context/LoggingContext";
 import {useLogger} from "./hooks/useLogger";
 import {Col} from "reactstrap";
-import TestPage from "./views/TestPage/TestPage";
-import Dictaphone from "./views/VoiceRecognition/Dictaphone";
+import {VoiceCommandsContext} from "./context/VoiceCommandsContext";
+import useSpeechRecognition from "./hooks/useSpeechRecognition";
 
 const App = () => {
 
     const logger = useLogger(["App Initialized"]);
+    const SpeechRecognitionHook = useSpeechRecognition();
 
     return (
         <div style={{background: "black"}} className="App">
             <LoggingContext.Provider value={{logger}}>
-                <Col>
-                    <LoginGate>
-                        <DefaultHeader/>
-                        <DefaultLayout/>
-                    </LoginGate>
-                </Col>
+                <VoiceCommandsContext.Provider value={{SpeechRecognitionHook}}>
+                    <Col>
+                        <LoginGate>
+                            <DefaultHeader/>
+                            <DefaultLayout/>
+                        </LoginGate>
+                    </Col>
+                </VoiceCommandsContext.Provider>
             </LoggingContext.Provider>
-
-            <Dictaphone/>
         </div>
     );
 };
