@@ -32,6 +32,22 @@ const useSpeechRecognition = () => {
     const [lang, setLang] = useState('en-AU');
     const [value, setValue] = useState('');
 
+    const [intendArray, setIntendArray] = useState([
+        {
+            command: "mirror mirror on the wall what time is it",
+            answer: "Current time is " + new Date().toLocaleString()
+        },
+        {
+            command: "mirror mirror on the wall logout",
+            answer: "Logging out!",
+            func: ""
+        },
+        {
+            command: "mirror mirror on the wall turn off display",
+            answer: "Turning off!",
+            func: ""
+        }
+    ]);
 
     const onEnd = () => {
         // You could do something here after listening has finished
@@ -90,23 +106,6 @@ const useSpeechRecognition = () => {
         listen({lang})
     }, []);
 
-    const intendArray = [
-        {
-            command: "mirror mirror on the wall what time is it",
-            answer: "Current time is " + new Date().toLocaleString()
-        },
-        {
-            command: "mirror mirror on the wall logout",
-            answer: "Logging out!",
-            func: ""
-        },
-        {
-            command: "mirror mirror on the wall turn off display",
-            answer: "Turning off!",
-            func: ""
-        }
-    ];
-
     useEffect(() => {
 
         intendArray.map((intent) => {
@@ -156,7 +155,9 @@ const useSpeechRecognition = () => {
         stop,
         supported,
         displayTranscript,
-        selectLanguage
+        selectLanguage,
+        intendArray,
+        setIntendArray
     };
 };
 
