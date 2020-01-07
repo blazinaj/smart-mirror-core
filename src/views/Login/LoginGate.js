@@ -11,12 +11,15 @@ import {Stitch} from "mongodb-stitch-browser-sdk";
 import Login from "./Login";
 import {AppContext} from "../../context/AppContext";
 import {LoggingContext} from "../../context/LoggingContext";
+import useSpeechRecognition from "../../hooks/useSpeechRecognition";
+import {VoiceCommandsContext} from "../../context/VoiceCommandsContext";
 
 const LoginGate = (props) => {
 
     const [client, setClient] = useState(null);
 
     const logger = useContext(LoggingContext).logger;
+    const voiceContext = useContext(VoiceCommandsContext);
 
     useEffect(() => {
         setClient(Stitch.initializeDefaultAppClient('smart-mirror-jshfq'));
@@ -28,8 +31,11 @@ const LoginGate = (props) => {
     return (
         <AppContext.Provider value={{mongoHook}}>
             {
+                voiceContext.SpeechRecognitionHook.displayTranscript
+            }
+            {
                 !mongoHook.isLoggedIn ?
-                    <Login mongoHook={mongoHook} />
+                    <Login mongoHook={mongoHook}/>
                     :
                     props.children
             }
