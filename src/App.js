@@ -15,8 +15,7 @@ import {Col} from "reactstrap";
 import {VoiceCommandsContext} from "./context/VoiceCommandsContext";
 import useSpeechRecognition from "./hooks/useSpeechRecognition";
 import TestPage from "./views/TestPage/TestPage";
-import Dictaphone from "./views/VoiceRecognition/Dictaphone";
-import {BrowserRouter as Router, Redirect, Route, Switch} from "react-router-dom";
+import {BrowserRouter as Router, Link, Redirect, Route, Switch} from "react-router-dom";
 import {Stitch} from "mongodb-stitch-browser-sdk";
 import {useMongo} from "./hooks/useMongo";
 import {AppContext} from "./context/AppContext";
@@ -46,41 +45,29 @@ const App = () => {
 
     return (
         <div style={{background: "black"}} className="App">
-            <LoggingContext.Provider value={{logger}}>
-                <VoiceCommandsContext.Provider value={{SpeechRecognitionHook}}>
-                    <Col>
-                        <LoginGate>
-                            <DefaultHeader/>
-                            <DefaultLayout/>
-                        </LoginGate>
-                    </Col>
-                </VoiceCommandsContext.Provider>
-            </LoggingContext.Provider>
             <AppContext.Provider value={{mongoHook}}>
                 <LoggingContext.Provider value={{logger}}>
-                    <Router>
-                        <Switch>
-                            <Route exact path="/login">
-                              <Login mongoHook={mongoHook}/>
-                              <Dictaphone />
-                            </Route>
-                            <PrivateRoute path="/" mongoHook={mongoHook}>
-                                <Router>
-                                    <Switch>
-                                       <Route exact path="/test">
-                                           <div>TEST PAGE</div>
-                                       </Route>
-                                    </Switch>
-                                </Router>
-                                <Col>
-                                    <DefaultHeader/>
-                                    <DefaultLayout/>
-                                    <Dictaphone />
-
-                                </Col>
-                            </PrivateRoute>
-                        </Switch>
-                    </Router>
+                    <VoiceCommandsContext.Provider value={{SpeechRecognitionHook}}>
+                        <Router>
+                            <Switch>
+                                <Route exact path="/login">
+                                    <Login mongoHook={mongoHook}/>
+                                </Route>
+                                <PrivateRoute exact path="/" mongoHook={mongoHook}>
+                                    <Col>
+                                        <DefaultHeader/>
+                                        <DefaultLayout/>
+                                    </Col>
+                                </PrivateRoute>
+                                <PrivateRoute exact path="/test" mongoHook={mongoHook}>
+                                    <div>TEST PAGE</div>
+                                </PrivateRoute>
+                                <PrivateRoute exact path="/voice_demo" mongoHook={mongoHook}>
+                                    <div style={{height: "100vh", "backgroundColor": "red"}}>voice demo page</div>
+                                </PrivateRoute>
+                            </Switch>
+                        </Router>
+                    </VoiceCommandsContext.Provider>
                 </LoggingContext.Provider>
             </AppContext.Provider>
         </div>
@@ -105,6 +92,6 @@ const PrivateRoute = ({children, ...props}) => {
             }
         />
     )
-}
+};
 
 export default App;
