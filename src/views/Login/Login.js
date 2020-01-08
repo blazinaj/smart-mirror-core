@@ -5,7 +5,7 @@
  *              NOTE: AutoConfirm is currently turned on in Stitch settings.
  */
 
-import {useState, useEffect} from "react";
+import {useState, useEffect, useContext} from "react";
 import PropTypes from "prop-types";
 import {
     Alert, Button, Collapse, DropdownItem, DropdownMenu, DropdownToggle,
@@ -19,6 +19,7 @@ import * as faceapi from "face-api.js";
 import {Stitch} from "mongodb-stitch-browser-core";
 import {RemoteMongoClient} from "mongodb-stitch-browser-services-mongodb-remote";
 import {useHistory, useLocation} from "react-router-dom";
+import {VoiceCommandsContext} from "../../context/VoiceCommandsContext";
 
 const Login = (props) => {
 
@@ -30,6 +31,9 @@ const Login = (props) => {
     const location = useLocation();
 
     const { from } = location.state || { from: { pathname: "/" } };
+
+
+
 
     const matchFace = async (descriptor) => {
         const client = Stitch.defaultAppClient;
@@ -125,9 +129,21 @@ const Login = (props) => {
             setVisibleIncorrectInformation();
         }
         else {
-            history.replace(from);
+            history.push("/");
         }
     };
+
+    const command1 = {
+        command: "Log me in",
+        answer: "Yes sir, logging in",
+        func: () => login()
+    };
+
+    const voiceContext = useContext(VoiceCommandsContext);
+
+    useEffect(() => {
+        voiceContext.SpeechRecognitionHook.addCommand(command1);
+    }, []);
 
     // These settings hide and display developer dropdown menu on navbar
     const [isOpenNav, setIsOpenNav] = useState(false);
