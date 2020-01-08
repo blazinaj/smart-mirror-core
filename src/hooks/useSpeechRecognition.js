@@ -123,6 +123,10 @@ const useSpeechRecognition = () => {
 
     }, [value]);
 
+    const addCommand = (command) => {
+        setIntendArray([...intendArray, command])
+    };
+
     const selectLanguage =
         <>
             <label htmlFor="language">
@@ -157,7 +161,8 @@ const useSpeechRecognition = () => {
         displayTranscript,
         selectLanguage,
         intendArray,
-        setIntendArray
+        setIntendArray,
+        addCommand
     };
 };
 
