@@ -7,6 +7,7 @@ export const useLogger = (initialLogs = []) => {
 
     const addLog = (log) => {
         setLogs([...logs, log]);
+        console.log(log);
     };
 
     useEffect(() => {
