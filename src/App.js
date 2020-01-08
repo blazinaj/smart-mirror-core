@@ -12,6 +12,8 @@ import LoginGate from "./views/Login/LoginGate";
 import {LoggingContext} from "./context/LoggingContext";
 import {useLogger} from "./hooks/useLogger";
 import {Col} from "reactstrap";
+import {VoiceCommandsContext} from "./context/VoiceCommandsContext";
+import useSpeechRecognition from "./hooks/useSpeechRecognition";
 import TestPage from "./views/TestPage/TestPage";
 import Dictaphone from "./views/VoiceRecognition/Dictaphone";
 import {BrowserRouter as Router, Redirect, Route, Switch} from "react-router-dom";
@@ -30,6 +32,7 @@ const App = () => {
     const [client, setClient] = useState(null);
 
     const logger = useLogger(["App Initialized"]);
+    const SpeechRecognitionHook = useSpeechRecognition();
 
     useEffect(() => {
 
@@ -43,6 +46,16 @@ const App = () => {
 
     return (
         <div style={{background: "black"}} className="App">
+            <LoggingContext.Provider value={{logger}}>
+                <VoiceCommandsContext.Provider value={{SpeechRecognitionHook}}>
+                    <Col>
+                        <LoginGate>
+                            <DefaultHeader/>
+                            <DefaultLayout/>
+                        </LoginGate>
+                    </Col>
+                </VoiceCommandsContext.Provider>
+            </LoggingContext.Provider>
             <AppContext.Provider value={{mongoHook}}>
                 <LoggingContext.Provider value={{logger}}>
                     <Router>
