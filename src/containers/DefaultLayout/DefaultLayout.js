@@ -56,15 +56,6 @@ const DefaultLayout = (props) => {
                             {loggingContext.logger.display}
                         </Col>
                 }
-                {(
-                    () => {
-                        let status = "true";
-                        switch (status) {
-                            case "true":
-                                <div>TRUE</div>
-                        }
-                    })()
-                }
                 <Col>
                     <Dashboard/>
                     {voiceContext.SpeechRecognitionHook.displayTranscript}
