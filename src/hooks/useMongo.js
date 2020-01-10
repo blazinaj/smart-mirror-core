@@ -5,6 +5,7 @@ import {
     UserPasswordAuthProviderClient,
     UserPasswordCredential
 } from "mongodb-stitch-browser-sdk";
+import {AnonymousCredential} from "mongodb-stitch-core-sdk";
 
 /**
  * @description Performs Authentication and Database calls against our MongoDB Stitch Application
@@ -15,6 +16,18 @@ export const useMongo = (input) => {
 
     const [isLoggedIn, setIsLoggedIn] = useState(false);
     const [authenticatedUser, setAuthenticatedUser] = useState({});
+
+    const loginGuestUser = async () => {
+        let client = Stitch.defaultAppClient;
+        //const db = client.getServiceClient(RemoteMongoClient.factory, 'mongodb-atlas').db('smart_mirror');
+
+        await client.auth.loginWithCredential(new AnonymousCredential())
+            .then(guest => {
+                console.log("Successfully logged in as Guest User! ("+guest.id+")");
+                setAuthenticatedUser(guest);
+                setIsLoggedIn(true);
+            })
+    };
 
     const login = async (email, password) => {
         let client = Stitch.defaultAppClient;
@@ -73,6 +86,7 @@ export const useMongo = (input) => {
 
     return {
         isLoggedIn,
+        loginGuestUser,
         login,
         register,
         logout,
