@@ -20,7 +20,7 @@ const RoutingBody = (props) => {
     const history = useHistory();
 
     const homePageCommand = {
-        command: "Mirror mirror on the wall Go to home page",
+        command: ["Mirror mirror on the wall Go to home page", "mirror mirror on the wall go home"],
         answer: "Routing to Home Page",
         func: () => {
             loggingContext.addLog("Voice Command: Routed to Home Page");
