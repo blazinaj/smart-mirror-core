@@ -24,7 +24,7 @@ const RoutingBody = (props) => {
         answer: "Routing to Home Page",
         func: () => {
             loggingContext.addLog("Voice Command: Routed to Home Page");
-            history.push("/test");
+            history.push("/");
         }
     };
 
