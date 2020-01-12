@@ -26,16 +26,40 @@ const Login = (props) => {
     const [loginAttempt, setLoginAttempt] = useState(0);
     const [enableFaceLogin, setEnableFaceLogin] = useState(true);
     const [faceLoginStatus, setFaceLoginStatus] = useState(null);
+    const [isLoading, setIsLoading] = useState(false);
 
     const history = useHistory();
-    const location = useLocation();
 
-    const { from } = location.state || { from: { pathname: "/" } };
+    const manualLoginCommand = {
+        command: "Mirror mirror on the wall Log me in",
+        answer: "Yes sir, logging in",
+        func: () => login()
+    };
 
+    const faceLoginCommand = {
+        command: ["Face Login", "mirror mirror on the wall check my face", "mirror mirror on the wall face log in"],
+        answer: "I'm Trying to detect your face",
+        func: async () => {
+            let descriptor = await faceApiHook.getDescriptorsFromImage("jacob", "video-feed");
+            console.log("Got Descriptor: " + JSON.stringify(descriptor));
+            await matchFace(descriptor);
+        }
+    };
 
+    const voiceContext = useContext(VoiceCommandsContext);
 
+    useEffect(() => {
+        voiceContext.SpeechRecognitionHook.addCommand(manualLoginCommand);
+        voiceContext.SpeechRecognitionHook.addCommand(faceLoginCommand);
+    }, []);
 
     const matchFace = async (descriptor) => {
+        if (isLoading) {
+            return;
+        }
+        else {
+            setIsLoading(true);
+        }
         const client = Stitch.defaultAppClient;
 
         const db = client.getServiceClient(RemoteMongoClient.factory, 'mongodb-atlas').db('smart_mirror');
@@ -46,7 +70,8 @@ const Login = (props) => {
 
         if (!descriptor) {
             // alert("Could not match face!!!");
-            setFaceLoginStatus("Could not match face!!!")
+            setFaceLoginStatus("Could not match face!!!");
+            setLoginAttempt(loginAttempt => loginAttempt + 1);
             return null;
         }
 
@@ -74,27 +99,26 @@ const Login = (props) => {
 
             console.log("euclidean distance: " + dist);
 
-            if (dist < 0.35) {
+            if (dist < 0.5) {
                 match = faceObjectInDatabase.owner_id;
                 setEmail(faceObjectInDatabase.email);
                 setPassword(faceObjectInDatabase.password);
                 setFaceLoginStatus("Hello - " + faceObjectInDatabase.email + ". Logging you in now..");
                 // alert("Hello - " + faceObjectInDatabase.email + ". Logging you in now..");
                 setEnableFaceLogin(false);
-                setTimeout(() => {
-                    props.mongoHook.login(faceObjectInDatabase.email, faceObjectInDatabase.password);
-                }, 5000);
+                voiceContext.SpeechRecognitionHook.speak(`Face Matched with ${100 - dist.toFixed(2) * 100}% accuracy. Hello ${faceObjectInDatabase.email}, you are now logged in.`);
+                login(faceObjectInDatabase.email, faceObjectInDatabase.password);
+
             } else {
-                setTimeout(() => {
-                    setFaceLoginStatus("Hmm.. we couldn't recognize your face. Please try again.");
-                }, 5000);
-                // alert("Hmm.. we couldn't recognize your face. Please try again.")
+                setFaceLoginStatus("Hmm.. we couldn't recognize your face. Please try again.");
+                setIsLoading(false)
+                setLoginAttempt(loginAttempt => loginAttempt + 1)
             }
 
         }
 
         console.log("Match = " + match);
-        setLoginAttempt(loginAttempt + 1)
+        // setLoginAttempt(loginAttempt => loginAttempt + 1)
     };
 
     const faceApiHook = useFace();
@@ -111,7 +135,7 @@ const Login = (props) => {
                 if (!faceApiHook.modelsAreLoading) {
                     tryFaceLogin();
                 } else {
-                    setLoginAttempt(loginAttempt + 1)
+                    setLoginAttempt(loginAttempt => loginAttempt + 1)
                 }
             }, 1000);
         }
@@ -119,12 +143,12 @@ const Login = (props) => {
     }, [loginAttempt]);
 
     // These settings store state of email and password
-    const [email, setEmail] = useState('lichtschwert@live.com');
-    const [password, setPassword] = useState('FakePassword');
+    const [email, setEmail] = useState('');
+    const [password, setPassword] = useState('');
 
     // Login function
-    const login = async () => {
-        let result = await props.mongoHook.login(email, password);
+    const login = async (optionalEmail, optionalPassword) => {
+        let result = await props.mongoHook.login(optionalEmail || email, optionalPassword || password);
         if(result){
             setVisibleIncorrectInformation();
         }
@@ -132,18 +156,6 @@ const Login = (props) => {
             history.push("/");
         }
     };
-
-    const command1 = {
-        command: "Log me in",
-        answer: "Yes sir, logging in",
-        func: () => login()
-    };
-
-    const voiceContext = useContext(VoiceCommandsContext);
-
-    useEffect(() => {
-        voiceContext.SpeechRecognitionHook.addCommand(command1);
-    }, []);
 
     // These settings hide and display developer dropdown menu on navbar
     const [isOpenNav, setIsOpenNav] = useState(false);
