@@ -10,10 +10,6 @@ export const useLogger = (initialLogs = []) => {
         console.log(log);
     };
 
-    useEffect(() => {
-
-    }, [logs])
-
     const display =
         <ListGroup>
             {
@@ -26,7 +22,7 @@ export const useLogger = (initialLogs = []) => {
         </ListGroup>;
 
     return {
-        addLog: useCallback((log) => addLog(log)),
+        addLog,
         display
     }
 
