@@ -18,6 +18,7 @@ const languageOptions = [
     {label: 'Español', value: 'es-MX'},
     {label: 'Svenska - Swedish', value: 'sv-SE'}
 ];
+//This is just a test comment. JH
 
 window.SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
 
