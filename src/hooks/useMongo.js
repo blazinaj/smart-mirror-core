@@ -5,6 +5,7 @@ import {
     UserPasswordAuthProviderClient,
     UserPasswordCredential
 } from "mongodb-stitch-browser-sdk";
+import {AnonymousCredential} from "mongodb-stitch-core-sdk";
 
 /**
  * @description Performs Authentication and Database calls against our MongoDB Stitch Application
@@ -15,6 +16,36 @@ export const useMongo = (input) => {
 
     const [isLoggedIn, setIsLoggedIn] = useState(false);
     const [authenticatedUser, setAuthenticatedUser] = useState({});
+
+    const loginGuestUser = async () => {
+        let client = Stitch.defaultAppClient;
+        let error;
+        await client.auth.loginWithCredential(new AnonymousCredential())
+            .then(guest => {
+                console.log("Successfully logged in as Guest User! ("+guest.id+")");
+
+                // const db = client.getServiceClient(RemoteMongoClient.factory, 'mongodb-atlas').db('smart_mirror');
+                // db.collection("users").updateOne({userId: client.auth.user.id},
+                //     {$set: {email: "GUEST@optech.com", first_name: "Firstname", last_name: "Lastname", guest: "true"}}, {upsert:true});
+                setAuthenticatedUser(guest);
+                setIsLoggedIn(true);
+            })
+            .catch(err => {
+                console.error(`login failed with error: ${err}`);
+                error = err;
+            });
+        return error;
+    };
+    // Known Issues for Guest Login
+    //
+    // -Creates 2 users in user database (one from upsert above, and one from somewhere else unknown)
+    // --This needs to be fixed hopefully so that it doesn't create any user
+    // - StitchServiceError when logging in for the first time this anonymous creds has been used
+
+    //Fixes
+    // either solving what's causing the stitch service error and removing any creds from user database
+    // Or perhaps have a email/pass login with empty strings that has a fixed id, that can't be modified (Super easy to do)
+    // Something else...?
 
     const login = async (email, password) => {
         let client = Stitch.defaultAppClient;
@@ -73,6 +104,7 @@ export const useMongo = (input) => {
 
     return {
         isLoggedIn,
+        loginGuestUser,
         login,
         register,
         logout,

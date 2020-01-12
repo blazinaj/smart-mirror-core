@@ -27,13 +27,7 @@ const Header = () => {
             <h1>Smart Mirror Core</h1>
             <Button color="danger" onClick={() => context.mongoHook.logout()}>Log Out</Button>
             {
-                profileHook.userModalHook.modalButton
-            }
-            {
-                profileHook.faceLoginSetupHook.modalButton
-            }
-            {
-                profileHook.useModalGoogleCalendarConfig.modalButton
+                profileHook.accountManagerHook.modalButton
             }
         </div>
     )

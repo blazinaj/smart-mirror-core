@@ -157,6 +157,16 @@ const Login = (props) => {
         }
     };
 
+    const loginGuest = async () => {
+        let result = await props.mongoHook.loginGuestUser();
+        if(result){
+            alert("Guest user malfunctioned, please try again!");
+        }
+        else {
+            history.push("/");
+        }
+    };
+
     // These settings hide and display developer dropdown menu on navbar
     const [isOpenNav, setIsOpenNav] = useState(false);
     const toggleNav = () => setIsOpenNav(!isOpenNav);
@@ -202,6 +212,7 @@ const Login = (props) => {
                     </InputGroup>
                 </div>
                 <Button className={"authButton"}  onClick={() => login()}>Login</Button>
+                <Button className={"authButton"}  onClick={() => loginGuest()}>Guest</Button>
                 <Button className={"authButton"}  onClick={() => props.mongoHook.register(email, password)}>Register</Button>
             </Form>
             <div>
