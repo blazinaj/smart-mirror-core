@@ -5,8 +5,11 @@ import {AppContext} from "../../context/AppContext";
 import GoogleCalendarConfig from "../Google/GoogleCalendarConfig";
 import FaceLoginSetup from "../Config/FaceLoginSetup/FaceLoginSetup";
 import {useDatabase} from "../../hooks/useDatabase";
+import {useLogger} from "../../hooks/useLogger";
 
 const AccountManager = (props) => {
+
+    const logger = useLogger();
 
     // First Name State
     const [firstName, setFirstName] = useState("");
@@ -63,41 +66,27 @@ const AccountManager = (props) => {
 
     useEffect(() => {
         const getUserInfo = async () => {
-            let info = null;
+            //let info = null;
             await userInfo.findOne('users', {userId: context.mongoHook.authenticatedUser.id})
                 .then(authedUserInfo => {
-                    info = authedUserInfo;
+                    if(authedUserInfo){
+                        setEmail(authedUserInfo.email);
+                        setFirstName(authedUserInfo.first_name);
+                        setLastName(authedUserInfo.last_name);
+
+                        if(authedUserInfo.guest === "false" || !authedUserInfo.guest){
+                            setIsGuest(false);
+                        }
+                    }
+                    else{
+                        logger.addLog("null user!");
+                    }
+                })
+                .catch(err => {
+                    logger.addLog(`failed to fetch user info: ${err}`)
                 });
-
-            if(info !== null){
-                setEmail(info.email);
-                setFirstName(info.first_name);
-                setLastName(info.last_name);
-
-                if(info.guest === "false" || !info.guest){
-                    setIsGuest(false);
-                }
-            }
-            else{
-                console.log("why null?")
-            }
-
-            console.log("Guest? " + isGuest.toString());
         };
 
-        // const getInfo = async () => {
-        //     if(!isGuest){
-        //         let info = await userInfo.findOne('face_descriptors', {owner_id: context.mongoHook.authenticatedUser.id})
-        //             .then(authedUserInfo => {
-        //                 return authedUserInfo;
-        //             });
-        //         if (info != null) {
-        //             setPassword(info.password); //DEV USE ONLY - DELETE AFTER TESTING
-        //         }
-        //     }
-        // };
-
-        //getInfo();
         getUserInfo();
 
         if(resetPasswordOne === "" || resetPasswordTwo === ""){
@@ -112,26 +101,40 @@ const AccountManager = (props) => {
 
     useEffect(() => {
         if(!isGuest){
-            console.log("NotAGuest"+isGuest.toString());
+            console.log("NotAGuest");
             setConfirmationText("Confirm");
         }
         else{
-            console.log("IsAGuest"+isGuest.toString());
+            console.log("IsAGuest");
             setConfirmationText("DISABLED");
         }
+        logger.addLog("Guest: " + isGuest.toString());
     }, [isGuest]);
 
     const changeInfo = async () => {
+        let newEmail = email;
+        let newFirstName = firstName;
+        let newLastName = lastName;
+
+        if(changeEmail !== ""){newEmail = changeEmail}
+        if(changeFirstName !== ""){newFirstName = changeFirstName}
+        if(changeLastName !== ""){newLastName = changeLastName}
+
         if(!isGuest){
             let msg = await userInfo.updateOne("users", {userId: context.mongoHook.authenticatedUser.id},
-                {$set: {email: changeEmail, first_name: changeFirstName, last_name: changeLastName}});
+                {$set: {email: newEmail, first_name: newFirstName, last_name: newLastName}});
             setUpdateInfo(!updateInfo);
-            switch(msg.matchedCount){
-                case 0: msg = "Matched: 0\nAccount not found!";
-                    break;
-                case 1: msg = "Matched: 1\nAccount found!\n"+context.mongoHook.authenticatedUser.id;
+            if(context.mongoHook.authenticatedUser && context.mongoHook.authenticatedUser.id){
+                switch(msg.matchedCount){
+                    case 0: msg = "Matched: 0\nAccount not found!";
+                        break;
+                    case 1: msg = "Matched: 1\nAccount found!\n"+context.mongoHook.authenticatedUser.id;
+                }
             }
-            console.log(msg);
+            else {
+                logger.addLog("Authenticated user or id is null")
+            }
+            logger.addLog(msg);
         }
     };
 
@@ -139,6 +142,7 @@ const AccountManager = (props) => {
         setVisibleDeleteConfirmation(!visibleDeleteConfirmation);
     };
 
+    // currently doesn't delete account from MongoDB
     const deleteAccountConfirmation = () => {
         alert("Account Deleted! I guess....\nBye Bye =,(")
     };
@@ -148,11 +152,10 @@ const AccountManager = (props) => {
 
     //Notes
     /*
-        User pool pass and descriptor pass are separate from eachother.
-        Modification to both use pool pass and database plain text are required until changed!
-
         For the delete feature it will need to delete the users/descriptors value of itself, and the user
         from the user pool
+
+        When email is changed, it currently on changes in users database, not what you login with
      */
 
     return (
@@ -187,7 +190,7 @@ const AccountManager = (props) => {
                     <Input className={"inputField"} type="email" placeholder="Email..." onChange={(e) => setChangeEmail(e.target.value)}/>
                 </InputGroup>
                 <br />
-                <Button color="danger" onClick={changeInfo}>{confirmationText}</Button>
+                <Button color="danger" onClick={() => changeInfo()}>{confirmationText}</Button>
             </Collapse>
 
             <Collapse isOpen={isResetPasswordOpen}>
@@ -204,7 +207,7 @@ const AccountManager = (props) => {
                     <Input className={"inputField"} type="password" placeholder="..." onChange={(e) => setResetPasswordTwo(e.target.value)}/>
                 </InputGroup>
                 <br />
-                <Button color="danger">{confirmationText}</Button>
+                <Button color="danger" onClick={() => alert("Unimplemented...")}>{confirmationText}</Button>
             </Collapse>
 
             <hr />
@@ -235,7 +238,7 @@ const AccountManager = (props) => {
 
             {
                 !isGuest ?
-                    <Button color="danger" onClick={deleteAccount}>Delete Account</Button>
+                    <Button color="danger" onClick={() => deleteAccount()}>Delete Account</Button>
                     :
                     <></>
             }
@@ -243,7 +246,7 @@ const AccountManager = (props) => {
             <Alert color="danger" isOpen={visibleDeleteConfirmation} toggle={onDismissDeleteConfirmation}>
                 <label>Are you sure? </label>
                 &nbsp;
-                <Button color="danger" onClick={deleteAccountConfirmation}>Confirm</Button>
+                <Button color="danger" onClick={() => deleteAccountConfirmation()}>Confirm</Button>
             </Alert>
         </div>
     )
