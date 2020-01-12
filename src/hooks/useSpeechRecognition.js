@@ -109,22 +109,28 @@ const useSpeechRecognition = () => {
     useEffect(() => {
 
         intendArray.map((intent) => {
-            if (value.toString().toLocaleLowerCase().includes(intent["command"].toString().toLocaleLowerCase())) {
 
-                if (intent["answer"]) {
-                    speechSynthesisHook.speak(intent["answer"]);
-                }
+            let commands = [].concat(intent.command);
 
-                if (intent.func) {
-                    intent.func();
+            for (let command of commands) {
+                if (value.toString().toLocaleLowerCase().includes(command.toString().toLocaleLowerCase())) {
+
+                    if (intent["answer"]) {
+                        speechSynthesisHook.speak(intent["answer"]);
+                    }
+
+                    if (intent.func) {
+                        intent.func();
+                    }
                 }
             }
+
         });
 
     }, [value]);
 
     const addCommand = (command) => {
-        setIntendArray([...intendArray, command])
+        setIntendArray(intendArray => [...intendArray, command])
     };
 
     const selectLanguage =
