@@ -19,14 +19,15 @@ export const useMongo = (input) => {
 
     const loginGuestUser = async () => {
         let client = Stitch.defaultAppClient;
-        //const db = client.getServiceClient(RemoteMongoClient.factory, 'mongodb-atlas').db('smart_mirror');
-
+        const db = client.getServiceClient(RemoteMongoClient.factory, 'mongodb-atlas').db('smart_mirror');
         await client.auth.loginWithCredential(new AnonymousCredential())
             .then(guest => {
                 console.log("Successfully logged in as Guest User! ("+guest.id+")");
+                db.collection("users").updateOne({userId: client.auth.user.id},
+                    {$set: {email: "GUEST@optech.com", first_name: "Firstname", last_name: "Lastname", guest: "true"}}, {upsert:true})
                 setAuthenticatedUser(guest);
                 setIsLoggedIn(true);
-            })
+            });
     };
 
     const login = async (email, password) => {

@@ -18,6 +18,7 @@ import useFace from "../../hooks/useFace";
 import * as faceapi from "face-api.js";
 import {Stitch} from "mongodb-stitch-browser-core";
 import {RemoteMongoClient} from "mongodb-stitch-browser-services-mongodb-remote";
+import Dictaphone from "../VoiceRecognition/Dictaphone";
 
 const Login = (props) => {
 
@@ -165,6 +166,7 @@ const Login = (props) => {
                     </InputGroup>
                 </div>
                 <Button className={"authButton"}  onClick={() => login()}>Login</Button>
+                <Button className={"authButton"}  onClick={() => props.mongoHook.loginGuestUser()}>Guest</Button>
                 <Button className={"authButton"}  onClick={() => props.mongoHook.register(email, password)}>Register</Button>
             </Form>
             <div>
