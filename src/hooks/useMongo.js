@@ -19,12 +19,26 @@ export const useMongo = (input) => {
 
     const loginGuestUser = async () => {
         let client = Stitch.defaultAppClient;
-        const db = client.getServiceClient(RemoteMongoClient.factory, 'mongodb-atlas').db('smart_mirror');
         await client.auth.loginWithCredential(new AnonymousCredential())
             .then(guest => {
                 console.log("Successfully logged in as Guest User! ("+guest.id+")");
+                // MongoDB creates a user in users for AnonymousCreds anyway (couldn't figure out how to disable that),
+                // So I thought I would at least control what got created for now.
+                // AnonymousCreds seem to delete themselves after 90 days or something, so it will use the same login/userId
+                // every time until it gets deletes by hand or the certain number of days required
+
+                // The main issues with this method currently:
+                // -Creates 2 users in users database (from below upsert, and somewhere else)
+                // -StitchServiceError first log in (MustAuthenticateFirst, caught in promise)
+                // -Creates a user in user database, instead of remaining truly anonymous (which also leave leftovers in users database that don't get dealt with)
+
+                // Would like to remove user from ever getting created in user database,
+                // Or perhaps making a guest account with email/pass of empty string and controlling it via a specific userId
+                // Other solutions...?
+                const db = client.getServiceClient(RemoteMongoClient.factory, 'mongodb-atlas').db('smart_mirror');
                 db.collection("users").updateOne({userId: client.auth.user.id},
-                    {$set: {email: "GUEST@optech.com", first_name: "Firstname", last_name: "Lastname", guest: "true"}}, {upsert:true})
+                    {$set: {email: "GUEST@optech.com", first_name: "Firstname", last_name: "Lastname", guest: "true"}}, {upsert: true});
+
                 setAuthenticatedUser(guest);
                 setIsLoggedIn(true);
             });

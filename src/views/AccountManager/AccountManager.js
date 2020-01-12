@@ -61,6 +61,8 @@ const AccountManager = (props) => {
     const context = useContext(AppContext);
     const userInfo = useDatabase();
 
+    // This controls what information or access the user has within the account manager
+    // And controls whether guest or user
     useEffect(() => {
         const getUserInfo = async () => {
             let info;
@@ -80,19 +82,19 @@ const AccountManager = (props) => {
             console.log(isGuest.toString());
         };
 
-        const getInfo = async () => {
-            if(!isGuest){
-                let info = await userInfo.findOne('face_descriptors', {owner_id: context.mongoHook.authenticatedUser.id})
-                    .then(authedUserInfo => {
-                        return authedUserInfo;
-                    });
-                if (info != null) {
-                    setPassword(info.password); //DEV USE ONLY - DELETE AFTER TESTING
-                }
-            }
-        };
+        // const getInfo = async () => {
+        //     if(!isGuest){
+        //         let info = await userInfo.findOne('face_descriptors', {owner_id: context.mongoHook.authenticatedUser.id})
+        //             .then(authedUserInfo => {
+        //                 return authedUserInfo;
+        //             });
+        //         if (info != null) {
+        //             setPassword(info.password); //DEV USE ONLY - DELETE AFTER TESTING
+        //         }
+        //     }
+        // };
 
-        getInfo();
+        //getInfo();
         getUserInfo();
 
         if(resetPasswordOne === "" || resetPasswordTwo === ""){
@@ -105,6 +107,7 @@ const AccountManager = (props) => {
 
     }, [updateInfo, resetPasswordOne, resetPasswordTwo]);
 
+    // Controls the name/password change boxes for user/guest
     useEffect(() => {
         if(!isGuest){
             console.log("NotAGuest"+isGuest.toString());
@@ -116,10 +119,20 @@ const AccountManager = (props) => {
         }
     }, [isGuest]);
 
+    // name/email change confirmation button
     const changeInfo = async () => {
+        let newEmail = email;
+        let newFirstName = firstName;
+        let newLastName = lastName;
+
+        if(changeEmail !== ""){newEmail = changeEmail}
+        if(changeFirstName !== "") {newFirstName = changeFirstName}
+        if(changeLastName !== "") {newLastName = changeLastName}
+
+
         if(!isGuest){
             let msg = await userInfo.updateOne("users", {userId: context.mongoHook.authenticatedUser.id},
-                {$set: {email: changeEmail, first_name: changeFirstName, last_name: changeLastName}});
+                {$set: {email: newEmail, first_name: newFirstName, last_name: newLastName}});
             setUpdateInfo(!updateInfo);
             switch(msg.matchedCount){
                 case 0: msg = "Matched: 0\nAccount not found!";
@@ -134,6 +147,7 @@ const AccountManager = (props) => {
         setVisibleDeleteConfirmation(!visibleDeleteConfirmation);
     };
 
+    // WIP Currently does nothing but display message
     const deleteAccountConfirmation = () => {
       alert("Account Deleted! I guess....\nBye Bye =,(")
     };
@@ -143,9 +157,6 @@ const AccountManager = (props) => {
 
     //Notes
     /*
-        User pool pass and descriptor pass are separate from eachother.
-        Modification to both use pool pass and database plain text are required until changed!
-
         For the delete feature it will need to delete the users/descriptors value of itself, and the user
         from the user pool
      */
