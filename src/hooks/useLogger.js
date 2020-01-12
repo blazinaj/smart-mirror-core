@@ -6,7 +6,7 @@ export const useLogger = (initialLogs = []) => {
     const [logs, setLogs] = useState(initialLogs);
 
     const addLog = (log) => {
-        setLogs([...logs, log]);
+        setLogs(logs => [...logs, log]);
         console.log(log);
     };
 
