@@ -20,11 +20,11 @@ import {Stitch} from "mongodb-stitch-browser-core";
 import {RemoteMongoClient} from "mongodb-stitch-browser-services-mongodb-remote";
 import {useHistory, useLocation} from "react-router-dom";
 import {VoiceCommandsContext} from "../../context/VoiceCommandsContext";
+import {LoggingContext} from "../../context/LoggingContext";
 
 const Login = (props) => {
 
-    const [loginAttempt, setLoginAttempt] = useState(0);
-    const [enableFaceLogin, setEnableFaceLogin] = useState(true);
+    const [loginAttempt, setLoginAttempt] = useState(1);
     const [faceLoginStatus, setFaceLoginStatus] = useState(null);
     const [isLoading, setIsLoading] = useState(false);
 
@@ -46,12 +46,20 @@ const Login = (props) => {
         }
     };
 
+    const faceApiHook = useFace();
+    const loggingContext = useContext(LoggingContext).logger;
     const voiceContext = useContext(VoiceCommandsContext);
 
     useEffect(() => {
         voiceContext.SpeechRecognitionHook.addCommand(manualLoginCommand);
         voiceContext.SpeechRecognitionHook.addCommand(faceLoginCommand);
     }, []);
+
+    useEffect(() => {
+        if (!faceApiHook.modelsAreLoading){
+            tryFaceLogin();
+        }
+    }, [faceApiHook.modelsAreLoading]);
 
     const matchFace = async (descriptor) => {
         if (isLoading) {
@@ -63,15 +71,13 @@ const Login = (props) => {
         const client = Stitch.defaultAppClient;
 
         const db = client.getServiceClient(RemoteMongoClient.factory, 'mongodb-atlas').db('smart_mirror');
-        console.log("Trying to match Face to user ID: " + client.auth.user.id + "...");
+        loggingContext.addLog("Trying to match Face to user ID: " + client.auth.user.id + "...");
         let faces = await db.collection('face_descriptors').find({}, { limit: 100}).asArray();
-        console.log("Fetched Faces from database: " + JSON.stringify(faces));
-        console.log("Trying to match face..");
+        loggingContext.addLog("Fetched Faces from database: " + JSON.stringify(faces));
+        loggingContext.addLog("Trying to match face..");
 
         if (!descriptor) {
-            // alert("Could not match face!!!");
             setFaceLoginStatus("Could not match face!!!");
-            setLoginAttempt(loginAttempt => loginAttempt + 1);
             return null;
         }
 
@@ -104,43 +110,26 @@ const Login = (props) => {
                 setEmail(faceObjectInDatabase.email);
                 setPassword(faceObjectInDatabase.password);
                 setFaceLoginStatus("Hello - " + faceObjectInDatabase.email + ". Logging you in now..");
-                // alert("Hello - " + faceObjectInDatabase.email + ". Logging you in now..");
-                setEnableFaceLogin(false);
                 voiceContext.SpeechRecognitionHook.speak(`Face Matched with ${100 - dist.toFixed(2) * 100}% accuracy. Hello ${faceObjectInDatabase.email}, you are now logged in.`);
                 login(faceObjectInDatabase.email, faceObjectInDatabase.password);
 
             } else {
                 setFaceLoginStatus("Hmm.. we couldn't recognize your face. Please try again.");
-                setIsLoading(false)
-                setLoginAttempt(loginAttempt => loginAttempt + 1)
+                setIsLoading(false);
             }
 
         }
 
-        console.log("Match = " + match);
-        // setLoginAttempt(loginAttempt => loginAttempt + 1)
+        loggingContext.addLog("Match = " + match);
     };
 
-    const faceApiHook = useFace();
-
-    useEffect(() => {
-        let tryFaceLogin = async () => {
-            let descriptor = await faceApiHook.getDescriptorsFromImage("jacob", "video-feed");
-            console.log("Got Descriptor: " + JSON.stringify(descriptor));
-            await matchFace(descriptor);
-        };
-
-        if (enableFaceLogin) {
-            setTimeout(() => {
-                if (!faceApiHook.modelsAreLoading) {
-                    tryFaceLogin();
-                } else {
-                    setLoginAttempt(loginAttempt => loginAttempt + 1)
-                }
-            }, 1000);
-        }
-
-    }, [loginAttempt]);
+    let tryFaceLogin = async () => {
+        setLoginAttempt(loginAttempt => loginAttempt + 0);
+        loggingContext.addLog(`Trying Face Login [Attempt ${loginAttempt}]`);
+        let descriptor = await faceApiHook.getDescriptorsFromImage("jacob", "video-feed");
+        loggingContext.addLog("Got Descriptor: " + JSON.stringify(descriptor));
+        await matchFace(descriptor);
+    };
 
     // These settings store state of email and password
     const [email, setEmail] = useState('');
@@ -215,23 +204,10 @@ const Login = (props) => {
                     </Alert>
                 }
             <Button
-                onClick={
-                    async () => {
-                        let descriptor = await faceApiHook.getDescriptorsFromImage("jacob", "video-feed");
-                        console.log("Got Descriptor: " + JSON.stringify(descriptor));
-                        matchFace(descriptor)
-                    }
-                }
+                onClick={() => tryFaceLogin()}
             >
                 Facial Recognition Login (Attempt: {loginAttempt})
             </Button>
-                {" "}
-                <Button
-                    color="danger"
-                    onClick={() => setEnableFaceLogin(false)}
-                >
-                    Cancel Auto Login
-                </Button>
             </div>
         </div>
     )
