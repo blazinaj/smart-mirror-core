@@ -6,6 +6,7 @@ import PrivateRoute from "./PrivateRoute";
 import {AppContext} from "../../context/AppContext";
 import {VoiceCommandsContext} from "../../context/VoiceCommandsContext";
 import {LoggingContext} from "../../context/LoggingContext";
+import TestPage from "../TestPage/TestPage";
 
 const RoutingBody = (props) => {
 
@@ -58,7 +59,7 @@ const RoutingBody = (props) => {
                 <Home/>
             </PrivateRoute>
             <PrivateRoute exact path="/test" mongoHook={mongoHook}>
-                <div>TEST PAGE</div>
+                <TestPage/>
             </PrivateRoute>
             <PrivateRoute exact path="/voice_demo" mongoHook={mongoHook}>
                 <div style={{height: "100vh", "backgroundColor": "red"}}>voice demo page</div>
