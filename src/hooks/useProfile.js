@@ -4,8 +4,8 @@ import {useTable} from "./useTable";
 import {useModal} from "./useModal";
 import React from "react";
 import {AppContext} from "../context/AppContext";
-import GoogleCalendarConfig from "../views/Google/GoogleCalendarConfig";
-import FaceLoginSetup from "../views/Config/FaceLoginSetup/FaceLoginSetup";
+import FaceLoginSetup from "../components/Config/FaceLoginSetup/FaceLoginSetup";
+import GoogleCalendarConfig from "../components/Google/GoogleCalendarConfig";
 
 /**
  * @description A Custom hook that can be used to get Authenticated user,

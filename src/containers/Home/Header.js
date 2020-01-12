@@ -9,7 +9,7 @@ import {Button} from "reactstrap";
 import React from "react";
 import {AppContext} from "../../context/AppContext";
 
-const DefaultHeader = () => {
+const Header = () => {
 
     const context = useContext(AppContext);
 
@@ -40,4 +40,4 @@ const DefaultHeader = () => {
 
 };
 
-export default DefaultHeader;
+export default Header;
