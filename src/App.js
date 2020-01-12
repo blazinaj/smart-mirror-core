@@ -23,7 +23,7 @@ const App = () => {
     const [showTranscript, setShowTranscript] = useState(false);
     const [showIntendArray, setShowIntendArray] = useState(false);
 
-    const logger = useLogger(["App Initialized"], setShowLogger);
+    const logger = useLogger(["App Initialized"]);
     const SpeechRecognitionHook = useSpeechRecognition();
 
     useEffect(() => {
