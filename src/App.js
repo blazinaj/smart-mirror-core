@@ -14,7 +14,7 @@ import useSpeechRecognition from "./hooks/useSpeechRecognition";
 import {Stitch} from "mongodb-stitch-browser-sdk";
 import {useMongo} from "./hooks/useMongo";
 import {AppContext} from "./context/AppContext";
-import Routing from "./containers/Routing/Routing";
+import Routing from "./containers/__Routing/Routing";
 
 const App = () => {
 
