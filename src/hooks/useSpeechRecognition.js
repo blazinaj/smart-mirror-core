@@ -168,7 +168,8 @@ const useSpeechRecognition = () => {
         selectLanguage,
         intendArray,
         setIntendArray,
-        addCommand
+        addCommand,
+        speak: speechSynthesisHook.speak
     };
 };
 
