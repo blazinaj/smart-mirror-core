@@ -40,12 +40,6 @@ const RoutingBody = (props) => {
         }
     };
 
-    const demoPageCommand = {
-        command: "Mirror mirror on the wall Go to demo page",
-        answer: "Routing to Demo Page",
-        func: () => history.push("/demo_page")
-    };
-
     const sleepPageCommand = {
         command: ["Mirror mirror on the wall Go to sleep"],
         answer: "Going to sleep",
