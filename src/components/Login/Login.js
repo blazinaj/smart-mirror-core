@@ -151,8 +151,8 @@ const Login = (props) => {
     }, [loginAttempt]);
 
     // These settings store state of email and password
-    const [email, setEmail] = useState('lichtschwert@live.com');
-    const [password, setPassword] = useState('FakePassword');
+    const [email, setEmail] = useState('');
+    const [password, setPassword] = useState('');
 
     // Login function
     const login = async (optionalEmail, optionalPassword) => {
