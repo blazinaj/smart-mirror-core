@@ -54,11 +54,21 @@ const RoutingBody = (props) => {
         }
     };
 
+    const logoutCommand = {
+        command: ["mirror mirror on the wall logout"],
+        answer: "Logging out",
+        func: () => {
+            loggingContext.addLog("Voice Command: Logging out")
+            appContext.mongoHook.logout()
+        }
+    };
+
     useEffect(() => {
         voiceContext.addCommand(homePageCommand);
         voiceContext.addCommand(testPageCommand);
         voiceContext.addCommand(demoPageCommand);
         voiceContext.addCommand(sleepPageCommand);
+        voiceContext.addCommand(logoutCommand);
     }, []);
 
     return (
