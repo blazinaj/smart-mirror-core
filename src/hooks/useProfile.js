@@ -6,6 +6,7 @@ import React from "react";
 import {AppContext} from "../context/AppContext";
 import FaceLoginSetup from "../components/Config/FaceLoginSetup/FaceLoginSetup";
 import GoogleCalendarConfig from "../components/Google/GoogleCalendarConfig";
+import AccountManager from "../components/AccountManager/AccountManager";
 
 /**
  * @description A Custom hook that can be used to get Authenticated user,
@@ -26,6 +27,8 @@ export const useProfile = () => {
     // Generates a Reactstrap Table out of the authenicatedUser object
     const profileTableHook = useTable(context.mongoHook.authenticatedUser);
 
+    const accountManagerButton = <Button size="sm" className="btn-pill" color="primary">Account Manager</Button>;
+    const accountManagerHook = useModal(<AccountManager />, "Account Manager", accountManagerButton);
 
     const faceLoginSetupButton = <Button size="sm" className="btn-pill" color="info">Setup Face Login</Button>;
     const faceLoginSetupHook = useModal(<FaceLoginSetup/>, "Set Up Face Login", faceLoginSetupButton);
@@ -42,7 +45,8 @@ export const useProfile = () => {
         authenticatedUser: context.mongoHook.authenticatedUser,
         profileTableHook,
         useModalGoogleCalendarConfig,
-        faceLoginSetupHook
+        faceLoginSetupHook,
+        accountManagerHook
     }
 };
 
