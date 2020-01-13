@@ -23,6 +23,15 @@ const App = () => {
     const [showTranscript, setShowTranscript] = useState(false);
     const [showIntendArray, setShowIntendArray] = useState(false);
 
+    const debuggingTools = {
+        showLogger,
+        setShowLogger,
+        showTranscript,
+        setShowTranscript,
+        showIntendArray,
+        setShowIntendArray
+    };
+
     const logger = useLogger(["App Initialized"]);
     const SpeechRecognitionHook = useSpeechRecognition();
 
@@ -98,7 +107,7 @@ const App = () => {
 
     return (
         <div style={{background: "black"}} className="App">
-            <AppContext.Provider value={{mongoHook}}>
+            <AppContext.Provider value={{mongoHook, debuggingTools}}>
                 <LoggingContext.Provider value={{logger}}>
                     <VoiceCommandsContext.Provider value={{SpeechRecognitionHook}}>
                         <Row>
