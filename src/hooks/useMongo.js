@@ -27,7 +27,7 @@ export const useMongo = (input) => {
                 const db = client.getServiceClient(RemoteMongoClient.factory, 'mongodb-atlas').db('smart_mirror');
                 db.collection("users").updateOne({userId: client.auth.user.id},
                     {$set: {email: "GUEST@optech.com", first_name: "Firstname", last_name: "Lastname", guest: "true"}}, {upsert:true});
-                
+
                 setAuthenticatedUser(guest);
                 setIsLoggedIn(true);
             })

@@ -155,7 +155,7 @@ const AccountManager = (props) => {
         For the delete feature it will need to delete the users/descriptors value of itself, and the user
         from the user pool
 
-        When email is changed, it currently on changes in users database, not what you login with
+        When email is changed, it currently only changes in users database, not what you login with
      */
 
     return (
