@@ -46,11 +46,26 @@ const Login = (props) => {
         }
     };
 
+    const guestLoginCommand = {
+        command: ["mirror mirror on the wall login as guest"],
+        answer: "Logging in as guest user!",
+        func: () => loginGuest()
+    };
+
+    const demoLoginCommand = {
+        command: ["mirror mirror on the wall demo account"],
+        answer: "Starting up demo!",
+        func: () => login("DemoAccount", "DemoAccount")
+    };
+
+
     const voiceContext = useContext(VoiceCommandsContext);
 
     useEffect(() => {
         voiceContext.SpeechRecognitionHook.addCommand(manualLoginCommand);
         voiceContext.SpeechRecognitionHook.addCommand(faceLoginCommand);
+        voiceContext.SpeechRecognitionHook.addCommand(guestLoginCommand);
+        voiceContext.SpeechRecognitionHook.addCommand(demoLoginCommand);
     }, []);
 
     const matchFace = async (descriptor) => {
@@ -157,6 +172,16 @@ const Login = (props) => {
         }
     };
 
+    const loginGuest = async () => {
+        let result = await props.mongoHook.loginGuestUser();
+        if(result){
+            alert("Guest user malfunctioned, please try again!");
+        }
+        else {
+            history.push("/");
+        }
+    };
+
     // These settings hide and display developer dropdown menu on navbar
     const [isOpenNav, setIsOpenNav] = useState(false);
     const toggleNav = () => setIsOpenNav(!isOpenNav);
@@ -202,6 +227,7 @@ const Login = (props) => {
                     </InputGroup>
                 </div>
                 <Button className={"authButton"}  onClick={() => login()}>Login</Button>
+                <Button className={"authButton"}  onClick={() => loginGuest()}>Guest</Button>
                 <Button className={"authButton"}  onClick={() => props.mongoHook.register(email, password)}>Register</Button>
             </Form>
             <div>
