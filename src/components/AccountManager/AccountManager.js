@@ -28,7 +28,7 @@ const AccountManager = (props) => {
     const [confirmationText, setConfirmationText] = useState("Confirm");
 
     //TEMP - PASSWORD STATE
-    const [password, setPassword] = useState(""); //DEV USE ONLY - DELETE AFTER TESTING
+    //const [password, setPassword] = useState(""); //DEV USE ONLY - DELETE AFTER TESTING
 
     // Reset Password States
     const [resetPasswordOne, setResetPasswordOne] = useState("");
@@ -150,14 +150,6 @@ const AccountManager = (props) => {
     const [visibleDeleteConfirmation, setVisibleDeleteConfirmation] = useState(false);
     const onDismissDeleteConfirmation = () => setVisibleDeleteConfirmation(false);
 
-    //Notes
-    /*
-        For the delete feature it will need to delete the users/descriptors value of itself, and the user
-        from the user pool
-
-        When email is changed, it currently only changes in users database, not what you login with
-     */
-
     return (
         <div>
             <label>UserID: {context.mongoHook.authenticatedUser.id}</label>
@@ -165,8 +157,6 @@ const AccountManager = (props) => {
             <label>Name: {firstName} {lastName}</label>
             <br />
             <label>Email: {email}</label>
-            <br />
-            <label>(DEV USE ONLY) Password: {password}</label>
 
             <br />
             <br />
@@ -175,7 +165,7 @@ const AccountManager = (props) => {
             <label>--</label>
             <Button color="primary" onClick={toggleResetPassword} style={{ marginBottom: '1rem' }}>Change Password</Button>
             <Collapse isOpen={isInfoSetupOpen}>
-                <label>WIP - New Info</label>
+                <label>New Info</label>
                 <InputGroup className={"inputGroupLogin"}>
                     <InputGroupAddon className={"pre-pend"} addonType="prepend">FirstName</InputGroupAddon>
                     <Input className={"inputField"} placeholder="Firstname..." onChange={(e) => setChangeFirstName(e.target.value)}/>
@@ -194,8 +184,6 @@ const AccountManager = (props) => {
             </Collapse>
 
             <Collapse isOpen={isResetPasswordOpen}>
-                <label>{resetPasswordOne} :::WIP::: {resetPasswordTwo}</label>
-                <br />
                 <label>{passwordsMatch}</label>
                 <InputGroup className={"inputGroupLogin"}>
                     <InputGroupAddon className={"pre-pend"} addonType="prepend">New Password</InputGroupAddon>
