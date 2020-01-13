@@ -89,6 +89,7 @@ const Login = (props) => {
 
         if (!descriptor) {
             setFaceLoginStatus("Could not match face!!!");
+            setIsLoading(false);
             return null;
         }
 
@@ -117,6 +118,7 @@ const Login = (props) => {
             console.log("euclidean distance: " + dist);
 
             if (dist < 0.5) {
+                setIsLoading(false);
                 match = faceObjectInDatabase.owner_id;
                 setEmail(faceObjectInDatabase.email);
                 setPassword(faceObjectInDatabase.password);
@@ -135,7 +137,7 @@ const Login = (props) => {
     };
 
     let tryFaceLogin = async () => {
-        setLoginAttempt(loginAttempt => loginAttempt + 0);
+        setLoginAttempt(loginAttempt => loginAttempt + 1);
         loggingContext.addLog(`Trying Face Login [Attempt ${loginAttempt}]`);
         let descriptor = await faceApiHook.getDescriptorsFromImage("jacob", "video-feed");
         loggingContext.addLog("Got Descriptor: " + JSON.stringify(descriptor));
