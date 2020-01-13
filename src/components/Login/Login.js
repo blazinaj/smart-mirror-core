@@ -21,6 +21,7 @@ import {RemoteMongoClient} from "mongodb-stitch-browser-services-mongodb-remote"
 import {useHistory, useLocation} from "react-router-dom";
 import {VoiceCommandsContext} from "../../context/VoiceCommandsContext";
 import {LoggingContext} from "../../context/LoggingContext";
+import {AppContext} from "../../context/AppContext";
 
 const Login = (props) => {
 
@@ -58,10 +59,10 @@ const Login = (props) => {
         func: () => login("DemoAccount", "DemoAccount")
     };
 
-
     const faceApiHook = useFace();
     const loggingContext = useContext(LoggingContext).logger;
     const voiceContext = useContext(VoiceCommandsContext);
+    const debuggingTools = useContext(AppContext).debuggingTools;
 
     useEffect(() => {
         voiceContext.SpeechRecognitionHook.addCommand(manualLoginCommand);
@@ -207,6 +208,24 @@ const Login = (props) => {
                             <DropdownMenu right id="dropdownMenu">
                                 <DropdownItem className="dropdownItem" href="https://github.com/blazinaj/smart-mirror-core/tree/master">
                                     Github
+                                </DropdownItem>
+                                <DropdownItem
+                                    className="dropdownItem"
+                                    onClick={() => debuggingTools.setShowLogger(!debuggingTools.showLogger)}
+                                >
+                                    {debuggingTools.showLogger ? "Hide" : "Show"} Logger
+                                </DropdownItem>
+                                <DropdownItem
+                                    className="dropdownItem"
+                                    onClick={() => debuggingTools.setShowTranscript(!debuggingTools.showTranscript)}
+                                >
+                                    {debuggingTools.showTranscript ? "Hide" : "Show"} Transcript
+                                </DropdownItem>
+                                <DropdownItem
+                                    className="dropdownItem"
+                                    onClick={() => debuggingTools.setShowIntendArray(!debuggingTools.showIntendArray)}
+                                >
+                                    {debuggingTools.showIntendArray ? "Hide" : "Show"} Current Commands
                                 </DropdownItem>
                             </DropdownMenu>
                         </UncontrolledDropdown>
