@@ -61,7 +61,6 @@ const RoutingBody = (props) => {
     useEffect(() => {
         voiceContext.addCommand(homePageCommand);
         voiceContext.addCommand(testPageCommand);
-        voiceContext.addCommand(demoPageCommand);
         voiceContext.addCommand(sleepPageCommand);
         voiceContext.addCommand(voiceDemoPageCommand);
     }, []);
