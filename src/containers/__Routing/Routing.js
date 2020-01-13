@@ -8,6 +8,7 @@ import {VoiceCommandsContext} from "../../context/VoiceCommandsContext";
 import {LoggingContext} from "../../context/LoggingContext";
 import TestPage from "../TestPage/TestPage";
 import Sleep from "../Sleep/Sleep";
+import VoiceDemo from "../../components/VoiceDemo/VoiceDemo";
 
 const RoutingBody = (props) => {
 
@@ -39,12 +40,6 @@ const RoutingBody = (props) => {
         }
     };
 
-    const demoPageCommand = {
-        command: "Mirror mirror on the wall Go to demo page",
-        answer: "Routing to Demo Page",
-        func: () => history.push("/demo_page")
-    };
-
     const sleepPageCommand = {
         command: ["Mirror mirror on the wall Go to sleep"],
         answer: "Going to sleep",
@@ -54,11 +49,21 @@ const RoutingBody = (props) => {
         }
     };
 
+    const voiceDemoPageCommand = {
+        command: ["Mirror mirror on the wall Go to voice demo page"],
+        answer: "Going to voice demo",
+        func: () => {
+            loggingContext.addLog("Voice Command: Going to voice demo");
+            history.push("/voice_demo")
+        }
+    };
+
     useEffect(() => {
         voiceContext.addCommand(homePageCommand);
         voiceContext.addCommand(testPageCommand);
         voiceContext.addCommand(demoPageCommand);
         voiceContext.addCommand(sleepPageCommand);
+        voiceContext.addCommand(voiceDemoPageCommand);
     }, []);
 
     return (
@@ -73,7 +78,7 @@ const RoutingBody = (props) => {
                 <TestPage/>
             </PrivateRoute>
             <PrivateRoute exact path="/voice_demo" mongoHook={mongoHook}>
-                <div style={{height: "100vh", "backgroundColor": "red"}}>voice demo page</div>
+                <VoiceDemo/>
             </PrivateRoute>
             <Route exact path="/sleep">
                 <Sleep/>
