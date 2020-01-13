@@ -108,7 +108,7 @@ const useSpeechRecognition = () => {
     }, []);
 
     useEffect(() => {
-
+        setListening(false)
         intendArray.map((intent) => {
 
             let commands = [].concat(intent.command);
@@ -116,9 +116,11 @@ const useSpeechRecognition = () => {
             for (let command of commands) {
                 if (value.toString().toLocaleLowerCase().includes(command.toString().toLocaleLowerCase())) {
 
+
                     if (intent["answer"]) {
                         speechSynthesisHook.speak(intent["answer"]);
                     }
+
 
                     if (intent.func) {
                         intent.func();
@@ -127,7 +129,7 @@ const useSpeechRecognition = () => {
             }
 
         });
-
+        setListening(true)
     }, [value]);
 
     const addCommand = (command) => {
