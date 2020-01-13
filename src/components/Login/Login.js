@@ -56,8 +56,19 @@ const Login = (props) => {
     }, []);
 
     useEffect(() => {
+
+        const initialFaceLogin = async () => {
+            await tryFaceLogin();
+        };
+
         if (!faceApiHook.modelsAreLoading){
-            tryFaceLogin();
+            loggingContext.addLog("Trying Initial Face Login");
+            window.setTimeout(() => {
+                initialFaceLogin();
+            }, 1000)
+        }
+        else {
+            loggingContext.addLog("Couldn't perform Initial Face Login: Models are still loading");
         }
     }, [faceApiHook.modelsAreLoading]);
 
@@ -112,7 +123,7 @@ const Login = (props) => {
                 setFaceLoginStatus("Hello - " + faceObjectInDatabase.email + ". Logging you in now..");
                 voiceContext.SpeechRecognitionHook.speak(`Face Matched with ${100 - dist.toFixed(2) * 100}% accuracy. Hello ${faceObjectInDatabase.email}, you are now logged in.`);
                 login(faceObjectInDatabase.email, faceObjectInDatabase.password);
-
+                break;
             } else {
                 setFaceLoginStatus("Hmm.. we couldn't recognize your face. Please try again.");
                 setIsLoading(false);
