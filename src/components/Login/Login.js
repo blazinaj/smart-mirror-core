@@ -46,11 +46,19 @@ const Login = (props) => {
         }
     };
 
+    const guestLoginCommand = {
+        command: ["mirror mirror on the wall login as guest"],
+        answer: "Logging in as guest user!",
+        func: () => loginGuest()
+    };
+
+
     const voiceContext = useContext(VoiceCommandsContext);
 
     useEffect(() => {
         voiceContext.SpeechRecognitionHook.addCommand(manualLoginCommand);
         voiceContext.SpeechRecognitionHook.addCommand(faceLoginCommand);
+        voiceContext.SpeechRecognitionHook.addCommand(guestLoginCommand);
     }, []);
 
     const matchFace = async (descriptor) => {
