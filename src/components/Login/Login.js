@@ -52,6 +52,12 @@ const Login = (props) => {
         func: () => loginGuest()
     };
 
+    const demoLoginCommand = {
+        command: ["mirror mirror on the wall demo account"],
+        answer: "Starting up demo!",
+        func: () => login("DemoAccount", "DemoAccount")
+    };
+
 
     const voiceContext = useContext(VoiceCommandsContext);
 
@@ -59,6 +65,7 @@ const Login = (props) => {
         voiceContext.SpeechRecognitionHook.addCommand(manualLoginCommand);
         voiceContext.SpeechRecognitionHook.addCommand(faceLoginCommand);
         voiceContext.SpeechRecognitionHook.addCommand(guestLoginCommand);
+        voiceContext.SpeechRecognitionHook.addCommand(demoLoginCommand);
     }, []);
 
     const matchFace = async (descriptor) => {
