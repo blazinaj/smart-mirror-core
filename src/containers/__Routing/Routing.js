@@ -68,12 +68,22 @@ const RoutingBody = (props) => {
         }
     };
 
+    const faceDemoPageCommand = {
+        command: ["Mirror mirror on the wall Go to face demo page", "mirror mirror go to face demo page"],
+        answer: "Going to face demo",
+        func: () => {
+            loggingContext.addLog("Voice Command: Going to face demo");
+            history.push("/face_demo")
+        }
+    };
+
     useEffect(() => {
         voiceContext.addCommand(homePageCommand);
         voiceContext.addCommand(testPageCommand);
         voiceContext.addCommand(sleepPageCommand);
         voiceContext.addCommand(logoutCommand);
         voiceContext.addCommand(voiceDemoPageCommand);
+        voiceContext.addCommand(faceDemoPageCommand);
     }, []);
 
     return (
