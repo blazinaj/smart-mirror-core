@@ -9,6 +9,7 @@ import {LoggingContext} from "../../context/LoggingContext";
 import TestPage from "../TestPage/TestPage";
 import Sleep from "../Sleep/Sleep";
 import VoiceDemo from "../../components/VoiceDemo/VoiceDemo";
+import FaceDemo from "../FaceDemo/FaceDemo";
 
 const RoutingBody = (props) => {
 
@@ -88,6 +89,9 @@ const RoutingBody = (props) => {
             </PrivateRoute>
             <PrivateRoute exact path="/voice_demo" mongoHook={mongoHook}>
                 <VoiceDemo/>
+            </PrivateRoute>
+            <PrivateRoute exact path="/face_demo" mongoHook={mongoHook}>
+                <FaceDemo/>
             </PrivateRoute>
             <Route exact path="/sleep">
                 <Sleep/>
