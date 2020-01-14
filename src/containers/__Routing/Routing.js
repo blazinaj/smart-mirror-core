@@ -73,7 +73,7 @@ const RoutingBody = (props) => {
         func: (async () => {
             mongoHook.logout();
             await mongoHook.registerWithVoice()
-                .then(() => {
+                .finally(() => {
                     history.push("/");
                 });
         })

@@ -14,19 +14,21 @@ import {LoggingContext} from "../context/LoggingContext";
  * @param input
  * @returns {{isLoggedIn, login: login, register: register, logout: logout, authenticatedUser, UserCard: *}}
  */
-export const useMongo = (input) => {
+export const useMongo = (input, logger) => {
 
     const loggingContext = useLogger();//useContext(LoggingContext).logger;
 
     const [isLoggedIn, setIsLoggedIn] = useState(false);
     const [authenticatedUser, setAuthenticatedUser] = useState({});
 
+    const [userId, setUserId] = useState("");
+
     const loginGuestUser = async () => {
         let client = Stitch.defaultAppClient;
         let error;
         await client.auth.loginWithCredential(new AnonymousCredential())
             .then(guest => {
-                console.log("Successfully logged in as Guest User! ("+guest.id+")");
+                loggingContext.addLog("Successfully logged in as Guest User! ("+guest.id+")");
 
                 const db = client.getServiceClient(RemoteMongoClient.factory, 'mongodb-atlas').db('smart_mirror');
                 db.collection("users").updateOne({userId: client.auth.user.id},
@@ -59,7 +61,7 @@ export const useMongo = (input) => {
         await client.auth.loginWithCredential(credential)
         // Returns a promise that resolves to the authenticated user
             .then(authedUser => {
-                console.log(`successfully logged in with id: ${authedUser.id}`);
+                loggingContext.addLog(`successfully logged in with id: ${authedUser.id}`);
                 setAuthenticatedUser(authedUser);
                 setIsLoggedIn(true);
             })
@@ -78,10 +80,12 @@ export const useMongo = (input) => {
         let password = Math.random().toString(36).substring(2, 18).substring(0, 8);
 
         register(email, password)
-            .then(() => {
+            .then(async () => {
                 const db = client.getServiceClient(RemoteMongoClient.factory, 'mongodb-atlas').db('smart_mirror');
+                logger.addLog(authenticatedUser);
                 db.collection("temporary_registration").updateOne({userId: client.auth.user.id},
                     {$set: {pincode: pincode, email: email, password: password}}, {upsert:true});
+                loggingContext.addLog(`Registered with voice user: ${client.auth.user.id}`)
             });
     };
 
@@ -90,13 +94,13 @@ export const useMongo = (input) => {
         let emailPasswordClient = client.auth.getProviderClient(UserPasswordAuthProviderClient.factory);
         emailPasswordClient.registerWithEmail(email, password)
             .then(async (data) => {
-                console.log("Registration data: " + JSON.stringify(data));
+                loggingContext.addLog("Registration data: " + JSON.stringify(data));
                 const credential = new UserPasswordCredential(email, password);
                 let error;
                 await client.auth.loginWithCredential(credential)
                 // Returns a promise that resolves to the authenticated user
                     .then(authedUser => {
-                        console.log(`successfully logged in with id: ${authedUser.id} and email: ${authedUser.email}`);
+                        loggingContext.addLog(`successfully logged in with id: ${authedUser.id} and email: ${authedUser.email}`);
                         setAuthenticatedUser(authedUser);
                         setIsLoggedIn(true);
 
@@ -133,7 +137,7 @@ export const useMongo = (input) => {
                }
             })
             .catch(err => {
-                loggingContext.addLog(`Error logging in user with pincode: ${err}`);
+                console.error(`Error logging in user with pincode: ${err}`);
                 error = err;
             });
         return error;

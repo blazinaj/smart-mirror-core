@@ -40,7 +40,7 @@ const App = () => {
         logger.addLog("Client Intitialized")
     }, []);
 
-    const mongoHook = useMongo(client);
+    const mongoHook = useMongo(client, logger);
 
     const openLogsCommand = {
         command: ["mirror mirror on the wall open logs", "mirror mirror on the wall show logs"],
