@@ -185,9 +185,34 @@ const Login = (props) => {
         }
     };
 
+    // const loginWithPincode = async () => {
+    //         history.push("/pincode_login");
+    // };
+
+    const [pincode, setPincode] = useState("");
+
+    const loginPincode = async () => {
+        let result = await props.mongoHook.loginPinCode(pincode)
+        if(result){
+            alert("Pin login malfunctioned, please try again!");
+        }
+        else {
+            history.push("/");
+        }
+    };
+
     // These settings hide and display developer dropdown menu on navbar
     const [isOpenNav, setIsOpenNav] = useState(false);
     const toggleNav = () => setIsOpenNav(!isOpenNav);
+
+    // Controls if email login and buttons are visible
+    const [isOpenEmailLogin, setIsOpenEmailLogin] = useState(true);
+    const [isOpenPinLogin, setIsOpenPinLogin] = useState(false);
+
+    const toggleLogin = () => {
+        setIsOpenEmailLogin(!isOpenEmailLogin);
+        setIsOpenPinLogin(!isOpenPinLogin);
+    };
 
     // These settings hide and display the alert
     const [visibleIncorrectInformation, setVisibleIncorrectInformation] = useState(false);
@@ -235,22 +260,37 @@ const Login = (props) => {
             <Alert color="info" isOpen={visibleIncorrectInformation} toggle={onDismiss}>
                 Incorrect email or password!
             </Alert>
-            <Form>
-                <div class="col-xs-9 col-md-7" id={"inputFieldsLogin"}>
+            <Collapse isOpen={isOpenEmailLogin}>
+                <Form>
+                    <div class="col-xs-9 col-md-7" id={"inputFieldsLogin"}>
+                        <InputGroup className={"inputGroupLogin"}>
+                            <InputGroupAddon className={"pre-pend"} addonType="prepend">Email</InputGroupAddon>
+                            <Input className={"inputField"} type="email" value={email} placeholder="Email..." onChange={(e) => setEmail(e.target.value)}/>
+                        </InputGroup>
+                        <br />
+                        <InputGroup className={"inputGroupLogin"}>
+                            <InputGroupAddon className={"pre-pend"} addonType="prepend">Password</InputGroupAddon>
+                            <Input className={"inputField"} type="password" value={password} placeholder="Password..." onChange={(e) => setPassword(e.target.value)}/>
+                        </InputGroup>
+                    </div>
+                    <Button className={"authButton"}  onClick={() => login()}>Login</Button>
+                    <Button className={"authButton"}  onClick={() => loginGuest()}>Guest</Button>
+                    <Button className={"authButton"}  onClick={() => toggleLogin()}>Pin</Button>
+                    <Button className={"authButton"}  onClick={() => props.mongoHook.register(email, password)}>Register</Button>
+                </Form>
+            </Collapse>
+            <Collapse isOpen={isOpenPinLogin}>
+                <div className="col-xs-9 col-md-7" id={"inputFieldsLogin"}>
                     <InputGroup className={"inputGroupLogin"}>
-                        <InputGroupAddon className={"pre-pend"} addonType="prepend">Email</InputGroupAddon>
-                        <Input className={"inputField"} type="email" value={email} placeholder="Email..." onChange={(e) => setEmail(e.target.value)}/>
+                        <InputGroupAddon className={"pre-pend"} addonType="prepend">Pincode</InputGroupAddon>
+                        <Input className={"inputField"} type="text" value={pincode} placeholder="Pincode..." onChange={(e) => setPincode(e.target.value)}/>
                     </InputGroup>
                     <br />
-                    <InputGroup className={"inputGroupLogin"}>
-                        <InputGroupAddon className={"pre-pend"} addonType="prepend">Password</InputGroupAddon>
-                        <Input className={"inputField"} type="password" value={password} placeholder="Password..." onChange={(e) => setPassword(e.target.value)}/>
-                    </InputGroup>
+                    <Button color="secondary" onClick={() => toggleLogin()}>Back</Button>
+                    &nbsp;
+                    <Button color="primary" onClick={() => loginPincode()}>Confirm</Button>
                 </div>
-                <Button className={"authButton"}  onClick={() => login()}>Login</Button>
-                <Button className={"authButton"}  onClick={() => loginGuest()}>Guest</Button>
-                <Button className={"authButton"}  onClick={() => props.mongoHook.register(email, password)}>Register</Button>
-            </Form>
+            </Collapse>
             <div>
             {
                 faceApiHook.videoFeed

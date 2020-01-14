@@ -53,8 +53,8 @@ const RoutingBody = (props) => {
         command: ["mirror mirror on the wall logout"],
         answer: "Logging out",
         func: () => {
-            loggingContext.addLog("Voice Command: Logging out")
-            appContext.mongoHook.logout()
+            loggingContext.addLog("Voice Command: Logging out");
+            mongoHook.logout()
         }
     };
 
@@ -67,12 +67,25 @@ const RoutingBody = (props) => {
         }
     };
 
+    const registerAccountCommand = {
+        command: ["Mirror mirror on the wall register new account"],
+        answer: "Registering new account, one moment!",
+        func: (async () => {
+            mongoHook.logout();
+            await mongoHook.registerWithVoice()
+                .then(() => {
+                    history.push("/");
+                });
+        })
+    };
+
     useEffect(() => {
         voiceContext.addCommand(homePageCommand);
         voiceContext.addCommand(testPageCommand);
         voiceContext.addCommand(sleepPageCommand);
         voiceContext.addCommand(logoutCommand);
         voiceContext.addCommand(voiceDemoPageCommand);
+        voiceContext.addCommand(registerAccountCommand);
     }, []);
 
     return (

@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useContext } from "react";
 import {
     RemoteMongoClient,
     Stitch,
@@ -6,6 +6,8 @@ import {
     UserPasswordCredential
 } from "mongodb-stitch-browser-sdk";
 import {AnonymousCredential} from "mongodb-stitch-core-sdk";
+import {VoiceCommandsContext} from "../context/VoiceCommandsContext";
+import {useLogger} from "./useLogger";
 
 /**
  * @description Performs Authentication and Database calls against our MongoDB Stitch Application
@@ -13,6 +15,8 @@ import {AnonymousCredential} from "mongodb-stitch-core-sdk";
  * @returns {{isLoggedIn, login: login, register: register, logout: logout, authenticatedUser, UserCard: *}}
  */
 export const useMongo = (input) => {
+
+    const logger = useLogger();
 
     const [isLoggedIn, setIsLoggedIn] = useState(false);
     const [authenticatedUser, setAuthenticatedUser] = useState({});
@@ -66,6 +70,21 @@ export const useMongo = (input) => {
         return error;
     };
 
+    const registerWithVoice = async () => {
+        let client = Stitch.defaultAppClient;
+        // Add temp user to DB
+        let pincode = Math.random().toString(36).substring(2, 18).substring(0, 8);
+        let email = Math.random().toString(36).substring(2, 18).substring(0, 8);
+        let password = Math.random().toString(36).substring(2, 18).substring(0, 8);
+
+        register(email, password)
+            .then(() => {
+                const db = client.getServiceClient(RemoteMongoClient.factory, 'mongodb-atlas').db('smart_mirror');
+                db.collection("temporary_registration").updateOne({userId: client.auth.user.id},
+                    {$set: {pincode: pincode, email: email, password: password}}, {upsert:true});
+            });
+    };
+
     const register = async (email, password) => {
         let client = Stitch.defaultAppClient;
         let emailPasswordClient = client.auth.getProviderClient(UserPasswordAuthProviderClient.factory);
@@ -98,6 +117,26 @@ export const useMongo = (input) => {
 
     };
 
+    const loginPinCode = async (pin) => {
+        let client = Stitch.defaultAppClient;
+        const db = client.getServiceClient(RemoteMongoClient.factory, 'mongodb-atlas').db('smart_mirror');
+        await db.collection('temporary_registration')
+            .findOne({pincode: pin})
+            .then(user => {
+               if(user){
+                   login(user.email, user.password);
+                   logger.addLog(`email: ${user.email}   pass: ${user.password}`)
+               }
+               else{
+                   alert("NULL?"); //TODO
+               }
+            })
+            .catch(err => {
+                logger.addLog(`Error logging in user with pincode: ${err}`)
+            });
+    };
+
+
     const logout = () => {
         setAuthenticatedUser({});
         setIsLoggedIn(false);
@@ -106,7 +145,9 @@ export const useMongo = (input) => {
     return {
         isLoggedIn,
         loginGuestUser,
+        loginPinCode,
         login,
+        registerWithVoice,
         register,
         logout,
         authenticatedUser
