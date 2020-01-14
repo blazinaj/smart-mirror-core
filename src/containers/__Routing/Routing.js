@@ -55,6 +55,7 @@ const RoutingBody = (props) => {
         func: () => {
             loggingContext.addLog("Voice Command: Logging out")
             appContext.mongoHook.logout()
+            history.push("/logged out with voice")
         }
     };
 
@@ -67,12 +68,22 @@ const RoutingBody = (props) => {
         }
     };
 
+    const gestureDemoPageCommand = {
+        command: ["Mirror mirror on the wall Go to gesture demo page"],
+        answer: "Going to gesture demo",
+        func: () => {
+            loggingContext.addLog("Voice Command: Going to gesture demo");
+            history.push("/voice_demo")// left it at voice_demo  for now will need a PrivateRoute for it
+        }
+    };
+
     useEffect(() => {
         voiceContext.addCommand(homePageCommand);
         voiceContext.addCommand(testPageCommand);
         voiceContext.addCommand(sleepPageCommand);
         voiceContext.addCommand(logoutCommand);
         voiceContext.addCommand(voiceDemoPageCommand);
+        voiceContext.addCommand(gestureDemoPageCommand);
     }, []);
 
     return (
