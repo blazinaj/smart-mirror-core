@@ -192,9 +192,9 @@ const Login = (props) => {
     const [pincode, setPincode] = useState("");
 
     const loginPincode = async () => {
-        let result = await props.mongoHook.loginPinCode(pincode)
-        if(result){
-            alert("Pin login malfunctioned, please try again!");
+        let error = await props.mongoHook.loginPinCode(pincode);
+        if(error){
+            console.log("Could not login!")
         }
         else {
             history.push("/");

@@ -6,8 +6,8 @@ import {
     UserPasswordCredential
 } from "mongodb-stitch-browser-sdk";
 import {AnonymousCredential} from "mongodb-stitch-core-sdk";
-import {VoiceCommandsContext} from "../context/VoiceCommandsContext";
 import {useLogger} from "./useLogger";
+import {LoggingContext} from "../context/LoggingContext";
 
 /**
  * @description Performs Authentication and Database calls against our MongoDB Stitch Application
@@ -16,7 +16,7 @@ import {useLogger} from "./useLogger";
  */
 export const useMongo = (input) => {
 
-    const logger = useLogger();
+    const loggingContext = useLogger();//useContext(LoggingContext).logger;
 
     const [isLoggedIn, setIsLoggedIn] = useState(false);
     const [authenticatedUser, setAuthenticatedUser] = useState({});
@@ -118,22 +118,25 @@ export const useMongo = (input) => {
     };
 
     const loginPinCode = async (pin) => {
+        let error;
         let client = Stitch.defaultAppClient;
         const db = client.getServiceClient(RemoteMongoClient.factory, 'mongodb-atlas').db('smart_mirror');
         await db.collection('temporary_registration')
             .findOne({pincode: pin})
-            .then(user => {
+            .then(async user => {
                if(user){
-                   login(user.email, user.password);
-                   logger.addLog(`email: ${user.email}   pass: ${user.password}`)
+                   error = await login(user.email, user.password);
                }
                else{
-                   alert("NULL?"); //TODO
+                   loggingContext.addLog(`User not found for pin: ${pin}`);
+                   error = `User not found for pin: ${pin}`;
                }
             })
             .catch(err => {
-                logger.addLog(`Error logging in user with pincode: ${err}`)
+                loggingContext.addLog(`Error logging in user with pincode: ${err}`);
+                error = err;
             });
+        return error;
     };
 
 
