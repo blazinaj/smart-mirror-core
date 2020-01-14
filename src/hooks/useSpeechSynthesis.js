@@ -16,7 +16,7 @@ const useSpeechSynthesis = () => {
     const [voiceIndex, setVoiceIndex] = useState(null);
 
     const onEnd = () => {
-       alert("finished Speaking") // You could do something here after speaking has finished
+       //alert("finished Speaking") // You could do something here after speaking has finished
     };
 
     const voice = voices[voiceIndex] || null;
