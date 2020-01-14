@@ -9,14 +9,14 @@ const Sleep = (props) => {
     const voiceContext = useContext(VoiceCommandsContext).SpeechRecognitionHook;
 
     const hideClockCommand = {
-        command: ["mirror mirror on the wall hide clock", "mirror mirror on the wall hide the clock", "mirror mirror on the wall close clock"],
+        command: ["mirror mirror on the wall hide clock", "mirror mirror on the wall hide the clock", "mirror mirror on the wall close clock", "mirror mirror hide clock", "mirror mirror hide the clock", "mirror mirror close clock"],
         answer: "Hiding Clock",
         func: () => setShowClock(false)
     };
 
 
     const showClockCommand = {
-        command: ["mirror mirror on the wall show clock", "mirror mirror on the wall open clock", "mirror mirror on the wall show the clock"],
+        command: ["mirror mirror on the wall show clock", "mirror mirror on the wall open clock", "mirror mirror on the wall show the clock", "mirror mirror show clock", "mirror mirror open clock", "mirror mirror show the clock"],
         answer: "Showing Clock",
         func: () => setShowClock(true)
     };

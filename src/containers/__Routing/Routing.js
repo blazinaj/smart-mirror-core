@@ -23,7 +23,7 @@ const RoutingBody = (props) => {
     const history = useHistory();
 
     const homePageCommand = {
-        command: ["Mirror mirror on the wall Go to home page", "mirror mirror on the wall go home", "mirror mirror on the wall wake up"],
+        command: ["Mirror mirror on the wall Go to home page", "mirror mirror on the wall go home", "mirror mirror on the wall wake up", "Mirror mirror Go to home page", "mirror mirror go home", "mirror mirror wake up"],
         answer: "Routing to Home Page",
         func: () => {
             loggingContext.addLog("Voice Command: Routed to Home Page");
@@ -32,7 +32,7 @@ const RoutingBody = (props) => {
     };
 
     const testPageCommand = {
-        command: "Mirror mirror on the wall Go to test page",
+        command: ["Mirror mirror on the wall Go to test page", "Mirror mirror Go to test page"],
         answer: "Routing to Test Page",
         func: () => {
             loggingContext.addLog("Voice Command: Routed to Test Page");
@@ -41,7 +41,7 @@ const RoutingBody = (props) => {
     };
 
     const sleepPageCommand = {
-        command: ["Mirror mirror on the wall Go to sleep"],
+        command: ["Mirror mirror on the wall Go to sleep", "Mirror mirror Go to sleep"],
         answer: "Going to sleep",
         func: () => {
             loggingContext.addLog("Voice Command: Going to sleep");
@@ -50,7 +50,7 @@ const RoutingBody = (props) => {
     };
 
     const logoutCommand = {
-        command: ["mirror mirror on the wall logout"],
+        command: ["mirror mirror on the wall logout", "mirror mirror logout"],
         answer: "Logging out",
         func: () => {
             loggingContext.addLog("Voice Command: Logging out")
@@ -59,7 +59,7 @@ const RoutingBody = (props) => {
     };
 
     const voiceDemoPageCommand = {
-        command: ["Mirror mirror on the wall Go to voice demo page"],
+        command: ["Mirror mirror on the wall Go to voice demo page", "Mirror mirror Go to voice demo page"],
         answer: "Going to voice demo",
         func: () => {
             loggingContext.addLog("Voice Command: Going to voice demo");
