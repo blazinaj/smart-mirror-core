@@ -30,8 +30,8 @@ export const useDatabase = () => {
         return db.collection(collection).updateOne(mutation)
     };
 
-    const updateOne = (collection, mutation) => {
-        return db.collection(collection).updateOne(mutation)
+    const updateOne = (collection, query, mutation) => {
+        return db.collection(collection).updateOne(query, mutation)
     };
 
     return {

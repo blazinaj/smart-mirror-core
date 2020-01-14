@@ -1,7 +1,7 @@
 import React, { useState, useContext, useEffect, useRef } from "react";
 import * as faceapi from "face-api.js";
 import Webcam from "react-webcam";
-import {Button, Input, ListGroup, ListGroupItem, Spinner} from "reactstrap";
+import {Button, Input, ListGroup, ListGroupItem, Row, Spinner} from "reactstrap";
 
 const useFace = (loadedModels, descriptors) => {
 
@@ -51,7 +51,7 @@ const useFace = (loadedModels, descriptors) => {
 
     const getDescriptorsFromImage = async (label, htmlElement="video-feed") => {
 
-        setModelsAreLoading(true);
+        // setModelsAreLoading(true);
         const input = document.getElementById(htmlElement);
 
         const result = await faceapi
@@ -59,7 +59,7 @@ const useFace = (loadedModels, descriptors) => {
             .withFaceLandmarks()
             .withFaceDescriptor();
 
-        setModelsAreLoading(false);
+        // setModelsAreLoading(false);
 
         if (result !== undefined && result !== null) {
             return new faceapi.LabeledFaceDescriptors(
@@ -82,7 +82,7 @@ const useFace = (loadedModels, descriptors) => {
     };
 
     const saveImage = async (htmlElement) => {
-        setModelsAreLoading(true);
+        // setModelsAreLoading(true);
         await loadModels().then(() => setModelsAreLoading(false));
 
         const input = document.getElementById(htmlElement);
@@ -96,7 +96,6 @@ const useFace = (loadedModels, descriptors) => {
     };
 
     const checkForMatch = async (htmlElement) => {
-        await loadModels();
 
         const input = document.getElementById(htmlElement);
 
@@ -141,18 +140,9 @@ const useFace = (loadedModels, descriptors) => {
         <div>
             {
                 modelsAreLoading &&
-                <Spinner
-                    color="primary"
-                    style={{
-                        width: '10rem',
-                        height: '10rem',
-                        position: "absolute",
-                        top: "50%",
-                        left: "50%",
-                        zIndex: 9999
-                    }}
-                    type="grow"
-                />
+                    <h4 style={{color: "white"}}> Loading Tensor Flow Models..
+                        <Spinner color="primary"/>
+                    </h4>
             }
             <Webcam
                 id="video-feed"

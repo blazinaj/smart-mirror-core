@@ -5,7 +5,7 @@
  *              NOTE: AutoConfirm is currently turned on in Stitch settings.
  */
 
-import {useState, useEffect} from "react";
+import {useState, useEffect, useContext} from "react";
 import PropTypes from "prop-types";
 import {
     Alert, Button, Collapse, DropdownItem, DropdownMenu, DropdownToggle,
@@ -18,25 +18,94 @@ import useFace from "../../hooks/useFace";
 import * as faceapi from "face-api.js";
 import {Stitch} from "mongodb-stitch-browser-core";
 import {RemoteMongoClient} from "mongodb-stitch-browser-services-mongodb-remote";
+import {useHistory, useLocation} from "react-router-dom";
+import {VoiceCommandsContext} from "../../context/VoiceCommandsContext";
+import {LoggingContext} from "../../context/LoggingContext";
+import {AppContext} from "../../context/AppContext";
 
 const Login = (props) => {
 
-    const [loginAttempt, setLoginAttempt] = useState(0);
-    const [enableFaceLogin, setEnableFaceLogin] = useState(true);
+    const [loginAttempt, setLoginAttempt] = useState(1);
     const [faceLoginStatus, setFaceLoginStatus] = useState(null);
+    const [isLoading, setIsLoading] = useState(false);
+
+    const history = useHistory();
+
+    const manualLoginCommand = {
+        command: "Mirror mirror on the wall Log me in",
+        answer: "Yes sir, logging in",
+        func: () => login()
+    };
+
+    const faceLoginCommand = {
+        command: ["Face Login", "mirror mirror on the wall check my face", "mirror mirror on the wall face log in"],
+        answer: "I'm Trying to detect your face",
+        func: async () => {
+            let descriptor = await faceApiHook.getDescriptorsFromImage("jacob", "video-feed");
+            console.log("Got Descriptor: " + JSON.stringify(descriptor));
+            await matchFace(descriptor);
+        }
+    };
+
+    const guestLoginCommand = {
+        command: ["mirror mirror on the wall login as guest"],
+        answer: "Logging in as guest user!",
+        func: () => loginGuest()
+    };
+
+    const demoLoginCommand = {
+        command: ["mirror mirror on the wall demo account"],
+        answer: "Starting up demo!",
+        func: () => login("DemoAccount", "DemoAccount")
+    };
+
+    const faceApiHook = useFace();
+    const loggingContext = useContext(LoggingContext).logger;
+    const voiceContext = useContext(VoiceCommandsContext);
+    const debuggingTools = useContext(AppContext).debuggingTools;
+
+    useEffect(() => {
+        voiceContext.SpeechRecognitionHook.addCommand(manualLoginCommand);
+        voiceContext.SpeechRecognitionHook.addCommand(faceLoginCommand);
+        voiceContext.SpeechRecognitionHook.addCommand(guestLoginCommand);
+        voiceContext.SpeechRecognitionHook.addCommand(demoLoginCommand);
+    }, []);
+
+    useEffect(() => {
+
+        const initialFaceLogin = async () => {
+            await tryFaceLogin();
+        };
+
+        if (!faceApiHook.modelsAreLoading){
+            loggingContext.addLog("Trying Initial Face Login");
+            window.setTimeout(() => {
+                initialFaceLogin();
+            }, 1000)
+        }
+        else {
+            loggingContext.addLog("Couldn't perform Initial Face Login: Models are still loading");
+        }
+    }, [faceApiHook.modelsAreLoading]);
 
     const matchFace = async (descriptor) => {
+        if (isLoading) {
+            return;
+        }
+        else {
+            setIsLoading(true);
+        }
         const client = Stitch.defaultAppClient;
 
         const db = client.getServiceClient(RemoteMongoClient.factory, 'mongodb-atlas').db('smart_mirror');
-        console.log("Trying to match Face to user ID: " + client.auth.user.id + "...");
+        loggingContext.addLog("Trying to match Face to user ID: " + client.auth.user.id + "...");
         let faces = await db.collection('face_descriptors').find({}, { limit: 100}).asArray();
-        console.log("Fetched Faces from database: " + JSON.stringify(faces));
-        console.log("Trying to match face..");
+        loggingContext.addLog("Fetched Faces from database: " + JSON.stringify(faces));
+        loggingContext.addLog("Trying to match face..");
 
         if (!descriptor) {
-            // alert("Could not match face!!!");
-            setFaceLoginStatus("Could not match face!!!")
+            setFaceLoginStatus("Could not match face!!!");
+            setIsLoading(false);
             return null;
         }
 
@@ -64,59 +133,55 @@ const Login = (props) => {
 
             console.log("euclidean distance: " + dist);
 
-            if (dist < 0.35) {
+            if (dist < 0.5) {
+                setIsLoading(false);
                 match = faceObjectInDatabase.owner_id;
                 setEmail(faceObjectInDatabase.email);
                 setPassword(faceObjectInDatabase.password);
                 setFaceLoginStatus("Hello - " + faceObjectInDatabase.email + ". Logging you in now..");
-                // alert("Hello - " + faceObjectInDatabase.email + ". Logging you in now..");
-                setEnableFaceLogin(false);
-                setTimeout(() => {
-                    props.mongoHook.login(faceObjectInDatabase.email, faceObjectInDatabase.password);
-                }, 5000);
+                voiceContext.SpeechRecognitionHook.speak(`Face Matched with ${100 - dist.toFixed(2) * 100}% accuracy. Hello ${faceObjectInDatabase.email}, you are now logged in.`);
+                login(faceObjectInDatabase.email, faceObjectInDatabase.password);
+                break;
             } else {
-                setTimeout(() => {
-                    setFaceLoginStatus("Hmm.. we couldn't recognize your face. Please try again.");
-                }, 5000);
-                // alert("Hmm.. we couldn't recognize your face. Please try again.")
+                setFaceLoginStatus("Hmm.. we couldn't recognize your face. Please try again.");
+                setIsLoading(false);
             }
 
         }
 
-        console.log("Match = " + match);
-        setLoginAttempt(loginAttempt + 1)
+        loggingContext.addLog("Match = " + match);
     };
 
-    const faceApiHook = useFace();
-
-    useEffect(() => {
-        let tryFaceLogin = async () => {
-            let descriptor = await faceApiHook.getDescriptorsFromImage("jacob", "video-feed");
-            console.log("Got Descriptor: " + JSON.stringify(descriptor));
-            await matchFace(descriptor);
-        };
-
-        if (enableFaceLogin) {
-            setTimeout(() => {
-                if (!faceApiHook.modelsAreLoading) {
-                    tryFaceLogin();
-                } else {
-                    setLoginAttempt(loginAttempt + 1)
-                }
-            }, 1000);
-        }
-
-    }, [loginAttempt]);
+    let tryFaceLogin = async () => {
+        setLoginAttempt(loginAttempt => loginAttempt + 1);
+        loggingContext.addLog(`Trying Face Login [Attempt ${loginAttempt}]`);
+        let descriptor = await faceApiHook.getDescriptorsFromImage("jacob", "video-feed");
+        loggingContext.addLog("Got Descriptor: " + JSON.stringify(descriptor));
+        await matchFace(descriptor);
+    };
 
     // These settings store state of email and password
-    const [email, setEmail] = useState('lichtschwert@live.com');
-    const [password, setPassword] = useState('FakePassword');
+    const [email, setEmail] = useState('');
+    const [password, setPassword] = useState('');
 
     // Login function
-    const login = async () => {
-        let result = await props.mongoHook.login(email, password);
+    const login = async (optionalEmail, optionalPassword) => {
+        let result = await props.mongoHook.login(optionalEmail || email, optionalPassword || password);
         if(result){
             setVisibleIncorrectInformation();
+        }
+        else {
+            history.push("/");
+        }
+    };
+
+    const loginGuest = async () => {
+        let result = await props.mongoHook.loginGuestUser();
+        if(result){
+            alert("Guest user malfunctioned, please try again!");
+        }
+        else {
+            history.push("/");
         }
     };
 
@@ -144,6 +209,24 @@ const Login = (props) => {
                                 <DropdownItem className="dropdownItem" href="https://github.com/blazinaj/smart-mirror-core/tree/master">
                                     Github
                                 </DropdownItem>
+                                <DropdownItem
+                                    className="dropdownItem"
+                                    onClick={() => debuggingTools.setShowLogger(!debuggingTools.showLogger)}
+                                >
+                                    {debuggingTools.showLogger ? "Hide" : "Show"} Logger
+                                </DropdownItem>
+                                <DropdownItem
+                                    className="dropdownItem"
+                                    onClick={() => debuggingTools.setShowTranscript(!debuggingTools.showTranscript)}
+                                >
+                                    {debuggingTools.showTranscript ? "Hide" : "Show"} Transcript
+                                </DropdownItem>
+                                <DropdownItem
+                                    className="dropdownItem"
+                                    onClick={() => debuggingTools.setShowIntendArray(!debuggingTools.showIntendArray)}
+                                >
+                                    {debuggingTools.showIntendArray ? "Hide" : "Show"} Current Commands
+                                </DropdownItem>
                             </DropdownMenu>
                         </UncontrolledDropdown>
                     </Nav>
@@ -165,6 +248,7 @@ const Login = (props) => {
                     </InputGroup>
                 </div>
                 <Button className={"authButton"}  onClick={() => login()}>Login</Button>
+                <Button className={"authButton"}  onClick={() => loginGuest()}>Guest</Button>
                 <Button className={"authButton"}  onClick={() => props.mongoHook.register(email, password)}>Register</Button>
             </Form>
             <div>
@@ -178,23 +262,10 @@ const Login = (props) => {
                     </Alert>
                 }
             <Button
-                onClick={
-                    async () => {
-                        let descriptor = await faceApiHook.getDescriptorsFromImage("jacob", "video-feed");
-                        console.log("Got Descriptor: " + JSON.stringify(descriptor));
-                        matchFace(descriptor)
-                    }
-                }
+                onClick={() => tryFaceLogin()}
             >
                 Facial Recognition Login (Attempt: {loginAttempt})
             </Button>
-                {" "}
-                <Button
-                    color="danger"
-                    onClick={() => setEnableFaceLogin(false)}
-                >
-                    Cancel Auto Login
-                </Button>
             </div>
         </div>
     )

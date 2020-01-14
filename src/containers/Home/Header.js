@@ -9,7 +9,7 @@ import {Button} from "reactstrap";
 import React from "react";
 import {AppContext} from "../../context/AppContext";
 
-const DefaultHeader = () => {
+const Header = () => {
 
     const context = useContext(AppContext);
 
@@ -27,17 +27,11 @@ const DefaultHeader = () => {
             <h1>Smart Mirror Core</h1>
             <Button color="danger" onClick={() => context.mongoHook.logout()}>Log Out</Button>
             {
-                profileHook.userModalHook.modalButton
-            }
-            {
-                profileHook.faceLoginSetupHook.modalButton
-            }
-            {
-                profileHook.useModalGoogleCalendarConfig.modalButton
+                profileHook.accountManagerHook.modalButton
             }
         </div>
     )
 
 };
 
-export default DefaultHeader;
+export default Header;
