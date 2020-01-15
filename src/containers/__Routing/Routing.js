@@ -9,6 +9,7 @@ import {LoggingContext} from "../../context/LoggingContext";
 import TestPage from "../TestPage/TestPage";
 import Sleep from "../Sleep/Sleep";
 import VoiceDemo from "../../components/VoiceDemo/VoiceDemo";
+import GestureDemo from "../GestureDemo/GestureDemo";
 
 const RoutingBody = (props) => {
 
@@ -55,6 +56,7 @@ const RoutingBody = (props) => {
         func: () => {
             loggingContext.addLog("Voice Command: Logging out")
             appContext.mongoHook.logout()
+            //history.push("/");
         }
     };
 
@@ -68,7 +70,7 @@ const RoutingBody = (props) => {
     };
 
     const gestureDemoPageCommand = {
-        command: ["Mirror mirror on the wall Go to gesture demo page",  "Mirror mirror go to gesture demo page"],
+        command: ["Mirror mirror on the wall Go to gesture demo page",  "Mirror mirror Go to gesture demo page"],
         answer: "Going to gesture demo page",
         func: () => {
             loggingContext.addLog("Voice Command: Going to gesture demo page");
@@ -99,6 +101,11 @@ const RoutingBody = (props) => {
             <PrivateRoute exact path="/voice_demo" mongoHook={mongoHook}>
                 <VoiceDemo/>
             </PrivateRoute>
+            {/* Art added this gesture_demo path for now but not sure it its set up correctly */}
+            <PrivateRoute exact path="/gesture_demo" mongoHook={mongoHook}>
+                <GestureDemo/>
+            </PrivateRoute>
+             
             <Route exact path="/sleep">
                 <Sleep/>
             </Route>
