@@ -26,7 +26,8 @@ const RoutingBody = (props) => {
     const registerVoiceModal = useModal("One moment, logging you in...", "Registration");
     const pinDisplayModal = useModal(<a> WRITE THIS NUMBER DOWN!<br /><br />
                                     <h2 style={{color: "red"}}>{mongoHook.pin}</h2><br />
-                                    This will be how you login next time to be able to change your info. Login using the Pin button on the login screen.<br /><br />
+                                    This will be how you login next time to be able to change your info. <br />
+                                    Login using the Pin button on the login screen on any PC or Mobile device<br /><br />
                                     This will only be shown to you once, and will be deleted within ? days, so remember to change your email and password!<br /><br />
                                     <h5>When finished say: </h5><h4 style={{color: "blue"}}>Mirror mirror on the wall close display</h4></a>,
             `IMPORTANT - PIN: ${mongoHook.pin}`);
