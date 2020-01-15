@@ -9,6 +9,7 @@ import {LoggingContext} from "../../context/LoggingContext";
 import TestPage from "../TestPage/TestPage";
 import Sleep from "../Sleep/Sleep";
 import VoiceDemo from "../../components/VoiceDemo/VoiceDemo";
+import FaceDemo from "../FaceDemo/FaceDemo";
 
 const RoutingBody = (props) => {
 
@@ -67,12 +68,22 @@ const RoutingBody = (props) => {
         }
     };
 
+    const faceDemoPageCommand = {
+        command: ["Mirror mirror on the wall Go to face demo page", "mirror mirror go to face demo page"],
+        answer: "Going to face demo",
+        func: () => {
+            loggingContext.addLog("Voice Command: Going to face demo");
+            history.push("/face_demo")
+        }
+    };
+
     useEffect(() => {
         voiceContext.addCommand(homePageCommand);
         voiceContext.addCommand(testPageCommand);
         voiceContext.addCommand(sleepPageCommand);
         voiceContext.addCommand(logoutCommand);
         voiceContext.addCommand(voiceDemoPageCommand);
+        voiceContext.addCommand(faceDemoPageCommand);
     }, []);
 
     return (
@@ -88,6 +99,9 @@ const RoutingBody = (props) => {
             </PrivateRoute>
             <PrivateRoute exact path="/voice_demo" mongoHook={mongoHook}>
                 <VoiceDemo/>
+            </PrivateRoute>
+            <PrivateRoute exact path="/face_demo" mongoHook={mongoHook}>
+                <FaceDemo/>
             </PrivateRoute>
             <Route exact path="/sleep">
                 <Sleep/>
