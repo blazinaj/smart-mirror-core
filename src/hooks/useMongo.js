@@ -16,7 +16,7 @@ import {LoggingContext} from "../context/LoggingContext";
  */
 export const useMongo = (input, logger) => {
 
-    const loggingContext = useLogger();//useContext(LoggingContext).logger;
+    const loggingContext = logger;
 
     const [isLoggedIn, setIsLoggedIn] = useState(false);
     const [authenticatedUser, setAuthenticatedUser] = useState({});
