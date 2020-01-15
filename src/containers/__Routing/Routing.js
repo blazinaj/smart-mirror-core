@@ -87,7 +87,7 @@ const RoutingBody = (props) => {
         answer: "Alright I will take you to gesture demo page",
         func: () => {
             loggingContext.addLog("Voice Command: Going to gesture demo page");
-            history.push("/")// left it blank  for now will need a PrivateRoute for it
+            history.push("/gesture_demo")
         }
     };
 
