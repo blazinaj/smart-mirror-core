@@ -1,15 +1,15 @@
 import React, { useState, useEffect, useContext } from "react";
 import {VoiceCommandsContext} from "../../context/VoiceCommandsContext";
 
+//adding a comment
 
 const VoiceDemo = (props) => {
 
     const { SpeechRecognitionHook } = useContext(VoiceCommandsContext);
 
     const whoIsTheManCommand = {
-        command: ["mirror mirror on the wall who is the man"],
-        answer: "Stu is the man",
-        func: () => {alert("Hello")}
+        command: ["mirror mirror on the wall who is the man", "mirror mirror who is the man"],
+        answer: "Stu is the man"
     };
     useEffect(() => {
         SpeechRecognitionHook.addCommand(whoIsTheManCommand);
