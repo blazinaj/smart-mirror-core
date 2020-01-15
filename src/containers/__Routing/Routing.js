@@ -70,8 +70,11 @@ const RoutingBody = (props) => {
     };
 
     const gestureDemoPageCommand = {
-        command: ["Mirror mirror on the wall Go to gesture demo page",  "Mirror mirror Go to gesture demo page"],
-        answer: "Going to gesture demo page",
+        command: ["Mirror mirror on the wall go to gesture demo page",  
+        "Mirror mirror go to gesture demo page", 
+        "Mirror mirror go to motion demo", 
+        "mirror mirror go to hand motion"],
+        answer: "Alright I will take you to gesture demo page",
         func: () => {
             loggingContext.addLog("Voice Command: Going to gesture demo page");
             history.push("/")// left it blank  for now will need a PrivateRoute for it
