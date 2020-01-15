@@ -50,12 +50,11 @@ const RoutingBody = (props) => {
     };
 
     const logoutCommand = {
-        command: ["mirror mirror on the wall logout"],
+        command: ["mirror mirror on the wall logout", "mirror mirror logout"],
         answer: "Logging out",
         func: () => {
             loggingContext.addLog("Voice Command: Logging out")
             appContext.mongoHook.logout()
-            history.push("/logged out with voice")
         }
     };
 
