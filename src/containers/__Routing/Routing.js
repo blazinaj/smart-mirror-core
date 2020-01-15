@@ -69,11 +69,11 @@ const RoutingBody = (props) => {
     };
 
     const gestureDemoPageCommand = {
-        command: ["Mirror mirror on the wall Go to gesture demo page"],
-        answer: "Going to gesture demo",
+        command: ["Mirror mirror on the wall Go to gesture demo page",  "Mirror mirror go to gesture demo page"],
+        answer: "Going to gesture demo page",
         func: () => {
-            loggingContext.addLog("Voice Command: Going to gesture demo");
-            history.push("/voice_demo")// left it at voice_demo  for now will need a PrivateRoute for it
+            loggingContext.addLog("Voice Command: Going to gesture demo page");
+            history.push("/")// left it blank  for now will need a PrivateRoute for it
         }
     };
 
