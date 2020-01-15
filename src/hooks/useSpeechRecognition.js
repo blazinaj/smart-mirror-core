@@ -39,11 +39,6 @@ const useSpeechRecognition = () => {
             answer: "Current time is " + new Date().toLocaleString()
         },
         {
-            command: ["mirror mirror on the wall logout","mirror mirror logout" ],
-            answer: "Logging out!",
-            func: ""
-        },
-        {
             command: ["mirror mirror on the wall turn off display", "mirror mirror turn off display"],
             answer: "Turning off!",
             func: ""
