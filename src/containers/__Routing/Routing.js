@@ -10,6 +10,7 @@ import TestPage from "../TestPage/TestPage";
 import Sleep from "../Sleep/Sleep";
 import VoiceDemo from "../../components/VoiceDemo/VoiceDemo";
 import {useModal} from "../../hooks/useModal";
+import FaceDemo from "../FaceDemo/FaceDemo";
 
 const RoutingBody = (props) => {
 
@@ -33,7 +34,7 @@ const RoutingBody = (props) => {
             `IMPORTANT - PIN: ${mongoHook.pin}`);
 
     const homePageCommand = {
-        command: ["Mirror mirror on the wall Go to home page", "mirror mirror on the wall go home", "mirror mirror on the wall wake up"],
+        command: ["Mirror mirror on the wall Go to home page", "mirror mirror on the wall go home", "mirror mirror on the wall wake up", "Mirror mirror Go to home page", "mirror mirror go home", "mirror mirror wake up"],
         answer: "Routing to Home Page",
         func: () => {
             loggingContext.addLog("Voice Command: Routed to Home Page");
@@ -42,7 +43,7 @@ const RoutingBody = (props) => {
     };
 
     const testPageCommand = {
-        command: "Mirror mirror on the wall Go to test page",
+        command: ["Mirror mirror on the wall Go to test page", "Mirror mirror Go to test page"],
         answer: "Routing to Test Page",
         func: () => {
             loggingContext.addLog("Voice Command: Routed to Test Page");
@@ -51,7 +52,7 @@ const RoutingBody = (props) => {
     };
 
     const sleepPageCommand = {
-        command: ["Mirror mirror on the wall Go to sleep"],
+        command: ["Mirror mirror on the wall Go to sleep", "Mirror mirror Go to sleep"],
         answer: "Going to sleep",
         func: () => {
             loggingContext.addLog("Voice Command: Going to sleep");
@@ -60,7 +61,7 @@ const RoutingBody = (props) => {
     };
 
     const logoutCommand = {
-        command: ["mirror mirror on the wall logout"],
+        command: ["mirror mirror on the wall logout", "mirror mirror logout"],
         answer: "Logging out",
         func: () => {
             loggingContext.addLog("Voice Command: Logging out");
@@ -69,7 +70,7 @@ const RoutingBody = (props) => {
     };
 
     const voiceDemoPageCommand = {
-        command: ["Mirror mirror on the wall Go to voice demo page"],
+        command: ["Mirror mirror on the wall Go to voice demo page", "Mirror mirror Go to voice demo page"],
         answer: "Going to voice demo",
         func: () => {
             loggingContext.addLog("Voice Command: Going to voice demo");
@@ -103,6 +104,15 @@ const RoutingBody = (props) => {
         }
     };
 
+    const faceDemoPageCommand = {
+        command: ["Mirror mirror on the wall Go to face demo page", "mirror mirror go to face demo page"],
+        answer: "Going to face demo",
+        func: () => {
+            loggingContext.addLog("Voice Command: Going to face demo");
+            history.push("/face_demo")
+        }
+    };
+
     useEffect(() => {
         voiceContext.addCommand(homePageCommand);
         voiceContext.addCommand(testPageCommand);
@@ -111,6 +121,7 @@ const RoutingBody = (props) => {
         voiceContext.addCommand(voiceDemoPageCommand);
         voiceContext.addCommand(registerAccountCommand);
         voiceContext.addCommand(closePinCommand);
+        voiceContext.addCommand(faceDemoPageCommand);
     }, []);
 
     return (
@@ -132,6 +143,9 @@ const RoutingBody = (props) => {
             </PrivateRoute>
             <PrivateRoute exact path="/voice_demo" mongoHook={mongoHook}>
                 <VoiceDemo/>
+            </PrivateRoute>
+            <PrivateRoute exact path="/face_demo" mongoHook={mongoHook}>
+                <FaceDemo/>
             </PrivateRoute>
             <Route exact path="/sleep">
                 <Sleep/>

@@ -32,13 +32,13 @@ const Login = (props) => {
     const history = useHistory();
 
     const manualLoginCommand = {
-        command: "Mirror mirror on the wall Log me in",
+        command: ["Mirror mirror on the wall Log me in", "Mirror mirror Log me in"],
         answer: "Yes sir, logging in",
         func: () => login()
     };
 
     const faceLoginCommand = {
-        command: ["Face Login", "mirror mirror on the wall check my face", "mirror mirror on the wall face log in"],
+        command: ["Face Login", "mirror mirror on the wall check my face", "mirror mirror on the wall face log in", "mirror mirror check my face", "mirror mirror face log in"],
         answer: "I'm Trying to detect your face",
         func: async () => {
             let descriptor = await faceApiHook.getDescriptorsFromImage("jacob", "video-feed");
@@ -48,13 +48,13 @@ const Login = (props) => {
     };
 
     const guestLoginCommand = {
-        command: ["mirror mirror on the wall login as guest"],
+        command: ["mirror mirror on the wall login as guest", "mirror mirror login as guest"],
         answer: "Logging in as guest user!",
         func: () => loginGuest()
     };
 
     const demoLoginCommand = {
-        command: ["mirror mirror on the wall demo account"],
+        command: ["mirror mirror on the wall demo account", "mirror mirror demo account"],
         answer: "Starting up demo!",
         func: () => login("DemoAccount", "DemoAccount")
     };

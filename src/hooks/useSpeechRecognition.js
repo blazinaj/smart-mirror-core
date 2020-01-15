@@ -35,16 +35,11 @@ const useSpeechRecognition = () => {
 
     const [intendArray, setIntendArray] = useState([
         {
-            command: "mirror mirror on the wall what time is it",
+            command: ["mirror mirror on the wall what time is it" ,"mirror mirror what time is it"],
             answer: "Current time is " + new Date().toLocaleString()
         },
         {
-            command: "mirror mirror on the wall logout",
-            answer: "Logging out!",
-            func: ""
-        },
-        {
-            command: "mirror mirror on the wall turn off display",
+            command: ["mirror mirror on the wall turn off display", "mirror mirror turn off display"],
             answer: "Turning off!",
             func: ""
         }
