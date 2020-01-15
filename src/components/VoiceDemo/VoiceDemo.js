@@ -2,6 +2,7 @@ import React, { useState, useEffect, useContext } from "react";
 import {VoiceCommandsContext} from "../../context/VoiceCommandsContext";
 
 //adding a comment
+//comment for SM-100
 
 const VoiceDemo = (props) => {
 
