@@ -9,6 +9,7 @@ import {LoggingContext} from "../../context/LoggingContext";
 import TestPage from "../TestPage/TestPage";
 import Sleep from "../Sleep/Sleep";
 import VoiceDemo from "../../components/VoiceDemo/VoiceDemo";
+import {useModal} from "../../hooks/useModal";
 
 const RoutingBody = (props) => {
 
@@ -21,6 +22,14 @@ const RoutingBody = (props) => {
     const loggingContext = useContext(LoggingContext).logger;
 
     const history = useHistory();
+
+    const registerVoiceModal = useModal("One moment, logging you in...", "Registration");
+    const pinDisplayModal = useModal(<a> WRITE THIS NUMBER DOWN!<br /><br />
+                                    <h2 style={{color: "red"}}>{mongoHook.pin}</h2><br />
+                                    This will be how you login next time to be able to change your info. Login using the Pin button on the login screen.<br /><br />
+                                    This will only be shown to you once, and will be deleted within ? days, so remember to change your email and password!<br /><br />
+                                    <h5>When finished say: </h5><h4 style={{color: "blue"}}>Mirror mirror on the wall close display</h4></a>,
+            `IMPORTANT - PIN: ${mongoHook.pin}`);
 
     const homePageCommand = {
         command: ["Mirror mirror on the wall Go to home page", "mirror mirror on the wall go home", "mirror mirror on the wall wake up"],
@@ -73,10 +82,24 @@ const RoutingBody = (props) => {
         func: (async () => {
             mongoHook.logout();
             await mongoHook.registerWithVoice()
-                .finally(() => {
-                    history.push("/");
+                .then(() => {
+                    registerVoiceModal.setModalIsOpen(true);
+                    loggingContext.addLog("PinChanged? : " + mongoHook.pin);
+                    setTimeout((() => {
+                        history.push("/");
+                        registerVoiceModal.setModalIsOpen(false);
+                    }),6000);
+                    pinDisplayModal.setModalIsOpen(true);
                 });
         })
+    };
+
+    const closePinCommand = {
+        command: ["Mirror mirror on the wall close display"],
+        answer: "Enjoy your New Account!",
+        func: () => {
+            pinDisplayModal.setModalIsOpen(false);
+        }
     };
 
     useEffect(() => {
@@ -86,14 +109,21 @@ const RoutingBody = (props) => {
         voiceContext.addCommand(logoutCommand);
         voiceContext.addCommand(voiceDemoPageCommand);
         voiceContext.addCommand(registerAccountCommand);
+        voiceContext.addCommand(closePinCommand);
     }, []);
 
     return (
         <Switch>
             <Route exact path="/login">
+                {
+                    registerVoiceModal.display
+                }
                 <Login mongoHook={mongoHook}/>
             </Route>
             <PrivateRoute exact path="/" mongoHook={mongoHook}>
+                {
+                    pinDisplayModal.display
+                }
                 <Home/>
             </PrivateRoute>
             <PrivateRoute exact path="/test" mongoHook={mongoHook}>

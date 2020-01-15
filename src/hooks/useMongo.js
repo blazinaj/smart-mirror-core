@@ -20,8 +20,7 @@ export const useMongo = (input, logger) => {
 
     const [isLoggedIn, setIsLoggedIn] = useState(false);
     const [authenticatedUser, setAuthenticatedUser] = useState({});
-
-    const [userId, setUserId] = useState("");
+    const [pin, setPin] = useState("FAKEPIN");
 
     const loginGuestUser = async () => {
         let client = Stitch.defaultAppClient;
@@ -79,10 +78,12 @@ export const useMongo = (input, logger) => {
         let email = Math.random().toString(36).substring(2, 18).substring(0, 8);
         let password = Math.random().toString(36).substring(2, 18).substring(0, 8);
 
+        setPin(pincode);
+        loggingContext.addLog("PIN: " + pin);
+
         register(email, password)
             .then(async () => {
                 const db = client.getServiceClient(RemoteMongoClient.factory, 'mongodb-atlas').db('smart_mirror');
-                logger.addLog(authenticatedUser);
                 db.collection("temporary_registration").updateOne({userId: client.auth.user.id},
                     {$set: {pincode: pincode, email: email, password: password}}, {upsert:true});
                 loggingContext.addLog(`Registered with voice user: ${client.auth.user.id}`)
@@ -157,6 +158,7 @@ export const useMongo = (input, logger) => {
         registerWithVoice,
         register,
         logout,
-        authenticatedUser
+        authenticatedUser,
+        pin
     }
 };
