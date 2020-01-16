@@ -11,7 +11,6 @@ import Sleep from "../Sleep/Sleep";
 import VoiceDemo from "../../components/VoiceDemo/VoiceDemo";
 import FaceDemo from "../FaceDemo/FaceDemo";
 import GesturePaintDemo from "../GestureDemo/GesturePaintDemo";
-import {SkyBallGame} from "../GestureDemo/SkyBallGame/SkyBallGame";
 
 const RoutingBody = (props) => {
 
@@ -89,14 +88,14 @@ const RoutingBody = (props) => {
         }
     };
 
-    const gestureDemoGamePageCommand = {
-        command: ["mirror mirror I want to play a game"],
-        answer: "Okay, lunching the Sky Ball game",
-        func: () => {
-            loggingContext.addLog("Voice Command: Mirror mirror I want to play a game");
-            history.push("/gesture_game_sky_ball")
-        }
-    };
+    // const gestureDemoGamePageCommand = {
+    //     command: ["mirror mirror I want to play a game"],
+    //     answer: "Okay, lunching the Sky Ball game",
+    //     func: () => {
+    //         loggingContext.addLog("Voice Command: Mirror mirror I want to play a game");
+    //         history.push("/gesture_game_sky_ball")
+    //     }
+    // };
 
     useEffect(() => {
         voiceContext.addCommand(homePageCommand);
@@ -127,9 +126,9 @@ const RoutingBody = (props) => {
             <PrivateRoute exact path="/gesture_paint" mongoHook={mongoHook}>
                 <GesturePaintDemo/>
             </PrivateRoute>
-            <PrivateRoute exact path="/gesture_game_sky_ball" mongoHook={mongoHook}>
-                <SkyBallGame/>
-            </PrivateRoute>
+            {/*<PrivateRoute exact path="/gesture_game_sky_ball" mongoHook={mongoHook}>*/}
+            {/*    <SkyBallGame/>*/}
+            {/*</PrivateRoute>*/}
              
             <PrivateRoute exact path="/face_demo" mongoHook={mongoHook}>
                 <FaceDemo/>
