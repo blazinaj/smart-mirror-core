@@ -23,6 +23,15 @@ const App = () => {
     const [showTranscript, setShowTranscript] = useState(false);
     const [showIntendArray, setShowIntendArray] = useState(false);
 
+    const debuggingTools = {
+        showLogger,
+        setShowLogger,
+        showTranscript,
+        setShowTranscript,
+        showIntendArray,
+        setShowIntendArray
+    };
+
     const logger = useLogger(["App Initialized"]);
     const SpeechRecognitionHook = useSpeechRecognition();
 
@@ -34,7 +43,7 @@ const App = () => {
     const mongoHook = useMongo(client);
 
     const openLogsCommand = {
-        command: ["mirror mirror on the wall open logs", "mirror mirror on the wall show logs"],
+        command: ["mirror mirror on the wall open logs", "mirror mirror on the wall show logs","mirror mirror open logs", "mirror mirror show logs"],
         answer: "Showing Logger",
         func: () => {
             logger.addLog("Voice Command: Opening logs..");
@@ -43,7 +52,7 @@ const App = () => {
     };
 
     const hideLogsCommand = {
-        command: ["mirror mirror on the wall hide logs", "mirror mirror on the wall close logs"],
+        command: ["mirror mirror on the wall hide logs", "mirror mirror on the wall close logs","mirror mirror hide logs", "mirror mirror close logs"],
         answer: "Hiding Logger",
         func: () => {
             logger.addLog("Voice Command: Hiding logs..");
@@ -52,7 +61,7 @@ const App = () => {
     };
 
     const showTranscriptCommand = {
-        command: ["mirror mirror on the wall show transcript", "mirror mirror on the wall view transcript"],
+        command: ["mirror mirror on the wall show transcript", "mirror mirror on the wall view transcript","mirror mirror show transcript", "mirror mirror view transcript"],
         answer: "Showing Transcript",
         func: () => {
             logger.addLog("Voice Command: Showing Transcript");
@@ -61,7 +70,7 @@ const App = () => {
     };
 
     const hideTranscriptCommand = {
-        command: ["mirror mirror on the wall hide transcript", "mirror mirror on the wall close transcript"],
+        command: ["mirror mirror on the wall hide transcript", "mirror mirror on the wall close transcript","mirror mirror hide transcript", "mirror mirror close transcript"],
         answer: "Hiding Transcript",
         func: () => {
             logger.addLog("Voice Command: Hiding Transcript");
@@ -70,7 +79,7 @@ const App = () => {
     };
 
     const showIntendArrayCommand = {
-        command: "mirror mirror on the wall show commands",
+        command: ["mirror mirror on the wall show commands","mirror mirror show commands"],
         answer: "Showing Current Command Array",
         func: () => {
             logger.addLog("Voice Command: Showing Current Commands");
@@ -79,7 +88,7 @@ const App = () => {
     };
 
     const hideIntendArrayCommand = {
-        command: "mirror mirror on the wall hide commands",
+        command: ["mirror mirror on the wall hide commands","mirror mirror hide commands"],
         answer: "Hiding Current Command Array",
         func: () => {
             logger.addLog("Voice Command: Hiding Current Commands");
@@ -98,7 +107,7 @@ const App = () => {
 
     return (
         <div style={{background: "black"}} className="App">
-            <AppContext.Provider value={{mongoHook}}>
+            <AppContext.Provider value={{mongoHook, debuggingTools}}>
                 <LoggingContext.Provider value={{logger}}>
                     <VoiceCommandsContext.Provider value={{SpeechRecognitionHook}}>
                         <Row>
