@@ -14,7 +14,7 @@ const GesturePaintDemo = () => {
     const HandGesturesHook = useHandGestures();
 
     return (
-        <div style={{background: "black"}}>
+        <div style={{background: "black", height: "100vh"}}>
             {
                 HandGesturesHook.paintUI
             }

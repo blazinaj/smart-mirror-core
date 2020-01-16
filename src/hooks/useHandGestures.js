@@ -1,6 +1,6 @@
 import React, {useState, useEffect} from "react";
-import {Col, Row} from "reactstrap";
 import * as handTrack from "handtrackjs";
+import {Spinner} from "reactstrap";
 
 export const useHandGestures = () => {
 
@@ -81,8 +81,8 @@ export const useHandGestures = () => {
     useEffect(() => {
 
         let canvas = document.getElementById('draw-canvas');
-        canvas.width = window.innerWidth;
-        canvas.height = window.innerHeight;
+        canvas.width = "720";
+        canvas.height = "480";
 
         document.body.style.margin = "0";
 
@@ -111,13 +111,16 @@ export const useHandGestures = () => {
     const paintUI =
         <div>
             <h1 style={{color: "white"}}>Gesture Paint Page</h1>
+            {
+                model ? null : <Spinner color="primary"/>
+            }
 
-            <canvas id="video-canvas" style={{display: "none"}}></canvas>
+            <canvas id="video-canvas"></canvas>
 
             <canvas id="draw-canvas" style={{backgroundColor: "black"}}></canvas>
 
-            <video autoPlay="autoplay" style={{display: "none"}} id="video" width={window.innerWidth}
-                   height={window.innerHeight}>
+            <video autoPlay="autoplay" style={{display: "none"}} id="video" width="720"
+                   height="480">
             </video>
         </div>;
 
