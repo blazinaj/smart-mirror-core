@@ -9,6 +9,7 @@ import {LoggingContext} from "../../context/LoggingContext";
 import TestPage from "../TestPage/TestPage";
 import Sleep from "../Sleep/Sleep";
 import VoiceDemo from "../../components/VoiceDemo/VoiceDemo";
+import GestureDemo from "../GestureDemo/GestureDemo";
 import FaceDemo from "../FaceDemo/FaceDemo";
 
 const RoutingBody = (props) => {
@@ -56,6 +57,7 @@ const RoutingBody = (props) => {
         func: () => {
             loggingContext.addLog("Voice Command: Logging out")
             appContext.mongoHook.logout()
+            //history.push("/");
         }
     };
 
@@ -77,12 +79,25 @@ const RoutingBody = (props) => {
         }
     };
 
+    const gestureDemoPageCommand = {
+        command: ["Mirror mirror on the wall go to gesture demo page",  
+        "Mirror mirror go to gesture demo page", 
+        "Mirror mirror go to motion demo", 
+        "mirror mirror go to hand motion"],
+        answer: "Alright I will take you to gesture demo page",
+        func: () => {
+            loggingContext.addLog("Voice Command: Going to gesture demo page");
+            history.push("/gesture_demo")
+        }
+    };
+
     useEffect(() => {
         voiceContext.addCommand(homePageCommand);
         voiceContext.addCommand(testPageCommand);
         voiceContext.addCommand(sleepPageCommand);
         voiceContext.addCommand(logoutCommand);
         voiceContext.addCommand(voiceDemoPageCommand);
+        voiceContext.addCommand(gestureDemoPageCommand);
         voiceContext.addCommand(faceDemoPageCommand);
     }, []);
 
@@ -100,6 +115,11 @@ const RoutingBody = (props) => {
             <PrivateRoute exact path="/voice_demo" mongoHook={mongoHook}>
                 <VoiceDemo/>
             </PrivateRoute>
+            {/* Art added this gesture_demo path for now but not sure it its set up correctly */}
+            <PrivateRoute exact path="/gesture_demo" mongoHook={mongoHook}>
+                <GestureDemo/>
+            </PrivateRoute>
+             
             <PrivateRoute exact path="/face_demo" mongoHook={mongoHook}>
                 <FaceDemo/>
             </PrivateRoute>
