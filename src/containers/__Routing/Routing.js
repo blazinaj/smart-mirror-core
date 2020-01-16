@@ -105,7 +105,7 @@ const RoutingBody = (props) => {
         voiceContext.addCommand(voiceDemoPageCommand);
         voiceContext.addCommand(gestureDemoPaintPageCommand);
         voiceContext.addCommand(faceDemoPageCommand);
-        voiceContext.addCommand(gestureDemoGamePageCommand);
+        // voiceContext.addCommand(gestureDemoGamePageCommand);
     }, []);
 
     return (

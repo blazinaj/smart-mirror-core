@@ -81,11 +81,10 @@ export const useHandGestures = () => {
     useEffect(() => {
 
         let canvas = document.getElementById('draw-canvas');
-        canvas.width  = window.innerWidth;
+        canvas.width = window.innerWidth;
         canvas.height = window.innerHeight;
 
         document.body.style.margin = "0";
-        canvas.style.position = 'fixed';
 
         setCtx(canvas.getContext('2d'));
 
@@ -117,7 +116,8 @@ export const useHandGestures = () => {
 
             <canvas id="draw-canvas" style={{backgroundColor: "black"}}></canvas>
 
-            <video autoPlay="autoplay" style={{display: "none"}} id="video" width={window.innerWidth} height={window.innerHeight}>
+            <video autoPlay="autoplay" style={{display: "none"}} id="video" width={window.innerWidth}
+                   height={window.innerHeight}>
             </video>
         </div>;
 
