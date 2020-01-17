@@ -10,6 +10,7 @@ const useFace = (loadedModels, descriptors) => {
     const [faceMatcher, setFaceMatcher] = useState(null);
     const [name, setName] = useState('');
     const [modelsAreLoading, setModelsAreLoading] = useState(true);
+    const [loadingAgeAndGender, setLoadingAgeAndGender] = useState(false);
 
     useEffect(() => {
         loadModels().then(() => {
@@ -42,7 +43,7 @@ const useFace = (loadedModels, descriptors) => {
         await faceapi.nets.faceLandmark68Net.loadFromUri('/models')
         await faceapi.nets.faceLandmark68TinyNet.loadFromUri('/models')
         await faceapi.nets.faceRecognitionNet.loadFromUri('/models')
-        // await faceapi.nets.ageGenderNet.loadFromUri('/models')
+        await faceapi.nets.ageGenderNet.loadFromUri('/models')
         // await faceapi.nets.tinyFaceDetector.loadFromUri('/models')
         // await faceapi.nets.mtcnn.loadFromUri('/models')
         // await faceapi.nets.tinyYolov2.loadFromUri('/models')
@@ -111,6 +112,14 @@ const useFace = (loadedModels, descriptors) => {
         }
     };
 
+    const getAgeAndGender = async (withLoading = true) => {
+        withLoading && setLoadingAgeAndGender(true);
+        const input = document.getElementById("video-feed");
+        const detectionWithAgeAndGender = await faceapi.detectSingleFace(input).withFaceLandmarks().withAgeAndGender();
+        withLoading && setLoadingAgeAndGender(false);
+        return detectionWithAgeAndGender;
+    };
+
     const compareImageToDescriptors = (image, descriptors) => {
         return false;
     };
@@ -172,7 +181,9 @@ const useFace = (loadedModels, descriptors) => {
         name,
         labeledDescriptors,
         modelsAreLoading,
-        faceMatcher
+        faceMatcher,
+        getAgeAndGender,
+        loadingAgeAndGender
     }
 
 };
