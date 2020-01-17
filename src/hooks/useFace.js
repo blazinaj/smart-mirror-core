@@ -145,6 +145,39 @@ const useFace = (loadedModels, descriptors) => {
         <Button onClick={() => checkForMatch("video-feed")}>Check For Match</Button>
     ;
 
+    const getBoundingBox = async () => {
+
+        const input = document.getElementById("video-feed");
+
+        const displaySize = { width: input.width, height: input.height }
+        // resize the overlay canvas to the input dimensions
+        const canvas = document.getElementById('overlay');
+        faceapi.matchDimensions(canvas, displaySize);
+
+        /* Display detected face bounding boxes */
+        const detections = await faceapi.detectAllFaces(input);
+        // resize the detected boxes in case your displayed image has a different size than the original
+        const resizedDetections = faceapi.resizeResults(detections, displaySize);
+        // draw detections into the canvas
+        faceapi.draw.drawDetections(canvas, resizedDetections)
+    };
+
+    const getFaceLandmarks = async () => {
+        const input = document.getElementById("video-feed");
+        const displaySize = { width: input.width, height: input.height };
+        const canvas = document.getElementById('overlay');
+        /* Display face landmarks */
+        const detectionsWithLandmarks = await faceapi
+            .detectAllFaces(input)
+            .withFaceLandmarks()
+        // resize the detected boxes and landmarks in case your displayed image has a different size than the original
+        const resizedResults = faceapi.resizeResults(detectionsWithLandmarks, displaySize)
+        // draw detections into the canvas
+        faceapi.draw.drawDetections(canvas, resizedResults)
+        // draw the landmarks into the canvas
+        faceapi.draw.drawFaceLandmarks(canvas, resizedResults)
+    };
+
     const videoFeed =
         <div>
             {
@@ -153,15 +186,25 @@ const useFace = (loadedModels, descriptors) => {
                         <Spinner color="primary"/>
                     </h4>
             }
-            <Webcam
-                id="video-feed"
-                audio={false}
-                height={400}
-                ref={webcamRef}
-                screenshotFormat="image/jpeg"
-                width={700}
-                videoConstraints={videoConstraints}
-            />
+            <div>
+                <Webcam
+                    id="video-feed"
+                    audio={false}
+                    height={400}
+                    ref={webcamRef}
+                    screenshotFormat="image/jpeg"
+                    width={700}
+                    videoConstraints={videoConstraints}
+                />
+                <canvas id="overlay"
+                        style={{
+                            position: "absolute",
+                            top: 0,
+                            left: 0,
+                            // transform: "scaleX(-1)"
+                        }}
+                />
+            </div>
         </div>
     ;
 
@@ -181,7 +224,9 @@ const useFace = (loadedModels, descriptors) => {
         modelsAreLoading,
         faceMatcher,
         getAllOutputs,
-        loadingAllOutputs
+        loadingAllOutputs,
+        getBoundingBox,
+        getFaceLandmarks
     }
 
 };
