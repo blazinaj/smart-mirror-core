@@ -3,7 +3,8 @@ import {
     RemoteMongoClient,
     Stitch,
     UserPasswordAuthProviderClient,
-    UserPasswordCredential
+    UserPasswordCredential,
+    UserPasswordAuthProviderClientImpl
 } from "mongodb-stitch-browser-sdk";
 import {AnonymousCredential} from "mongodb-stitch-core-sdk";
 import {useLogger} from "./useLogger";
@@ -144,7 +145,6 @@ export const useMongo = (input, logger) => {
         return error;
     };
 
-
     const logout = () => {
         setAuthenticatedUser({});
         setIsLoggedIn(false);
@@ -159,6 +159,6 @@ export const useMongo = (input, logger) => {
         register,
         logout,
         authenticatedUser,
-        pin
+        pin,
     }
 };

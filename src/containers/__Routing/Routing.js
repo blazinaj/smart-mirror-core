@@ -27,9 +27,10 @@ const RoutingBody = (props) => {
     const registerVoiceModal = useModal("One moment, logging you in...", "Registration");
     const pinDisplayModal = useModal(<a> WRITE THIS NUMBER DOWN!<br /><br />
                                     <h2 style={{color: "red"}}>{mongoHook.pin}</h2><br />
-                                    This will be how you login next time to be able to change your info.<br />
+                                    This will be how you login to your account.<br />
                                     Login using the Pin button on the login screen on any PC or Mobile device.<br /><br />
-                                    This will only be shown to you once, and will be deleted within ? days, so remember to change your email and password!<br /><br />
+                                    Otherwise make sure to setup your face login to login hands free!<br /><br />
+                                    {/*This will only be shown to you once, and will be deleted within ? days, so remember to change your email and password!<br /><br />*/}
                                     <h5>When finished say: </h5><h4 style={{color: "blue"}}>Mirror mirror close</h4></a>,
             `IMPORTANT - PIN: ${mongoHook.pin}`);
 
@@ -79,7 +80,7 @@ const RoutingBody = (props) => {
     };
 
     const registerAccountCommand = {
-        command: ["Mirror mirror on the wall register new account"],
+        command: ["Mirror mirror on the wall register new account", "Mirror mirror register new account"],
         answer: "Registering new account, one moment!",
         func: (async () => {
             mongoHook.logout();
@@ -97,7 +98,7 @@ const RoutingBody = (props) => {
     };
 
     const closePinCommand = {
-        command: ["Mirror mirror close"],
+        command: ["Mirror mirror close", "Mirror mirror I promise I actually wrote it down"],
         answer: "Enjoy your New Account!",
         func: () => {
             pinDisplayModal.setModalIsOpen(false);
