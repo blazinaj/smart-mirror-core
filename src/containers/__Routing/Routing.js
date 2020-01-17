@@ -11,6 +11,7 @@ import Sleep from "../Sleep/Sleep";
 import VoiceDemo from "../../components/VoiceDemo/VoiceDemo";
 import {useModal} from "../../hooks/useModal";
 import FaceDemo from "../FaceDemo/FaceDemo";
+import GesturePaintDemo from "../GestureDemo/GesturePaintDemo";
 
 const RoutingBody = (props) => {
 
@@ -65,8 +66,9 @@ const RoutingBody = (props) => {
         command: ["mirror mirror on the wall logout", "mirror mirror logout"],
         answer: "Logging out",
         func: () => {
-            loggingContext.addLog("Voice Command: Logging out");
-            mongoHook.logout()
+            loggingContext.addLog("Voice Command: Logging out")
+            appContext.mongoHook.logout()
+            //history.push("/");
         }
     };
 
@@ -114,6 +116,24 @@ const RoutingBody = (props) => {
         }
     };
 
+    const gestureDemoPaintPageCommand = {
+        command: ["mirror mirror I want to paint"],
+        answer: "Alright I will take you to paint page",
+        func: () => {
+            loggingContext.addLog("Voice Command: Going to gesture demo page");
+            history.push("/gesture_paint")
+        }
+    };
+
+    // const gestureDemoGamePageCommand = {
+    //     command: ["mirror mirror I want to play a game"],
+    //     answer: "Okay, lunching the Sky Ball game",
+    //     func: () => {
+    //         loggingContext.addLog("Voice Command: Mirror mirror I want to play a game");
+    //         history.push("/gesture_game_sky_ball")
+    //     }
+    // };
+
     useEffect(() => {
         voiceContext.addCommand(homePageCommand);
         voiceContext.addCommand(testPageCommand);
@@ -122,7 +142,9 @@ const RoutingBody = (props) => {
         voiceContext.addCommand(voiceDemoPageCommand);
         voiceContext.addCommand(registerAccountCommand);
         voiceContext.addCommand(closePinCommand);
+        voiceContext.addCommand(gestureDemoPaintPageCommand);
         voiceContext.addCommand(faceDemoPageCommand);
+        // voiceContext.addCommand(gestureDemoGamePageCommand);
     }, []);
 
     return (
@@ -145,6 +167,14 @@ const RoutingBody = (props) => {
             <PrivateRoute exact path="/voice_demo" mongoHook={mongoHook}>
                 <VoiceDemo/>
             </PrivateRoute>
+            {/* Art added this gesture_demo path for now but not sure it its set up correctly */}
+            <PrivateRoute exact path="/gesture_paint" mongoHook={mongoHook}>
+                <GesturePaintDemo/>
+            </PrivateRoute>
+            {/*<PrivateRoute exact path="/gesture_game_sky_ball" mongoHook={mongoHook}>*/}
+            {/*    <SkyBallGame/>*/}
+            {/*</PrivateRoute>*/}
+             
             <PrivateRoute exact path="/face_demo" mongoHook={mongoHook}>
                 <FaceDemo/>
             </PrivateRoute>
