@@ -13,6 +13,8 @@ const FaceDemo = (props) => {
     const [averageAgeCount, setAverageAgeCount] = useState(0);
     const [allExpressions, setAllExpressions] = useState([]);
     const [showRawExpressions, setShowRawExpressions] = useState(false);
+    const [showBoundingBox, setShowBoundingBox] = useState(true);
+    const [showFaceLandmarks, setShowFaceLandmarks] = useState(false);
 
     const resultObjectModal = useModal(
         <div>{JSON.stringify(resultObject, true, 2)}</div>,
@@ -39,6 +41,8 @@ const FaceDemo = (props) => {
         let initialLoad = true;
         setInterval(async () => {
             await getAllOutputs(initialLoad);
+            showBoundingBox && faceApiHook.getBoundingBox();
+            showFaceLandmarks && faceApiHook.getFaceLandmarks();
             initialLoad = false;
         }, 1000)
 
