@@ -10,7 +10,7 @@ const useFace = (loadedModels, descriptors) => {
     const [faceMatcher, setFaceMatcher] = useState(null);
     const [name, setName] = useState('');
     const [modelsAreLoading, setModelsAreLoading] = useState(true);
-    const [loadingAgeAndGender, setLoadingAgeAndGender] = useState(false);
+    const [loadingAllOutputs, setLoadingAllOutputs] = useState(false);
 
     useEffect(() => {
         loadModels().then(() => {
@@ -112,12 +112,12 @@ const useFace = (loadedModels, descriptors) => {
         }
     };
 
-    const getAgeAndGender = async (withLoading = true) => {
-        withLoading && setLoadingAgeAndGender(true);
+    const getAllOutputs = async (withLoading = true) => {
+        withLoading && setLoadingAllOutputs(true);
         const input = document.getElementById("video-feed");
-        const detectionWithAgeAndGender = await faceapi.detectSingleFace(input).withFaceLandmarks().withAgeAndGender();
-        withLoading && setLoadingAgeAndGender(false);
-        return detectionWithAgeAndGender;
+        const detectionWithAllOutputs = await faceapi.detectSingleFace(input).withFaceLandmarks().withFaceExpressions().withAgeAndGender().withFaceDescriptor();
+        withLoading && setLoadingAllOutputs(false);
+        return detectionWithAllOutputs;
     };
 
     const compareImageToDescriptors = (image, descriptors) => {
@@ -165,8 +165,6 @@ const useFace = (loadedModels, descriptors) => {
         </div>
     ;
 
-    const testDescriptors = labeledDescriptors;
-
     return {
         getDescriptorsFromImage,
         compareImageToDescriptors,
@@ -182,8 +180,8 @@ const useFace = (loadedModels, descriptors) => {
         labeledDescriptors,
         modelsAreLoading,
         faceMatcher,
-        getAgeAndGender,
-        loadingAgeAndGender
+        getAllOutputs,
+        loadingAllOutputs
     }
 
 };
