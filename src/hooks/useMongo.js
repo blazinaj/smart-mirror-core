@@ -4,11 +4,9 @@ import {
     Stitch,
     UserPasswordAuthProviderClient,
     UserPasswordCredential,
-    UserPasswordAuthProviderClientImpl
 } from "mongodb-stitch-browser-sdk";
 import {AnonymousCredential} from "mongodb-stitch-core-sdk";
-import {useLogger} from "./useLogger";
-import {LoggingContext} from "../context/LoggingContext";
+import {useGreetingMessage} from "./useGreetingMessage";
 
 /**
  * @description Performs Authentication and Database calls against our MongoDB Stitch Application
@@ -22,12 +20,13 @@ export const useMongo = (input, logger) => {
     const [isLoggedIn, setIsLoggedIn] = useState(false);
     const [authenticatedUser, setAuthenticatedUser] = useState({});
     const [pin, setPin] = useState("FAKEPIN");
-    const [name, setName] = useState("User");
+    const [firstName, setFirstName] = useState("");
+    const [lastName, setLastName] = useState("");
 
     const loginGuestUser = async () => {
         let client = Stitch.defaultAppClient;
         let error;
-        setName("Guest");
+        setFirstName("Guest")
         await client.auth.loginWithCredential(new AnonymousCredential())
             .then(guest => {
                 loggingContext.addLog("Successfully logged in as Guest User! ("+guest.id+")");
@@ -64,7 +63,19 @@ export const useMongo = (input, logger) => {
         // Returns a promise that resolves to the authenticated user
             .then(authedUser => {
                 loggingContext.addLog(`successfully logged in with id: ${authedUser.id}`);
-                findName(authedUser.id);
+                loggingContext.addLog(authedUser);
+
+                const db = client.getServiceClient(RemoteMongoClient.factory, 'mongodb-atlas').db('smart_mirror');
+                db.collection("users").findOne({userId: authedUser.id})
+                    .then(user => {
+                        if(user.first_name !== undefined){
+                            setFirstName(user.first_name);
+                        } else {setFirstName("user")}
+                        if(user.last_name !== undefined){
+                            setLastName(user.last_name);
+                        } else {setLastName("user")}
+                    });
+
                 setAuthenticatedUser(authedUser);
                 setIsLoggedIn(true);
             })
@@ -151,17 +162,8 @@ export const useMongo = (input, logger) => {
     const logout = () => {
         setAuthenticatedUser({});
         setIsLoggedIn(false);
-    };
-
-    const findName = async (id) => {
-        loggingContext.addLog("Finding name...");
-        let client = Stitch.defaultAppClient;
-        const db = client.getServiceClient(RemoteMongoClient.factory, 'mongodb-atlas').db('smart_mirror');
-        let account = await db.collection("users").findOne({userId: id});
-        setName(account.first_name + " " + account.last_name);
-        loggingContext.addLog(account);
-        loggingContext.addLog("Name found: " + account.first_name + " " + account.last_name);
-        loggingContext.addLog("Name changed: " + name);
+        setFirstName("");
+        setLastName("");
     };
 
     return {
@@ -174,6 +176,7 @@ export const useMongo = (input, logger) => {
         logout,
         authenticatedUser,
         pin,
-        name
+        firstName,
+        lastName
     }
 };

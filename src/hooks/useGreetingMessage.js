@@ -1,50 +1,49 @@
 import React, {useEffect, useState, useContext} from "react"
 import {AppContext} from "../context/AppContext";
 import {VoiceCommandsContext} from "../context/VoiceCommandsContext";
+import {LoggingContext} from "../context/LoggingContext";
 
 export const useGreetingMessage = () => {
 
-    let appContext = useContext(AppContext);
-    let mongoHook = appContext.mongoHook;
     const voiceContext = useContext(VoiceCommandsContext);
+    const loggingContext = useContext(LoggingContext).logger;
 
     const [style, setStyle] = useState(0);
-
-    const setName = (newName) => {
-
-    };
+    const [name, setName] = useState("");
 
     const greetingStyles = [
         // 0 Standard Greeting
-        `Hello ${mongoHook.name}, welcome back!`,
+        `Hello ${name}, welcome back!`,
 
         // 1 - English Greeting
-        `Ello govenor ${mongoHook.name}, welcome back`
+        `Ello govenor ${name}`,
 
-        // 2 - Norwegian Greeting
+        // 2 - Irish Greeting
+        `Top of the morning to you ${name}, how are you today lad?`
 
         // 3 - Scottish Greeting
 
         // n - .......
     ];
 
+    // Randomized right now
+    // Has potential to select specific greetings
+    // User can add own?
     useEffect(() => {
-        // databaseHook.findOne("users", mongoHook.authenticatedUser.id);
-        setStyle(Math.floor(Math.random() * Math.floor(2)));
-        if(mongoHook.isLoggedIn === true){
+        setStyle(Math.floor(Math.random() * Math.floor(greetingStyles.length)));
+        if(name !== ""){
             setTimeout(() => {
-                console.log("MongoDB Name: " + mongoHook.name);
+                loggingContext.addLog("Greeting User");
                 voiceContext.SpeechRecognitionHook.speak(greetingStyles[style])
             }, 2000);
         }
-    }, [mongoHook.name]);
+    }, [name]);
 
     return{
         style,
         setStyle,
-        //greetingMessage,
         greetingStyles,
-        setName,
+        setName
     }
 
 };

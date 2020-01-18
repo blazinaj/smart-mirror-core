@@ -22,7 +22,6 @@ import {useHistory, useLocation} from "react-router-dom";
 import {VoiceCommandsContext} from "../../context/VoiceCommandsContext";
 import {LoggingContext} from "../../context/LoggingContext";
 import {AppContext} from "../../context/AppContext";
-import {useGreetingMessage} from "../../hooks/useGreetingMessage";
 
 const Login = (props) => {
 
@@ -31,7 +30,6 @@ const Login = (props) => {
     const [isLoading, setIsLoading] = useState(false);
 
     const history = useHistory();
-    useGreetingMessage();
 
     const manualLoginCommand = {
         command: ["Mirror mirror on the wall Log me in", "Mirror mirror Log me in"],
