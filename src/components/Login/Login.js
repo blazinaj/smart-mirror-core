@@ -22,6 +22,7 @@ import {useHistory, useLocation} from "react-router-dom";
 import {VoiceCommandsContext} from "../../context/VoiceCommandsContext";
 import {LoggingContext} from "../../context/LoggingContext";
 import {AppContext} from "../../context/AppContext";
+import {useGreetingMessage} from "../../hooks/useGreetingMessage";
 
 const Login = (props) => {
 
@@ -63,6 +64,7 @@ const Login = (props) => {
     const loggingContext = useContext(LoggingContext).logger;
     const voiceContext = useContext(VoiceCommandsContext);
     const debuggingTools = useContext(AppContext).debuggingTools;
+    const greetingHook = useGreetingMessage();
 
     useEffect(() => {
         voiceContext.SpeechRecognitionHook.addCommand(manualLoginCommand);
@@ -182,12 +184,9 @@ const Login = (props) => {
         }
         else {
             history.push("/");
+            greetingHook.greetingMessage();
         }
     };
-
-    // const loginWithPincode = async () => {
-    //         history.push("/pincode_login");
-    // };
 
     const [pincode, setPincode] = useState("");
 

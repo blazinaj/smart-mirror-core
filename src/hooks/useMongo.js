@@ -22,10 +22,12 @@ export const useMongo = (input, logger) => {
     const [isLoggedIn, setIsLoggedIn] = useState(false);
     const [authenticatedUser, setAuthenticatedUser] = useState({});
     const [pin, setPin] = useState("FAKEPIN");
+    const [name, setName] = useState("User");
 
     const loginGuestUser = async () => {
         let client = Stitch.defaultAppClient;
         let error;
+        setName("Guest");
         await client.auth.loginWithCredential(new AnonymousCredential())
             .then(guest => {
                 loggingContext.addLog("Successfully logged in as Guest User! ("+guest.id+")");
@@ -160,5 +162,6 @@ export const useMongo = (input, logger) => {
         logout,
         authenticatedUser,
         pin,
+        name
     }
 };
