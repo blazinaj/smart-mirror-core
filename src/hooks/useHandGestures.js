@@ -183,12 +183,20 @@ export const useHandGestures = () => {
 
     const clickUI =
         <div>
-            <h1 style={{color: "white"}}>Gesture Mouse Demo Page</h1>
+            <h1 style={{color: "white"}}>Click Me Game</h1>
             {
                 model ? null : <Spinner color="primary"/>
             }
 
             <canvas id="video-canvas" style={{display: "none"}}></canvas>
+
+            <img src={pointer} id="pointer" alt="pointer"
+                 style={{
+                     position: "absolute",
+                     top: y,
+                     left: x,
+                     zIndex: 99
+                 }}/>
 
             <h1 style={{color: "white"}}>Time remaining: {' '}
                 <span id="timer" style={{color: "yellow"}}> 60s</span></h1>
@@ -198,11 +206,8 @@ export const useHandGestures = () => {
             <br/>
 
             <Button color="primary" id="increaseScoreButton" onClick={() => clicked()}
-                    style={{zIndex: 1, position: "absolute", alignText: "center", top: "50%", left: "50%"}}>Click
+                    style={{zIndex: 1, position: "absolute", top: "50%", left: "50%"}}>Click
                 Me!</Button>
-
-            <img src={pointer} id="pointer" alt="pointer"
-                 style={{width: "20px", height: "20px", position: " absolute", top: y, left: x, zIndex: 99, margin: "20px"}}/>
 
             <canvas id="draw-canvas" style={{backgroundColor: "black", display: "none"}}></canvas>
 
