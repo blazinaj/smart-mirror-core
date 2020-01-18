@@ -1,6 +1,9 @@
 import React, {useState, useEffect} from "react";
 import * as handTrack from "handtrackjs";
 import {Spinner} from "reactstrap";
+import {Button} from "reactstrap";
+import pointer from "../pointer.png";
+import {useModal} from "./useModal";
 
 export const useHandGestures = () => {
 
@@ -52,8 +55,15 @@ export const useHandGestures = () => {
             model.renderPredictions(predictions, canvas, context, video);
             if (Array.isArray(predictions)) {
                 predictions.map((item) => {
+
+                    let xLocal = item.bbox[0] + (item.bbox[2] / 2);
+                    let yLocal = item.bbox[1] + (item.bbox[3] / 2);
+
+                    mouseClick(xLocal, yLocal);
+
                     setX(item.bbox[0] + (item.bbox[2] / 2));
                     setY(item.bbox[1] + (item.bbox[3] / 2));
+
                 })
             }
             requestAnimationFrame(runDetection);
@@ -81,8 +91,8 @@ export const useHandGestures = () => {
     useEffect(() => {
 
         let canvas = document.getElementById('draw-canvas');
-        canvas.width = "720";
-        canvas.height = "480";
+        canvas.width = window.innerWidth;
+        canvas.height = window.innerHeight;
 
         document.body.style.margin = "0";
 
@@ -108,13 +118,9 @@ export const useHandGestures = () => {
         }
     }, [x]);
 
-    const mouseClick = () => {
-        document.elementFromPoint(x, y).click();
-    };
-
-    function click(x,y){
+    const mouseClick = (x, y) => {
         let ev = document.createEvent("MouseEvent");
-        let el = document.elementFromPoint(x,y);
+        let el = document.elementFromPoint(x, y);
         ev.initMouseEvent(
             "click",
             true /* bubble */, true /* cancelable */,
@@ -124,7 +130,7 @@ export const useHandGestures = () => {
             0 /*left*/, null
         );
         el.dispatchEvent(ev);
-    }
+    };
 
     const paintUI =
         <div>
@@ -133,16 +139,80 @@ export const useHandGestures = () => {
                 model ? null : <Spinner color="primary"/>
             }
 
-            <canvas id="video-canvas"></canvas>
-
+            <canvas id="video-canvas" style={{display: "none"}}></canvas>
             <canvas id="draw-canvas" style={{backgroundColor: "black"}}></canvas>
 
-            <video autoPlay="autoplay" style={{display: "none"}} id="video" width="720"
-                   height="480">
+            <video autoPlay="autoplay" style={{display: "none"}} id="video" width={window.innerWidth}
+                   height={window.innerHeight}>
+            </video>
+        </div>;
+
+    const [click, setClick] = useState(0);
+    const [outOfTime, setOutOfTime] = useState(false);
+
+    const clicked = () => {
+
+        if (!outOfTime) {
+            setClick(click + 1);
+            document.getElementById("score").innerHTML = click;
+
+            let randomTop = Math.random() * (700 - 200) + 200;
+            let randomLeft = Math.random() * (700 - 200) + 200;
+
+            document.getElementById("increaseScoreButton").style.top = `${randomTop}px`;
+            document.getElementById("increaseScoreButton").style.left = `${randomLeft}px`;
+        }
+    };
+
+    useEffect(() => {
+
+        let time = 60; //time in seconds
+        let timer = setInterval(() => {
+
+            time--;
+
+            document.getElementById("timer").innerHTML = time + "s";
+
+            if (time === 0) {
+                clearInterval(timer);
+                document.getElementById("timer").innerHTML = "Time's up!";
+                setOutOfTime(true);
+            }
+        }, 1000);
+    }, []);
+
+    const clickUI =
+        <div>
+            <h1 style={{color: "white"}}>Gesture Mouse Demo Page</h1>
+            {
+                model ? null : <Spinner color="primary"/>
+            }
+
+            <canvas id="video-canvas" style={{display: "none"}}></canvas>
+
+            <h1 style={{color: "white"}}>Time remaining: {' '}
+                <span id="timer" style={{color: "yellow"}}> 60s</span></h1>
+            <br/>
+            <h2 style={{color: "white"}}>Score: {' '}
+                <span id="score" style={{color: "yellow"}}>0</span></h2>
+            <br/>
+
+            <Button color="primary" id="increaseScoreButton" onClick={() => clicked()}
+                    style={{zIndex: 1, position: "absolute", alignText: "center", top: "50%", left: "50%"}}>Click
+                Me!</Button>
+
+            <img src={pointer} id="pointer" alt="pointer"
+                 style={{width: "20px", height: "20px", position: " absolute", top: y, left: x, zIndex: 99, margin: "20px"}}/>
+
+            <canvas id="draw-canvas" style={{backgroundColor: "black", display: "none"}}></canvas>
+
+            <video autoPlay="autoplay" style={{display: "none"}} id="video" width={window.innerWidth}
+                   height={window.innerHeight}>
             </video>
         </div>;
 
     return {
-        paintUI
+        paintUI,
+        clickUI
     }
 };
