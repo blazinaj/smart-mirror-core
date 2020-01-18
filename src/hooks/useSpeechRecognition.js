@@ -35,10 +35,10 @@ const useSpeechRecognition = () => {
 
     const [intendArray, setIntendArray] = useState([
         {
-            command: ["mirror mirror on the wall what time is it" ,"mirror mirror what time is it"],
+            command: ["mirror mirror on the wall what time is it", "mirror mirror what time is it"],
             answer: "Current time is " + new Date().toLocaleString()
         },
-        
+
         {
             command: ["mirror mirror on the wall turn off display", "mirror mirror turn off display"],
             answer: "Turning off!",
@@ -127,7 +127,13 @@ const useSpeechRecognition = () => {
     }, [value]);
 
     const addCommand = (command) => {
-        setIntendArray(intendArray => [...intendArray, command])
+
+        const commandFound = intendArray.find((item) =>
+            (item.command ? item.command : undefined) === (command.command ? command.command : undefined)
+        );
+
+        if (!commandFound)
+            setIntendArray(intendArray => [...intendArray, command])
     };
 
     const selectLanguage =
