@@ -160,7 +160,7 @@ const useFace = (loadedModels, descriptors) => {
             // resize the detected boxes in case your displayed image has a different size than the original
             const resizedDetections = faceapi.resizeResults(detections, displaySize);
             // draw detections into the canvas
-            faceapi.draw.drawDetections(canvas, resizedDetections)
+            faceapi.draw.drawDetections(canvas, resizedDetections);
         }
     };
 
@@ -205,7 +205,11 @@ const useFace = (loadedModels, descriptors) => {
                             position: "absolute",
                             top: 0,
                             left: 0,
-                            // transform: "scaleX(-1)"
+                            "-moz-transform": "scale(-1, 1)",
+                            "-webkit-transform": "scale(-1, 1)",
+                            "-o-transform": "scale(-1, 1)",
+                            "transform": "scale(-1, 1)",
+                            "filter": "FlipH"
                         }}
                 />
             </div>
