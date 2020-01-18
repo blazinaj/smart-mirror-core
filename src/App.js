@@ -40,7 +40,7 @@ const App = () => {
         logger.addLog("Client Intitialized")
     }, []);
 
-    const mongoHook = useMongo(client);
+    const mongoHook = useMongo(client, logger);
 
     const openLogsCommand = {
         command: ["mirror mirror on the wall open logs", "mirror mirror on the wall show logs","mirror mirror open logs", "mirror mirror show logs"],
@@ -107,8 +107,8 @@ const App = () => {
 
     return (
         <div style={{background: "black"}} className="App">
-            <AppContext.Provider value={{mongoHook, debuggingTools}}>
-                <LoggingContext.Provider value={{logger}}>
+            <LoggingContext.Provider value={{logger}}>
+                <AppContext.Provider value={{mongoHook, debuggingTools}}>
                     <VoiceCommandsContext.Provider value={{SpeechRecognitionHook}}>
                         <Row>
                             <Col>
@@ -122,8 +122,8 @@ const App = () => {
                             }
                         </Row>
                     </VoiceCommandsContext.Provider>
-                </LoggingContext.Provider>
-            </AppContext.Provider>
+                </AppContext.Provider>
+            </LoggingContext.Provider>
             <>
                 {
                     showTranscript &&

@@ -9,6 +9,7 @@ import {LoggingContext} from "../../context/LoggingContext";
 import TestPage from "../TestPage/TestPage";
 import Sleep from "../Sleep/Sleep";
 import VoiceDemo from "../../components/VoiceDemo/VoiceDemo";
+import {useModal} from "../../hooks/useModal";
 import FaceDemo from "../FaceDemo/FaceDemo";
 import GesturePaintDemo from "../GestureDemo/GesturePaintDemo";
 
@@ -23,6 +24,16 @@ const RoutingBody = (props) => {
     const loggingContext = useContext(LoggingContext).logger;
 
     const history = useHistory();
+
+    const registerVoiceModal = useModal("One moment, logging you in...", "Registration");
+    const pinDisplayModal = useModal(<a> WRITE THIS NUMBER DOWN!<br /><br />
+                                    <h2 style={{color: "red"}}>{mongoHook.pin}</h2><br />
+                                    This will be how you login to your account.<br />
+                                    Login using the Pin button on the login screen on any PC or Mobile device.<br /><br />
+                                    Otherwise make sure to setup your face login to login hands free!<br /><br />
+                                    {/*This will only be shown to you once, and will be deleted within ? days, so remember to change your email and password!<br /><br />*/}
+                                    <h5>When finished say: </h5><h4 style={{color: "blue"}}>Mirror mirror close</h4></a>,
+            `IMPORTANT - PIN: ${mongoHook.pin}`);
 
     const homePageCommand = {
         command: ["Mirror mirror on the wall Go to home page", "mirror mirror on the wall go home", "mirror mirror on the wall wake up", "Mirror mirror Go to home page", "mirror mirror go home", "mirror mirror wake up"],
@@ -70,6 +81,32 @@ const RoutingBody = (props) => {
         }
     };
 
+    const registerAccountCommand = {
+        command: ["Mirror mirror on the wall register new account", "Mirror mirror register new account"],
+        answer: "Registering new account, one moment!",
+        func: (async () => {
+            mongoHook.logout();
+            await mongoHook.registerWithVoice()
+                .then(() => {
+                    registerVoiceModal.setModalIsOpen(true);
+                    loggingContext.addLog("PinChanged? : " + mongoHook.pin);
+                    setTimeout((() => {
+                        history.push("/");
+                        registerVoiceModal.setModalIsOpen(false);
+                    }),6000);
+                    pinDisplayModal.setModalIsOpen(true);
+                });
+        })
+    };
+
+    const closePinCommand = {
+        command: ["Mirror mirror close", "Mirror mirror I promise I actually wrote it down"],
+        answer: "Enjoy your New Account!",
+        func: () => {
+            pinDisplayModal.setModalIsOpen(false);
+        }
+    };
+
     const faceDemoPageCommand = {
         command: ["Mirror mirror on the wall Go to face demo page", "mirror mirror go to face demo page"],
         answer: "Going to face demo",
@@ -103,6 +140,8 @@ const RoutingBody = (props) => {
         voiceContext.addCommand(sleepPageCommand);
         voiceContext.addCommand(logoutCommand);
         voiceContext.addCommand(voiceDemoPageCommand);
+        voiceContext.addCommand(registerAccountCommand);
+        voiceContext.addCommand(closePinCommand);
         voiceContext.addCommand(gestureDemoPaintPageCommand);
         voiceContext.addCommand(faceDemoPageCommand);
         // voiceContext.addCommand(gestureDemoGamePageCommand);
@@ -111,9 +150,15 @@ const RoutingBody = (props) => {
     return (
         <Switch>
             <Route exact path="/login">
+                {
+                    registerVoiceModal.display
+                }
                 <Login mongoHook={mongoHook}/>
             </Route>
             <PrivateRoute exact path="/" mongoHook={mongoHook}>
+                {
+                    pinDisplayModal.display
+                }
                 <Home/>
             </PrivateRoute>
             <PrivateRoute exact path="/test" mongoHook={mongoHook}>

@@ -164,18 +164,15 @@ const AccountManager = (props) => {
             <br />
             <label>Name: {firstName} {lastName}</label>
             <br />
-            <label>Email: {email}</label>
-            <br />
-            <label>(DEV USE ONLY) Password: {password}</label>
+            <label>Username: {context.mongoHook.authenticatedUser.auth.currentUser.profile.email || email || context.mongoHook.pin}</label>
 
             <br />
             <br />
 
             <Button color="primary" onClick={toggleInfoSetup} style={{ marginBottom: '1rem' }}>Edit Personal Info</Button>
-            <label>--</label>
-            <Button color="primary" onClick={toggleResetPassword} style={{ marginBottom: '1rem' }}>Change Password</Button>
+            {/*<Button color="primary" onClick={() => console.log("Reset password disabled")} style={{ marginBottom: '1rem' }}>DISABLED</Button>*/}
             <Collapse isOpen={isInfoSetupOpen}>
-                <label>WIP - New Info</label>
+                <label>New Info</label>
                 <InputGroup className={"inputGroupLogin"}>
                     <InputGroupAddon className={"pre-pend"} addonType="prepend">FirstName</InputGroupAddon>
                     <Input className={"inputField"} placeholder="Firstname..." onChange={(e) => setChangeFirstName(e.target.value)}/>
@@ -185,30 +182,30 @@ const AccountManager = (props) => {
                     <Input className={"inputField"} placeholder="Lastname..." onChange={(e) => setChangeLastName(e.target.value)}/>
                 </InputGroup>
                 <br />
-                <InputGroup className={"inputGroupLogin"}>
-                    <InputGroupAddon className={"pre-pend"} addonType="prepend">Email</InputGroupAddon>
-                    <Input className={"inputField"} type="email" placeholder="Email..." onChange={(e) => setChangeEmail(e.target.value)}/>
-                </InputGroup>
-                <br />
+                {/*<InputGroup className={"inputGroupLogin"}>*/}
+                {/*    <InputGroupAddon className={"pre-pend"} addonType="prepend">Email</InputGroupAddon>*/}
+                {/*    <Input className={"inputField"} type="email" placeholder="Email..." onChange={(e) => setChangeEmail(e.target.value)}/>*/}
+                {/*</InputGroup>*/}
+                {/*<br />*/}
                 <Button color="danger" onClick={() => changeInfo()}>{confirmationText}</Button>
             </Collapse>
 
-            <Collapse isOpen={isResetPasswordOpen}>
-                <label>{resetPasswordOne} :::WIP::: {resetPasswordTwo}</label>
-                <br />
-                <label>{passwordsMatch}</label>
-                <InputGroup className={"inputGroupLogin"}>
-                    <InputGroupAddon className={"pre-pend"} addonType="prepend">New Password</InputGroupAddon>
-                    <Input className={"inputField"} type="password" placeholder="..." onChange={(e) => setResetPasswordOne(e.target.value)}/>
-                </InputGroup>
-                <br />
-                <InputGroup className={"inputGroupLogin"}>
-                    <InputGroupAddon className={"pre-pend"} addonType="prepend">New Password</InputGroupAddon>
-                    <Input className={"inputField"} type="password" placeholder="..." onChange={(e) => setResetPasswordTwo(e.target.value)}/>
-                </InputGroup>
-                <br />
-                <Button color="danger" onClick={() => alert("Unimplemented...")}>{confirmationText}</Button>
-            </Collapse>
+            {/*<Collapse isOpen={isResetPasswordOpen}>*/}
+            {/*    <label>{resetPasswordOne} :::WIP::: {resetPasswordTwo}</label>*/}
+            {/*    <br />*/}
+            {/*    <label>{passwordsMatch}</label>*/}
+            {/*    <InputGroup className={"inputGroupLogin"}>*/}
+            {/*        <InputGroupAddon className={"pre-pend"} addonType="prepend">New Password</InputGroupAddon>*/}
+            {/*        <Input className={"inputField"} type="password" placeholder="..." onChange={(e) => setResetPasswordOne(e.target.value)}/>*/}
+            {/*    </InputGroup>*/}
+            {/*    <br />*/}
+            {/*    <InputGroup className={"inputGroupLogin"}>*/}
+            {/*        <InputGroupAddon className={"pre-pend"} addonType="prepend">New Password</InputGroupAddon>*/}
+            {/*        <Input className={"inputField"} type="password" placeholder="..." onChange={(e) => setResetPasswordTwo(e.target.value)}/>*/}
+            {/*    </InputGroup>*/}
+            {/*    <br />*/}
+            {/*    <Button color="danger" onClick={() => alert("Unimplemented...")}>{confirmationText}</Button>*/}
+            {/*</Collapse>*/}
 
             <hr />
 
