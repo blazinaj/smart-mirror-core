@@ -4,7 +4,7 @@
  *              Login Gate will be displayed upon Auth.
  */
 
-import React, { useState, useEffect, useContext } from 'react';
+import React, { useState, useEffect} from 'react';
 import './App.css';
 import {LoggingContext} from "./context/LoggingContext";
 import {useLogger} from "./hooks/useLogger";
@@ -15,6 +15,7 @@ import {Stitch} from "mongodb-stitch-browser-sdk";
 import {useMongo} from "./hooks/useMongo";
 import {AppContext} from "./context/AppContext";
 import Routing from "./containers/__Routing/Routing";
+import CommandArray from "./components/Application/CommandArray";
 
 const App = () => {
 
@@ -106,11 +107,23 @@ const App = () => {
     }, []);
 
     return (
-        <div style={{background: "black"}} className="App">
+        <div style={{background: "black", color: "white"}} className="App">
             <AppContext.Provider value={{mongoHook, debuggingTools}}>
                 <LoggingContext.Provider value={{logger}}>
                     <VoiceCommandsContext.Provider value={{SpeechRecognitionHook}}>
+                        <>
+                            {
+                                showTranscript &&
+                                SpeechRecognitionHook.displayTranscript
+                            }
+                        </>
                         <Row>
+                            {
+                                showIntendArray &&
+                                <Col lg={3}>
+                                    <CommandArray commandArray={SpeechRecognitionHook.intendArray}/>
+                                </Col>
+                            }
                             <Col>
                                 <Routing/>
                             </Col>
@@ -124,18 +137,6 @@ const App = () => {
                     </VoiceCommandsContext.Provider>
                 </LoggingContext.Provider>
             </AppContext.Provider>
-            <>
-                {
-                    showTranscript &&
-                    SpeechRecognitionHook.displayTranscript
-                }
-            </>
-            <>
-                {
-                    showIntendArray &&
-                    <div style={{background: "white"}}>{JSON.stringify(SpeechRecognitionHook.intendArray)}</div>
-                }
-            </>
         </div>
     );
 };
