@@ -27,13 +27,18 @@ const Sleep = (props) => {
     }, []);
 
     return (
-        <div style={{background: "black", height: "100vh"}}>
-            <h1>
+        <div style={{background: "black", height: "100vh", overflow: "hidden"}}>
+            <div>
+                <img src="./Logo1.gif" alt="logo" style={{transform: "scale(0.5)", position: "absolute", left: 0, marginLeft: "-15%", marginTop: "-8%"}}/>
+            </div>
+            <div style={{overflow: "hidden", position: "fixed", right: 0, marginRight: "10%"}}>
                 {
                     showClock &&
-                    <DigitalClock/>
+                        <h1>
+                            <DigitalClock/>
+                        </h1>
                 }
-            </h1>
+            </div>
         </div>
     )
 
