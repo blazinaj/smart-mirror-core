@@ -108,6 +108,24 @@ export const useHandGestures = () => {
         }
     }, [x]);
 
+    const mouseClick = () => {
+        document.elementFromPoint(x, y).click();
+    };
+
+    function click(x,y){
+        let ev = document.createEvent("MouseEvent");
+        let el = document.elementFromPoint(x,y);
+        ev.initMouseEvent(
+            "click",
+            true /* bubble */, true /* cancelable */,
+            window, null,
+            x, y, 0, 0, /* coordinates */
+            false, false, false, false, /* modifier keys */
+            0 /*left*/, null
+        );
+        el.dispatchEvent(ev);
+    }
+
     const paintUI =
         <div>
             <h1 style={{color: "white"}}>Gesture Paint Page</h1>
