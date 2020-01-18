@@ -6,7 +6,7 @@ const GestureClickMeGame = () => {
     const HandGesturesHook = useHandGestures();
 
     return (
-        <div style={{background: "black", height: "100vh"}}>
+        <div style={{background: "black", height: "100vh", width: "100%"}}>
             {
                 HandGesturesHook.clickUI
             }
