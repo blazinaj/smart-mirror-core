@@ -5,6 +5,7 @@ import {VoiceCommandsContext} from "../../context/VoiceCommandsContext";
 const Sleep = (props) => {
 
     const [showClock, setShowClock] = useState(true);
+    const [showLogo, setShowLogo] = useState(true);
 
     const voiceContext = useContext(VoiceCommandsContext).SpeechRecognitionHook;
 
@@ -21,15 +22,40 @@ const Sleep = (props) => {
         func: () => setShowClock(true)
     };
 
+    const hideLogoCommand = {
+        command: ["mirror mirror on the wall hide logo", "mirror mirror on the wall hide the logo", "mirror mirror on the wall close logo", "mirror mirror hide logo", "mirror mirror hide the logo", "mirror mirror close logo"],
+        answer: "Hiding Clock",
+        func: () => setShowLogo(false)
+    };
+
+
+    const showLogoCommand = {
+        command: ["mirror mirror on the wall show logo", "mirror mirror on the wall open logo", "mirror mirror on the wall show the logo", "mirror mirror show logo", "mirror mirror open logo", "mirror mirror show the logo"],
+        answer: "Showing Clock",
+        func: () => setShowLogo(true)
+    };
+
     useEffect(() => {
         voiceContext.addCommand(hideClockCommand);
         voiceContext.addCommand(showClockCommand);
+        voiceContext.addCommand(hideLogoCommand);
+        voiceContext.addCommand(showLogoCommand);
+
+        return () => {
+            voiceContext.removeCommand(hideClockCommand);
+            voiceContext.removeCommand(showClockCommand);
+            voiceContext.removeCommand(hideLogoCommand);
+            voiceContext.removeCommand(showLogoCommand);
+        }
     }, []);
 
     return (
         <div style={{background: "black", height: "100vh", overflow: "hidden"}}>
             <div>
-                <img src="./Logo1.gif" alt="logo" style={{transform: "scale(0.5)", position: "absolute", left: 0, marginLeft: "-15%", marginTop: "-8%"}}/>
+                {
+                    showLogo &&
+                    <img src="./Logo1.gif" alt="logo" style={{transform: "scale(0.5)", position: "absolute", left: 0, marginLeft: "-15%", marginTop: "-8%"}}/>
+                }
             </div>
             <div style={{overflow: "hidden", position: "fixed", right: 0, marginRight: "10%"}}>
                 {
