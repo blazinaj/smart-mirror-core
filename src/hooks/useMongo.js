@@ -6,7 +6,6 @@ import {
     UserPasswordCredential,
 } from "mongodb-stitch-browser-sdk";
 import {AnonymousCredential} from "mongodb-stitch-core-sdk";
-import {useGreetingMessage} from "./useGreetingMessage";
 
 /**
  * @description Performs Authentication and Database calls against our MongoDB Stitch Application
