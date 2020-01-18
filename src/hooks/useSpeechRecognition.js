@@ -130,6 +130,10 @@ const useSpeechRecognition = () => {
         setIntendArray(intendArray => [...intendArray, command])
     };
 
+    const removeCommand = (command) => {
+        //setIntendArray(intendArray => [...intendArray, command])
+    };
+
     const selectLanguage =
         <>
             <label htmlFor="language">
