@@ -12,6 +12,7 @@ import VoiceDemo from "../../components/VoiceDemo/VoiceDemo";
 import {useModal} from "../../hooks/useModal";
 import FaceDemo from "../FaceDemo/FaceDemo";
 import GesturePaintDemo from "../GestureDemo/GesturePaintDemo";
+import {useGreetingMessage} from "../../hooks/useGreetingMessage";
 
 const RoutingBody = (props) => {
 
@@ -24,6 +25,8 @@ const RoutingBody = (props) => {
     const loggingContext = useContext(LoggingContext).logger;
 
     const history = useHistory();
+
+    const greetingHook = useGreetingMessage();
 
     const registerVoiceModal = useModal("One moment, logging you in...", "Registration");
     const pinDisplayModal = useModal(<a> WRITE THIS NUMBER DOWN!<br /><br />
@@ -66,9 +69,8 @@ const RoutingBody = (props) => {
         command: ["mirror mirror on the wall logout", "mirror mirror logout"],
         answer: "Logging out",
         func: () => {
-            loggingContext.addLog("Voice Command: Logging out")
-            appContext.mongoHook.logout()
-            //history.push("/");
+            loggingContext.addLog("Voice Command: Logging out");
+            appContext.mongoHook.logout();
         }
     };
 
@@ -147,6 +149,17 @@ const RoutingBody = (props) => {
         // voiceContext.addCommand(gestureDemoGamePageCommand);
     }, []);
 
+    useEffect(() => {
+        if(mongoHook.firstName !== ""){
+            console.log("Name");
+            console.log(mongoHook.firstName + " " + mongoHook.lastName);
+            greetingHook.setName(mongoHook.firstName);
+        }
+        else{
+            greetingHook.setName("");
+        }
+    }, [mongoHook.isLoggedIn]);
+
     return (
         <Switch>
             <Route exact path="/login">
@@ -154,6 +167,7 @@ const RoutingBody = (props) => {
                     registerVoiceModal.display
                 }
                 <Login mongoHook={mongoHook}/>
+
             </Route>
             <PrivateRoute exact path="/" mongoHook={mongoHook}>
                 {

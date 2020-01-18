@@ -30,6 +30,7 @@ export const useGreetingMessage = () => {
     // Has potential to select specific greetings
     // User can add own?
     useEffect(() => {
+        loggingContext.addLog("GreetingMessage: Name Changed");
         setStyle(Math.floor(Math.random() * Math.floor(greetingStyles.length)));
         if(name !== ""){
             setTimeout(() => {
