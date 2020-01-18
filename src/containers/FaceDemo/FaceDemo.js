@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useContext } from "react";
+import React, { useState, useEffect, useContext, useRef } from "react";
 import {Button, Col, Container, Row, Spinner} from "reactstrap";
 import useFace from "../../hooks/useFace";
 import {useModal} from "../../hooks/useModal";
@@ -13,8 +13,6 @@ const FaceDemo = (props) => {
     const [averageAgeCount, setAverageAgeCount] = useState(0);
     const [allExpressions, setAllExpressions] = useState([]);
     const [showRawExpressions, setShowRawExpressions] = useState(false);
-    const [showBoundingBox, setShowBoundingBox] = useState(true);
-    const [showFaceLandmarks, setShowFaceLandmarks] = useState(false);
 
     const resultObjectModal = useModal(
         <div>{JSON.stringify(resultObject, true, 2)}</div>,
@@ -36,13 +34,23 @@ const FaceDemo = (props) => {
         }
     };
 
+    const showBoundingBox = useRef(false);
+    const setShowBoundingBox = (bool) => {
+        showBoundingBox.current = bool;
+    };
+
+    const showFaceLandmarks = useRef(false);
+    const setShowFaceLandmarks = (bool) => {
+        showFaceLandmarks.current = bool;
+    };
+
     useEffect(() => {
 
         let initialLoad = true;
         setInterval(async () => {
             await getAllOutputs(initialLoad);
-            showBoundingBox && faceApiHook.getBoundingBox();
-            showFaceLandmarks && faceApiHook.getFaceLandmarks();
+            showBoundingBox.current && faceApiHook.getBoundingBox();
+            showFaceLandmarks.current && faceApiHook.getFaceLandmarks();
             initialLoad = false;
         }, 1000)
 
@@ -72,6 +80,40 @@ const FaceDemo = (props) => {
         func: () => setShowRawExpressions(false)
     };
 
+    const showBoundingBoxCommand = {
+        command: ["mirror mirror show bounding box", "mirror mirror show face bounding box"],
+        answer: "Showing Face Bounding Box",
+        func: () => {
+            setShowFaceLandmarks(false);
+            setShowBoundingBox(true);
+        }
+    };
+
+    const hideBoundingBoxCommand = {
+        command: ["mirror mirror hide bounding box", "mirror mirror hide face bounding box"],
+        answer: "Hiding Face Bounding box",
+        func: () => {
+            setShowBoundingBox(false);
+        }
+    };
+
+    const showLandMarksCommand = {
+        command: ["mirror mirror show face landmarks", "mirror mirror show landmarks"],
+        answer: "Showing Face Landmarks",
+        func: () => {
+            setShowBoundingBox(false);
+            setShowFaceLandmarks(true);
+        }
+    };
+
+    const hideLandMarksCommand = {
+        command: ["mirror mirror hide face landmarks", "mirror mirror hide landmarks"],
+        answer: "Hiding Face Landmarks",
+        func: () => {
+            setShowFaceLandmarks(false);
+        }
+    };
+
     const voiceContext = useContext(VoiceCommandsContext).SpeechRecognitionHook;
 
     useEffect(() => {
@@ -79,12 +121,20 @@ const FaceDemo = (props) => {
         voiceContext.addCommand(hideResultObjectCommand);
         voiceContext.addCommand(showRawExpressionsCommand);
         voiceContext.addCommand(hideRawExpressionsCommand);
+        voiceContext.addCommand(showBoundingBoxCommand);
+        voiceContext.addCommand(hideBoundingBoxCommand);
+        voiceContext.addCommand(showLandMarksCommand);
+        voiceContext.addCommand(hideLandMarksCommand);
 
         return () => {
             voiceContext.removeCommand(showResultObjectCommand);
             voiceContext.removeCommand(hideResultObjectCommand);
             voiceContext.removeCommand(showRawExpressionsCommand);
             voiceContext.removeCommand(hideRawExpressionsCommand);
+            voiceContext.removeCommand(showBoundingBoxCommand);
+            voiceContext.removeCommand(hideBoundingBoxCommand);
+            voiceContext.removeCommand(showLandMarksCommand);
+            voiceContext.removeCommand(hideLandMarksCommand);
         }
 
     }, []);
