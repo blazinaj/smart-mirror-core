@@ -16,7 +16,7 @@ export const useGreetingMessage = () => {
         `Hello ${name}, welcome back!`,
 
         // 1 - English Greeting
-        `Ello govenor ${name}`,
+        `Ello govenor, how is ${name} today?`,
 
         // 2 - Irish Greeting
         `Top of the morning to you ${name}, how are you today lad?`
@@ -26,12 +26,19 @@ export const useGreetingMessage = () => {
         // n - .......
     ];
 
+    const changeName = (newName) => {
+        if(newName !== null){
+            loggingContext.addLog("Changed Name For Greeting: " + newName.toString());
+            setName(newName);
+        }
+    };
+
     // Randomized right now
     // Has potential to select specific greetings
     // User can add own?
     useEffect(() => {
         loggingContext.addLog("GreetingMessage: Name Changed");
-        setStyle(Math.floor(Math.random() * Math.floor(greetingStyles.length)));
+        setStyle(Math.floor(Math.random() * greetingStyles.length));
         if(name !== ""){
             setTimeout(() => {
                 loggingContext.addLog("Greeting User");
@@ -44,7 +51,6 @@ export const useGreetingMessage = () => {
         style,
         setStyle,
         greetingStyles,
-        setName
+        changeName
     }
-
 };

@@ -150,15 +150,21 @@ const RoutingBody = (props) => {
     }, []);
 
     useEffect(() => {
-        if(mongoHook.firstName !== ""){
+        loggingContext.addLog("Route UseEffect");
+        if(mongoHook.firstName !== "" && mongoHook.lastName !== "" && mongoHook.lastName !== "user"){
             console.log("Name");
             console.log(mongoHook.firstName + " " + mongoHook.lastName);
-            greetingHook.setName(mongoHook.firstName);
+            greetingHook.changeName(`${mongoHook.firstName} ${mongoHook.lastName}`);
+        }
+        else if(mongoHook.firstName !== "" ){
+            console.log("Name");
+            console.log(mongoHook.firstName);
+            greetingHook.changeName(`${mongoHook.firstName}`);
         }
         else{
-            greetingHook.setName("");
+            greetingHook.changeName("");
         }
-    }, [mongoHook.isLoggedIn]);
+    }, [mongoHook.firstName && mongoHook.lastName] );
 
     return (
         <Switch>
