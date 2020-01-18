@@ -11,15 +11,18 @@ export const useLogger = (initialLogs = []) => {
     };
 
     const display =
-        <ListGroup>
-            {
-                logs.map((log, index) =>
-                    <ListGroupItem key={index}>
-                        {log}
-                    </ListGroupItem>
-                )
-            }
-        </ListGroup>;
+        <>
+            <h3>Application Logs</h3>
+            <ListGroup style={{background: "black", color: "white"}}>
+                {
+                    logs.map((log, index) =>
+                        <ListGroupItem key={index} style={{background: "black", color: "white"}}>
+                            {log}
+                        </ListGroupItem>
+                    )
+                }
+            </ListGroup>
+        </>;
 
     return {
         addLog,

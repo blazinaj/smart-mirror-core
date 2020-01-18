@@ -130,6 +130,16 @@ const useSpeechRecognition = () => {
         setIntendArray(intendArray => [...intendArray, command])
     };
 
+    const removeCommand = (command) => {
+        let commandIndex = intendArray.indexOf(command);
+        let temp = [...intendArray];
+
+        if (commandIndex !== -1) {
+            temp.splice(commandIndex, 1);
+            setIntendArray([...temp])
+        }
+    };
+
     const selectLanguage =
         <>
             <label htmlFor="language">
@@ -166,6 +176,7 @@ const useSpeechRecognition = () => {
         intendArray,
         setIntendArray,
         addCommand,
+        removeCommand,
         speak: speechSynthesisHook.speak
     };
 };
