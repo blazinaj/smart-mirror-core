@@ -63,13 +63,13 @@ const FaceDemo = (props) => {
     const showRawExpressionsCommand = {
         command: ["mirror mirror show raw expressions", "mirror mirror show raw expressions object"],
         answer: "Showing Raw Face Results",
-        func: () => resultObjectModal.setModalIsOpen(true)
+        func: () => setShowRawExpressions(true)
     };
 
     const hideRawExpressionsCommand = {
         command: ["mirror mirror hide raw expressions", "mirror mirror hide raw expressions object"],
         answer: "Hiding Raw Face Results",
-        func: () => resultObjectModal.setModalIsOpen(false)
+        func: () => setShowRawExpressions(false)
     };
 
     const voiceContext = useContext(VoiceCommandsContext).SpeechRecognitionHook;
