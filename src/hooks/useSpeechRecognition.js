@@ -131,7 +131,12 @@ const useSpeechRecognition = () => {
     };
 
     const removeCommand = (command) => {
-        //setIntendArray(intendArray => [...intendArray, command])
+        var index = intendArray.indexOf(command);
+        var intendArrayCopy = [...intendArray];
+        if(index !== -1){
+            intendArrayCopy.splice(index, 1);
+            setIntendArray([...intendArrayCopy]);
+        }
     };
 
     const selectLanguage =
@@ -170,6 +175,7 @@ const useSpeechRecognition = () => {
         intendArray,
         setIntendArray,
         addCommand,
+        removeCommand,
         speak: speechSynthesisHook.speak
     };
 };

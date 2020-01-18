@@ -58,6 +58,12 @@ const VoiceDemo = (props) => {
         SpeechRecognitionHook.addCommand(whoIsTheManCommand);
         SpeechRecognitionHook.addCommand(tellJoke);
         SpeechRecognitionHook.addCommand(showJokeText);
+
+        return () => {
+            SpeechRecognitionHook.removeCommand(whoIsTheManCommand);
+            SpeechRecognitionHook.removeCommand(tellJoke);
+            SpeechRecognitionHook.removeCommand(showJokeText);
+        }
     }, []);
 
 
