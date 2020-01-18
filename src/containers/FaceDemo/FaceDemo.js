@@ -79,6 +79,14 @@ const FaceDemo = (props) => {
         voiceContext.addCommand(hideResultObjectCommand);
         voiceContext.addCommand(showRawExpressionsCommand);
         voiceContext.addCommand(hideRawExpressionsCommand);
+
+        return () => {
+            voiceContext.removeCommand(showResultObjectCommand);
+            voiceContext.removeCommand(hideResultObjectCommand);
+            voiceContext.removeCommand(showRawExpressionsCommand);
+            voiceContext.removeCommand(hideRawExpressionsCommand);
+        }
+
     }, []);
 
     const getCurrentExpression = (expressionsObject) => {
