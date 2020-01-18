@@ -28,20 +28,16 @@ export const useGreetingMessage = () => {
         // n - .......
     ];
 
-    // const greetingMessage = () => {
-    //     //     setTimeout(() => {
-    //     //         voiceContext.SpeechRecognitionHook.speak(greetingStyles[style]);
-    //     //         console.log("MongoDB Name: " + mongoHook.name)
-    //     //     }, 1500)
-    // };
-
     useEffect(() => {
         // databaseHook.findOne("users", mongoHook.authenticatedUser.id);
         setStyle(Math.floor(Math.random() * Math.floor(2)));
         if(mongoHook.isLoggedIn === true){
-            setTimeout(() => voiceContext.SpeechRecognitionHook.speak(greetingStyles[style]), 2000);
+            setTimeout(() => {
+                console.log("MongoDB Name: " + mongoHook.name);
+                voiceContext.SpeechRecognitionHook.speak(greetingStyles[style])
+            }, 2000);
         }
-    }, [mongoHook.isLoggedIn]);
+    }, [mongoHook.name]);
 
     return{
         style,

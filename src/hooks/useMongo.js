@@ -64,6 +64,7 @@ export const useMongo = (input, logger) => {
         // Returns a promise that resolves to the authenticated user
             .then(authedUser => {
                 loggingContext.addLog(`successfully logged in with id: ${authedUser.id}`);
+                findName(authedUser.id);
                 setAuthenticatedUser(authedUser);
                 setIsLoggedIn(true);
             })
@@ -150,6 +151,17 @@ export const useMongo = (input, logger) => {
     const logout = () => {
         setAuthenticatedUser({});
         setIsLoggedIn(false);
+    };
+
+    const findName = async (id) => {
+        loggingContext.addLog("Finding name...");
+        let client = Stitch.defaultAppClient;
+        const db = client.getServiceClient(RemoteMongoClient.factory, 'mongodb-atlas').db('smart_mirror');
+        let account = await db.collection("users").findOne({userId: id});
+        setName(account.first_name + " " + account.last_name);
+        loggingContext.addLog(account);
+        loggingContext.addLog("Name found: " + account.first_name + " " + account.last_name);
+        loggingContext.addLog("Name changed: " + name);
     };
 
     return {

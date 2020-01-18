@@ -31,6 +31,7 @@ const Login = (props) => {
     const [isLoading, setIsLoading] = useState(false);
 
     const history = useHistory();
+    useGreetingMessage();
 
     const manualLoginCommand = {
         command: ["Mirror mirror on the wall Log me in", "Mirror mirror Log me in"],
@@ -64,7 +65,6 @@ const Login = (props) => {
     const loggingContext = useContext(LoggingContext).logger;
     const voiceContext = useContext(VoiceCommandsContext);
     const debuggingTools = useContext(AppContext).debuggingTools;
-    const greetingHook = useGreetingMessage();
 
     useEffect(() => {
         voiceContext.SpeechRecognitionHook.addCommand(manualLoginCommand);
@@ -163,8 +163,8 @@ const Login = (props) => {
     };
 
     // These settings store state of email and password
-    const [email, setEmail] = useState('');
-    const [password, setPassword] = useState('');
+    const [email, setEmail] = useState('lichtschwert@live.com');
+    const [password, setPassword] = useState('FakePassword');
 
     // Login function
     const login = async (optionalEmail, optionalPassword) => {
@@ -184,7 +184,6 @@ const Login = (props) => {
         }
         else {
             history.push("/");
-            greetingHook.greetingMessage();
         }
     };
 
