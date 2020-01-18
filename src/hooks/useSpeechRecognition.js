@@ -131,11 +131,13 @@ const useSpeechRecognition = () => {
     };
 
     const removeCommand = (command) => {
-        var index = intendArray.indexOf(command);
-        var intendArrayCopy = [...intendArray];
-        if(index !== -1){
-            intendArrayCopy.splice(index, 1);
-            setIntendArray([...intendArrayCopy]);
+        let commandIndex = intendArray.indexOf(command);
+        alert("index is " + commandIndex);
+        let temp = [...intendArray];
+        if (commandIndex !== -1) {
+
+            temp.splice(commandIndex, 1);
+            setIntendArray([...temp])
         }
     };
 
