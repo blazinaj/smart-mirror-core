@@ -135,8 +135,8 @@ const App = () => {
                             }
                         </Row>
                     </VoiceCommandsContext.Provider>
-                </LoggingContext.Provider>
-            </AppContext.Provider>
+                </AppContext.Provider>
+            </LoggingContext.Provider>
         </div>
     );
 };
