@@ -1,6 +1,5 @@
-import React, {useState, useContext, useEffect} from "react"
+import React, {useContext} from "react"
 import {VoiceCommandsContext} from "../../context/VoiceCommandsContext";
-import {LoggingContext} from "../../context/LoggingContext";
 import {Col, Row} from "reactstrap";
 
 const HelpPage = () => {
