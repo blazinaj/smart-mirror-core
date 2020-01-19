@@ -7,7 +7,7 @@ import useSpeechSynthesis from "../../hooks/useSpeechSynthesis";
 const VoiceDemo = (props) => {
 
     const {SpeechRecognitionHook} = useContext(VoiceCommandsContext);
-    const speechSynthesisHook = useSpeechSynthesis();
+    //const speechSynthesisHook = useSpeechSynthesis();
     const [showJoke, setShowJoke] = useState(true);
     const [joke, setJoke] = useState("");
 
@@ -43,12 +43,12 @@ const VoiceDemo = (props) => {
                 // alert(myJson.joke);
                 if (myJson.type === "single") {
                     // alert("Single " + myJson.joke)
-                    speechSynthesisHook.speak(myJson.joke)
+                    SpeechRecognitionHook.speak(myJson.joke)
                     setJoke(myJson.joke);
                 } else {
                     //alert(myJson.setup + " " +  myJson.delivery)
                     const twoPartJoke = myJson.setup + myJson.delivery;
-                    speechSynthesisHook.speak(twoPartJoke)
+                    SpeechRecognitionHook.speak(twoPartJoke)
                     setJoke(twoPartJoke);
                 }
             });
