@@ -6,9 +6,6 @@ import {Col, Row} from "reactstrap";
 const HelpPage = () => {
 
     const voiceContext = useContext(VoiceCommandsContext).SpeechRecognitionHook;
-    const loggingContext = useContext(LoggingContext).logger;
-
-    const [commandList, setCommandList] = useState([[{}]]);
 
     return (
         <div>
