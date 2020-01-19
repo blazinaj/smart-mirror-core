@@ -13,6 +13,7 @@ import {useModal} from "../../hooks/useModal";
 import FaceDemo from "../FaceDemo/FaceDemo";
 import GesturePaintDemo from "../GestureDemo/GesturePaintDemo";
 import {useGreetingMessage} from "../../hooks/useGreetingMessage";
+import HelpPage from "../HelpPage/HelpPage";
 
 const RoutingBody = (props) => {
 
@@ -136,6 +137,16 @@ const RoutingBody = (props) => {
     //     }
     // };
 
+    const helpPageCommand = {
+        command: ["mirror mirror help page", "mirror mirror on the wall help page", "mirror mirror go to help page", "mirror mirror take me to help page",
+                        "mirror mirror I have fallen and need a help page"],
+        answer: "Help is on it's way!",
+        func: () => {
+            loggingContext.addLog("Voice Command: Going to help page");
+            history.push("/help_page")
+        }
+    };
+
     useEffect(() => {
         voiceContext.addCommand(homePageCommand);
         voiceContext.addCommand(testPageCommand);
@@ -147,6 +158,7 @@ const RoutingBody = (props) => {
         voiceContext.addCommand(gestureDemoPaintPageCommand);
         voiceContext.addCommand(faceDemoPageCommand);
         // voiceContext.addCommand(gestureDemoGamePageCommand);
+        voiceContext.addCommand(helpPageCommand);
     }, []);
 
     useEffect(() => {
@@ -200,6 +212,9 @@ const RoutingBody = (props) => {
             </PrivateRoute>
             <Route exact path="/sleep">
                 <Sleep/>
+            </Route>
+            <Route exact path="/help_page">
+                <HelpPage/>
             </Route>
         </Switch>
     )
