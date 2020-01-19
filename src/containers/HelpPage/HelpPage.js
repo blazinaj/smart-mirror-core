@@ -42,7 +42,7 @@ const HelpPage = () => {
                 </Col>
                 <div>
                     <h3 style={{color: "blue"}}>All Commands</h3>
-                    <h5 style={{color: "blue"}}>(Not all commands function all the time)</h5>
+                    <h5 style={{color: "blue"}}>(Some commands only function in certain instances)</h5>
                     {
                         voiceContext.intendArray.map((command) => {
                             return <div>
