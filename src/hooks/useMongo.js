@@ -4,11 +4,8 @@ import {
     Stitch,
     UserPasswordAuthProviderClient,
     UserPasswordCredential,
-    UserPasswordAuthProviderClientImpl
 } from "mongodb-stitch-browser-sdk";
 import {AnonymousCredential} from "mongodb-stitch-core-sdk";
-import {useLogger} from "./useLogger";
-import {LoggingContext} from "../context/LoggingContext";
 
 /**
  * @description Performs Authentication and Database calls against our MongoDB Stitch Application
@@ -22,10 +19,14 @@ export const useMongo = (input, logger) => {
     const [isLoggedIn, setIsLoggedIn] = useState(false);
     const [authenticatedUser, setAuthenticatedUser] = useState({});
     const [pin, setPin] = useState("FAKEPIN");
+    const [firstName, setFirstName] = useState("");
+    const [lastName, setLastName] = useState("");
 
     const loginGuestUser = async () => {
         let client = Stitch.defaultAppClient;
         let error;
+        setFirstName("Guest");
+        setLastName(" ");
         await client.auth.loginWithCredential(new AnonymousCredential())
             .then(guest => {
                 loggingContext.addLog("Successfully logged in as Guest User! ("+guest.id+")");
@@ -62,6 +63,22 @@ export const useMongo = (input, logger) => {
         // Returns a promise that resolves to the authenticated user
             .then(authedUser => {
                 loggingContext.addLog(`successfully logged in with id: ${authedUser.id}`);
+                loggingContext.addLog(authedUser);
+
+                const db = client.getServiceClient(RemoteMongoClient.factory, 'mongodb-atlas').db('smart_mirror');
+                db.collection("users").findOne({userId: authedUser.id})
+                    .then(user => {
+                        console.log(`MongoDB: first: ${user.first_name} last: ${user.last_name}`);
+                        if(user.first_name !== undefined && user.first_name !== null){
+                            loggingContext.addLog("First Name is not Undefined");
+                            setFirstName(user.first_name);
+                        } else {setFirstName("user")}
+                        if(user.last_name !== undefined && user.last_name !== null){
+                            loggingContext.addLog("Last Name is not Undefined");
+                            setLastName(user.last_name);
+                        } else {setLastName("user")}
+                    });
+
                 setAuthenticatedUser(authedUser);
                 setIsLoggedIn(true);
             })
@@ -148,6 +165,8 @@ export const useMongo = (input, logger) => {
     const logout = () => {
         setAuthenticatedUser({});
         setIsLoggedIn(false);
+        setFirstName("");
+        setLastName("");
     };
 
     return {
@@ -160,5 +179,7 @@ export const useMongo = (input, logger) => {
         logout,
         authenticatedUser,
         pin,
+        firstName,
+        lastName
     }
 };
