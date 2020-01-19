@@ -22,14 +22,23 @@ const HelpPage = () => {
 
                 </Col>
                 <Col>
-                    <h3 style={{color: "blue"}}>General</h3>
-                    <label style={{color: "red", fontSize: "28px"}}>Show Speech to Text: </label><h5> Mirror mirror show transcript</h5>
-                    <label style={{color: "red", fontSize: "28px"}}>Hide Speech to Text: </label><h5> Mirror mirror hide transcript</h5>
+                    <h3 style={{color: "blue"}}>Misc Commands</h3>
+                    <label style={{color: "red", fontSize: "28px"}}>Show/Hide Speech to Text: </label><h5> Mirror mirror show/hide transcript</h5>
                     <label style={{color: "red", fontSize: "28px"}}>Create new Account: </label><h5> Mirror mirror register new account</h5>
+                    <label style={{color: "red", fontSize: "28px"}}>Tell Time: </label><h5> Mirror mirror what time is it?</h5>
+                    <label style={{color: "red", fontSize: "28px"}}>Setup Facial Recognition: </label><h5> Mirror mirror ?</h5>
                 </Col>
                 <Col>
-                    <h3 style={{color: "blue"}}>Misc Commands</h3>
-                    <h5><label style={{color: "red", fontSize: "28px"}}>Time: </label> Mirror mirror what time is it?</h5>
+                    <h3 style={{color: "blue"}}>Other</h3>
+                    <h5>
+                        To setup your Google calendar, do so from the Account Manager on the Home Page.
+                        <hr />
+                        From the Account manager you can also change your name so we know what to call you when you login.
+                        <hr />
+                        Thank you for using our
+                        <br />
+                        Magic Mirror, by OpTech.
+                    </h5>
                 </Col>
                 <div>
                     <h3 style={{color: "blue"}}>All Commands</h3>

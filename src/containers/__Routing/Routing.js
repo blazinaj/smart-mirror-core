@@ -36,7 +36,7 @@ const RoutingBody = (props) => {
                                     Login using the Pin button on the login screen on any PC or Mobile device.<br /><br />
                                     Otherwise make sure to setup your face login to login hands free!<br /><br />
                                     {/*This will only be shown to you once, and will be deleted within ? days, so remember to change your email and password!<br /><br />*/}
-                                    <h5>When finished say: </h5><h4 style={{color: "blue"}}>Mirror mirror close</h4></a>,
+                                    <h5>When finished say: </h5><h4 style={{color: "blue"}}>Mirror mirror hide message</h4></a>,
             `IMPORTANT - PIN: ${mongoHook.pin}`);
 
     const homePageCommand = {
@@ -103,7 +103,7 @@ const RoutingBody = (props) => {
     };
 
     const closePinCommand = {
-        command: ["Mirror mirror close", "Mirror mirror I promise I actually wrote it down"],
+        command: ["Mirror mirror hide message", "Mirror mirror I promise I actually wrote it down"],
         answer: "Enjoy your New Account!",
         func: () => {
             pinDisplayModal.setModalIsOpen(false);
