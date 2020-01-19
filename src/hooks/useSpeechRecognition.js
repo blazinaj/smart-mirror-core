@@ -126,6 +126,10 @@ const useSpeechRecognition = () => {
 
     }, [value]);
 
+    useEffect( () => {
+       console.log(intendArray);
+    }, [intendArray]);
+
     const addCommand = (command) => {
         setIntendArray(intendArray => [...intendArray, command])
     };
@@ -149,6 +153,7 @@ const useSpeechRecognition = () => {
             }
         });
     };
+
 
     const selectLanguage =
         <>
