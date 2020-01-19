@@ -130,15 +130,24 @@ const useSpeechRecognition = () => {
         setIntendArray(intendArray => [...intendArray, command])
     };
 
-    const removeCommand = (command) => {
-        let commandIndex = intendArray.indexOf(command);
-        alert("index is " + commandIndex);
-        let temp = [...intendArray];
-        if (commandIndex !== -1) {
+    const removeCommand = (tempCommand) => {
+        // let commandIndex = intendArray.indexOf(command);
+        // alert("index is " + commandIndex);
+        // let temp = [...intendArray];
+        // if (commandIndex !== -1) {
+        //
+        //     temp.splice(commandIndex, 1);
+        //     setIntendArray([...temp])
+        // }
+        alert("remove command fired!" + tempCommand.command[0].toString())
 
-            temp.splice(commandIndex, 1);
-            setIntendArray([...temp])
-        }
+        intendArray.map( (item) => {
+            if (item.command[0].toString() == tempCommand.command[0].toString()) {
+                console.log("IntendArray " + item.command[0].toString() + "matches" + tempCommand.command[0].toString());
+            } else {
+                console.log("IntendArray " + item.command[0].toString() + "does not match" + tempCommand.command[0].toString());
+            }
+        });
     };
 
     const selectLanguage =
