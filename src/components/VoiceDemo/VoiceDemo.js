@@ -32,6 +32,19 @@ const VoiceDemo = (props) => {
         }
     };
 
+    const imageSearch = {
+        command: ["mirror mirror search for"],
+        answer: "",
+        func: (value) => {
+            
+            const searchForRegExp = /search for/i;
+            let found = value.match(searchForRegExp);
+            //alert(value.length);
+            //console.log(found.index);
+            alert(value.substring(24)) //"mirror mirror search for puppies" is 24 characters long
+        }
+    };
+
     const getJoke = () => {
         fetch('https://sv443.net/jokeapi/category/Programming?blacklistFlags=nsfw,religious,political"format=json')
             .then((response) => {
@@ -58,6 +71,7 @@ const VoiceDemo = (props) => {
         SpeechRecognitionHook.addCommand(whoIsTheManCommand);
         SpeechRecognitionHook.addCommand(tellJoke);
         SpeechRecognitionHook.addCommand(showJokeText);
+        SpeechRecognitionHook.addCommand(imageSearch);
     }, []);
 
 

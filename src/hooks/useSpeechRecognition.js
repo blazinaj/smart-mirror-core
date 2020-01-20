@@ -117,7 +117,7 @@ const useSpeechRecognition = () => {
                     }
 
                     if (intent.func) {
-                        intent.func();
+                        intent.func(value);
                     }
                 }
             }
