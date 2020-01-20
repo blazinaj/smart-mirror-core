@@ -127,6 +127,15 @@ const RoutingBody = (props) => {
         }
     };
 
+    const goBackCommand = {
+        command: ["mirror mirror I want to go back", "mirror mirror go back", "mirror mirror go to previous page" ],
+        answer: "Alright taking you back!",
+        func: () => {
+            loggingContext.addLog("Voice Command: Alright taking you back");
+            history.goBack();
+        }
+    };
+
     // const gestureDemoGamePageCommand = {
     //     command: ["mirror mirror I want to play a game"],
     //     answer: "Okay, lunching the Sky Ball game",
@@ -146,6 +155,7 @@ const RoutingBody = (props) => {
         voiceContext.addCommand(closePinCommand);
         voiceContext.addCommand(gestureDemoPaintPageCommand);
         voiceContext.addCommand(faceDemoPageCommand);
+        voiceContext.addCommand(goBackCommand);
         // voiceContext.addCommand(gestureDemoGamePageCommand);
     }, []);
 
@@ -187,7 +197,6 @@ const RoutingBody = (props) => {
             <PrivateRoute exact path="/voice_demo" mongoHook={mongoHook}>
                 <VoiceDemo/>
             </PrivateRoute>
-            {/* Art added this gesture_demo path for now but not sure it its set up correctly */}
             <PrivateRoute exact path="/gesture_paint" mongoHook={mongoHook}>
                 <GesturePaintDemo/>
             </PrivateRoute>
