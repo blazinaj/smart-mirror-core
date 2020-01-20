@@ -2,6 +2,7 @@ import React, {useState, useEffect, useContext} from "react";
 import {VoiceCommandsContext} from "../../context/VoiceCommandsContext";
 import {Input, Label, Button, Row, Col} from 'reactstrap';
 import useSpeechSynthesis from "../../hooks/useSpeechSynthesis";
+import Search from "./Search";
 
 //Starting google image search PR.
 const VoiceDemo = (props) => {
@@ -36,7 +37,7 @@ const VoiceDemo = (props) => {
         command: ["mirror mirror search for"],
         answer: "",
         func: (value) => {
-            
+
             const searchForRegExp = /search for/i;
             let found = value.match(searchForRegExp);
             //alert(value.length);
@@ -84,6 +85,7 @@ const VoiceDemo = (props) => {
                     SpeechRecognitionHook.displayTranscript
                 }
             </>
+            <Search/>
             <Col>
                 <Row>
                     <Col lg={3}>
