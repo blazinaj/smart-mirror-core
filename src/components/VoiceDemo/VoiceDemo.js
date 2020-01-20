@@ -3,7 +3,7 @@ import {VoiceCommandsContext} from "../../context/VoiceCommandsContext";
 import {Input, Label, Button, Row, Col} from 'reactstrap';
 import useSpeechSynthesis from "../../hooks/useSpeechSynthesis";
 
-
+//Starting google image search PR.
 const VoiceDemo = (props) => {
 
     const {SpeechRecognitionHook} = useContext(VoiceCommandsContext);
