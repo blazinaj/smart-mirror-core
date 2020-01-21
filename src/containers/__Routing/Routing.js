@@ -11,6 +11,7 @@ import Sleep from "../Sleep/Sleep";
 import VoiceDemo from "../../components/VoiceDemo/VoiceDemo";
 import {useModal} from "../../hooks/useModal";
 import FaceDemo from "../FaceDemo/FaceDemo";
+import Devotions from "../../components/Devotions/Devotions";
 import GesturePaintDemo from "../GestureDemo/GesturePaintDemo";
 import {useGreetingMessage} from "../../hooks/useGreetingMessage";
 
@@ -71,6 +72,15 @@ const RoutingBody = (props) => {
         func: () => {
             loggingContext.addLog("Voice Command: Logging out");
             appContext.mongoHook.logout();
+        }
+    };
+
+    const devotionsCommand = {
+        command: ["mirror mirror go to devotions", "mirror mirror i want to see devotions", "mirror mirror take me to devotions"],
+        answer: "Alright! Ill take you to devotions",
+        func: () => {
+            loggingContext.addLog("Voice Command: Alright! Ill take you to devotions")
+            history.push("/devotions")
         }
     };
 
@@ -156,6 +166,7 @@ const RoutingBody = (props) => {
         voiceContext.addCommand(gestureDemoPaintPageCommand);
         voiceContext.addCommand(faceDemoPageCommand);
         voiceContext.addCommand(goBackCommand);
+        voiceContext.addCommand(devotionsCommand);
         // voiceContext.addCommand(gestureDemoGamePageCommand);
     }, []);
 
@@ -203,7 +214,9 @@ const RoutingBody = (props) => {
             {/*<PrivateRoute exact path="/gesture_game_sky_ball" mongoHook={mongoHook}>*/}
             {/*    <SkyBallGame/>*/}
             {/*</PrivateRoute>*/}
-             
+            <PrivateRoute exact path="/devotions" mongoHook={mongoHook}>
+                <Devotions/>
+            </PrivateRoute>
             <PrivateRoute exact path="/face_demo" mongoHook={mongoHook}>
                 <FaceDemo/>
             </PrivateRoute>

@@ -14,6 +14,7 @@ import CameraSettings from "../CameraSettings/CameraSettings";
 import ReactWeather from "react-open-weather";
 import Calendar from 'react-calendar';
 import GoogleCalendarWrapper from "../Google/GoogleCalendarWrapper";
+import { HighContrastSelectorWhite, HighContrastSelectorBlack } from "office-ui-fabric-react";
 // import GoogleCalendarWrapper from "../Google/GoogleCalendarWrapper";
 
 const Dashboard = (props) => {
