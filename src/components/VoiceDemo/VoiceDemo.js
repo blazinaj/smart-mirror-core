@@ -3,6 +3,7 @@ import {VoiceCommandsContext} from "../../context/VoiceCommandsContext";
 import {Input, Label, Button, Row, Col} from 'reactstrap';
 import useSpeechSynthesis from "../../hooks/useSpeechSynthesis";
 import Search from "./Search";
+import axios from "axios";
 
 //Starting google image search PR.
 const VoiceDemo = (props) => {
@@ -43,6 +44,7 @@ const VoiceDemo = (props) => {
             //alert(value.length);
             //console.log(found.index);
             alert(value.substring(24)) //"mirror mirror search for puppies" is 24 characters long
+
         }
     };
 
