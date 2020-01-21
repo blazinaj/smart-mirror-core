@@ -35,6 +35,8 @@ const VoiceDemo = (props) => {
     };
 
     const imageSearch = {
+        //example get request https://pixabay.com/api/?key=12413278-79b713c7e196c7a3defb5330e&q=puppies&page=1
+        //API key is from the sample code
         command: ["mirror mirror search for"],
         answer: "",
         func: (value) => {
