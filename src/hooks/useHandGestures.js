@@ -171,12 +171,14 @@ export const useHandGestures = () => {
 
             time--;
 
-            document.getElementById("timer").innerHTML = time + "s";
+            if (document && document.getElementById && document.getElementById("timer").innerHTML) {
+                document.getElementById("timer").innerHTML = time + "s";
 
-            if (time === 0) {
-                clearInterval(timer);
-                document.getElementById("timer").innerHTML = "Time's up!";
-                setOutOfTime(true);
+                if (time === 0) {
+                    clearInterval(timer);
+                    document.getElementById("timer").innerHTML = "Time's up!";
+                    setOutOfTime(true);
+                }
             }
         }, 1000);
     }, []);
