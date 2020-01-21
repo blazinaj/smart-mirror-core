@@ -26,6 +26,8 @@ const RoutingBody = (props) => {
 
     const history = useHistory();
 
+    const greetingHook = useGreetingMessage();
+
     const registerVoiceModal = useModal("One moment, logging you in...", "Registration");
     const pinDisplayModal = useModal(<a> WRITE THIS NUMBER DOWN!<br /><br />
                                     <h2 style={{color: "red"}}>{mongoHook.pin}</h2><br />
@@ -67,9 +69,8 @@ const RoutingBody = (props) => {
         command: ["mirror mirror on the wall logout", "mirror mirror logout"],
         answer: "Logging out",
         func: () => {
-            loggingContext.addLog("Voice Command: Logging out")
-            appContext.mongoHook.logout()
-            //history.push("/");
+            loggingContext.addLog("Voice Command: Logging out");
+            appContext.mongoHook.logout();
         }
     };
 
@@ -135,6 +136,15 @@ const RoutingBody = (props) => {
         }
     };
 
+    const goBackCommand = {
+        command: ["mirror mirror I want to go back", "mirror mirror go back", "mirror mirror go to previous page" ],
+        answer: "Alright taking you back!",
+        func: () => {
+            loggingContext.addLog("Voice Command: Alright taking you back");
+            history.goBack();
+        }
+    };
+
     // const gestureDemoGamePageCommand = {
     //     command: ["mirror mirror I want to play a game"],
     //     answer: "Okay, lunching the Sky Ball game",
@@ -154,9 +164,25 @@ const RoutingBody = (props) => {
         voiceContext.addCommand(closePinCommand);
         voiceContext.addCommand(gestureDemoPaintPageCommand);
         voiceContext.addCommand(faceDemoPageCommand);
-        voiceContext.addCommand(gestureMouseDemoPageCommand);
         // voiceContext.addCommand(gestureDemoGamePageCommand);
     }, []);
+
+    useEffect(() => {
+        loggingContext.addLog("Route UseEffect");
+        if(mongoHook.firstName !== "" && mongoHook.lastName !== "" && mongoHook.lastName !== "user"){
+            console.log("Name");
+            console.log(mongoHook.firstName + " " + mongoHook.lastName);
+            greetingHook.changeName(`${mongoHook.firstName} ${mongoHook.lastName}`);
+        }
+        else if(mongoHook.firstName !== "" ){
+            console.log("Name");
+            console.log(mongoHook.firstName);
+            greetingHook.changeName(`${mongoHook.firstName}`);
+        }
+        else{
+            greetingHook.changeName("");
+        }
+    }, [mongoHook.firstName && mongoHook.lastName] );
 
     return (
         <Switch>
@@ -165,6 +191,7 @@ const RoutingBody = (props) => {
                     registerVoiceModal.display
                 }
                 <Login mongoHook={mongoHook}/>
+
             </Route>
             <PrivateRoute exact path="/" mongoHook={mongoHook}>
                 {

@@ -15,6 +15,7 @@ import {Stitch} from "mongodb-stitch-browser-sdk";
 import {useMongo} from "./hooks/useMongo";
 import {AppContext} from "./context/AppContext";
 import Routing from "./containers/__Routing/Routing";
+import CommandArray from "./components/Application/CommandArray";
 
 const App = () => {
 
@@ -106,7 +107,7 @@ const App = () => {
     }, []);
 
     return (
-        <div style={{background: "black"}} className="App">
+        <div style={{background: "black", color: "white"}} className="App">
             <LoggingContext.Provider value={{logger}}>
                 <AppContext.Provider value={{mongoHook, debuggingTools}}>
                     <VoiceCommandsContext.Provider value={{SpeechRecognitionHook}}>
@@ -124,18 +125,6 @@ const App = () => {
                     </VoiceCommandsContext.Provider>
                 </AppContext.Provider>
             </LoggingContext.Provider>
-            <>
-                {
-                    showTranscript &&
-                    SpeechRecognitionHook.displayTranscript
-                }
-            </>
-            <>
-                {
-                    showIntendArray &&
-                    <div style={{background: "white"}}>{JSON.stringify(SpeechRecognitionHook.intendArray)}</div>
-                }
-            </>
         </div>
     );
 };

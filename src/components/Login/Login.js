@@ -139,7 +139,7 @@ const Login = (props) => {
                 setEmail(faceObjectInDatabase.email);
                 setPassword(faceObjectInDatabase.password);
                 setFaceLoginStatus("Hello - " + faceObjectInDatabase.email + ". Logging you in now..");
-                voiceContext.SpeechRecognitionHook.speak(`Face Matched with ${100 - dist.toFixed(2) * 100}% accuracy. Hello ${faceObjectInDatabase.email}, you are now logged in.`);
+                voiceContext.SpeechRecognitionHook.speak(`Face Matched with ${100 - dist.toFixed(2) * 100}% accuracy.`);
                 login(faceObjectInDatabase.email, faceObjectInDatabase.password);
                 break;
             } else {
@@ -184,10 +184,6 @@ const Login = (props) => {
             history.push("/");
         }
     };
-
-    // const loginWithPincode = async () => {
-    //         history.push("/pincode_login");
-    // };
 
     const [pincode, setPincode] = useState("");
 
