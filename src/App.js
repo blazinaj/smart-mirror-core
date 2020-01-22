@@ -127,14 +127,14 @@ const App = () => {
                             <Col>
                                 {/* <Devotions/> */}
                                 <Routing/>
-                            </>
+                            </Col>
                             {
                                 showLogger &&
                                 <>
                                     {logger.display}
                                 </>
                             }
-                        </>
+                        </Row>
                     </VoiceCommandsContext.Provider>
                 </AppContext.Provider>
             </LoggingContext.Provider>
