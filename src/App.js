@@ -16,7 +16,7 @@ import {useMongo} from "./hooks/useMongo";
 import {AppContext} from "./context/AppContext";
 import Routing from "./containers/__Routing/Routing";
 import CommandArray from "./components/Application/CommandArray";
-
+import Devotions from "./components/Devotions/Devotions";
 const App = () => {
 
     const [client, setClient] = useState(null);
@@ -125,6 +125,7 @@ const App = () => {
                                 </Col>
                             }
                             <Col>
+                                {/* <Devotions/> */}
                                 <Routing/>
                             </Col>
                             {

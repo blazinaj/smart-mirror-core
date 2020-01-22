@@ -3,12 +3,14 @@ import ReactDOM from 'react-dom';
 import {Input, Label, Button, Row, Col} from 'reactstrap';
 import {VoiceCommandsContext} from "../../context/VoiceCommandsContext";
 import AnalogClock from 'analog-clock-react';
+import axios from 'axios';
 
 
 
 const Devotions = (props)=>{
     const {SpeechRecognitionHook} = useContext(VoiceCommandsContext);
     const [quote,setQuote] =  useState(null); //1
+    
 
 // clock widget colors
     let options = {
@@ -24,53 +26,44 @@ const Devotions = (props)=>{
         }
     };
 
-    function useQuote() {
-        const [quote, setQuote] = React.useState(null)
-      
-        return quote
-      }
-
-    useEffect(()=>{
+   //Jacobs vertion
+   /*
+    const getRandomQuote = () => {
         fetch("https://beta.ourmanna.com/api/v1/get/?format=text&order=random")
-        .then(response => response.json())
+        .then(response => console.log(JSON.stringify(response))
         .then(quotes =>{
             const randomIndex = Math.floor(Math.random() * quotes.length);
-            setQuote(quotes[randomIndex]);
-        });
-    },[]);
+            return quotes[randomIndex];
+        }));
+}
+*/
+// Anatolys vertion
+useEffect(() => {
 
-    /*fetchQuotes = () => {
-        setState({...state, isFetching: true})
-        fetch('https://beta.ourmanna.com/api/v1/get/?format=text&order=random')
-          .then((response => {
-              return response.json()
-          })
-          .then(result => setState({quotes: result, 
-                                         isFetching: false}))
-          .catch(e => console.log(e)));
-      }
-    */
+    axios.get("https://beta.ourmanna.com/api/v1/get/?format=text&order=random")
+    .then(responce => {
+        const quote = responce.data; 
+        console.log(quote)
+        setQuote(quote) ;
+        //console.log("Todays Quotes :"+todaysQuote)
+        
+    });
+},[]);
+
 
     return (
         <div style={{height: "100vh", background: "black", padding: "5vw"}}>
-            <h1>Devotions</h1>
-            <>
+            <h1>DEVOTIONS</h1>
+            <><AnalogClock {...options} /></>
+            {/*<>
                 {
                     SpeechRecognitionHook.displayTranscript
                 }
             </>
+            */}
             <Col>
-                <h2> For God so loved the world...</h2>
+                <h1>{JSON.stringify(quote)}</h1>
             </Col>
-            <Col>
-                <h2> John 3:16</h2>
-            </Col>
-            <Col>
-                <AnalogClock {...options} />
-            </Col>
-            <Col>
-               quote; 
-        </Col>
 
         </div>
 
