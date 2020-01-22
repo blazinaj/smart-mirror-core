@@ -13,6 +13,7 @@ import {useModal} from "../../hooks/useModal";
 import FaceDemo from "../FaceDemo/FaceDemo";
 import GesturePaintDemo from "../GestureDemo/GesturePaintDemo";
 import {useGreetingMessage} from "../../hooks/useGreetingMessage";
+import HelpPage from "../HelpPage/HelpPage";
 
 const RoutingBody = (props) => {
 
@@ -35,7 +36,7 @@ const RoutingBody = (props) => {
                                     Login using the Pin button on the login screen on any PC or Mobile device.<br /><br />
                                     Otherwise make sure to setup your face login to login hands free!<br /><br />
                                     {/*This will only be shown to you once, and will be deleted within ? days, so remember to change your email and password!<br /><br />*/}
-                                    <h5>When finished say: </h5><h4 style={{color: "blue"}}>Mirror mirror close</h4></a>,
+                                    <h5>When finished say: </h5><h4 style={{color: "blue"}}>Mirror mirror hide message</h4></a>,
             `IMPORTANT - PIN: ${mongoHook.pin}`);
 
     const homePageCommand = {
@@ -102,7 +103,7 @@ const RoutingBody = (props) => {
     };
 
     const closePinCommand = {
-        command: ["Mirror mirror close", "Mirror mirror I promise I actually wrote it down"],
+        command: ["Mirror mirror hide message", "Mirror mirror I promise I actually wrote it down"],
         answer: "Enjoy your New Account!",
         func: () => {
             pinDisplayModal.setModalIsOpen(false);
@@ -145,6 +146,16 @@ const RoutingBody = (props) => {
     //     }
     // };
 
+    const helpPageCommand = {
+        command: ["mirror mirror help page", "mirror mirror on the wall help page", "mirror mirror go to help page", "mirror mirror take me to help page",
+                        "mirror mirror I have fallen and need a help page"],
+        answer: "Help is on it's way!",
+        func: () => {
+            loggingContext.addLog("Voice Command: Going to help page");
+            history.push("/help_page")
+        }
+    };
+
     useEffect(() => {
         voiceContext.addCommand(homePageCommand);
         voiceContext.addCommand(testPageCommand);
@@ -157,6 +168,7 @@ const RoutingBody = (props) => {
         voiceContext.addCommand(faceDemoPageCommand);
         voiceContext.addCommand(goBackCommand);
         // voiceContext.addCommand(gestureDemoGamePageCommand);
+        voiceContext.addCommand(helpPageCommand);
     }, []);
 
     useEffect(() => {
@@ -209,6 +221,9 @@ const RoutingBody = (props) => {
             </PrivateRoute>
             <Route exact path="/sleep">
                 <Sleep/>
+            </Route>
+            <Route exact path="/help_page">
+                <HelpPage/>
             </Route>
         </Switch>
     )
