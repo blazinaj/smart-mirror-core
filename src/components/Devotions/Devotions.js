@@ -1,4 +1,5 @@
-import React, {useState, useEffect, useContext} from "react";
+import React, {useState, useEffect, useContext, Fragment} from "react";
+import ReactDOM from 'react-dom';
 import {Input, Label, Button, Row, Col} from 'reactstrap';
 import {VoiceCommandsContext} from "../../context/VoiceCommandsContext";
 import AnalogClock from 'analog-clock-react';
@@ -6,7 +7,10 @@ import AnalogClock from 'analog-clock-react';
 
 
 const Devotions = (props)=>{
+    const {SpeechRecognitionHook} = useContext(VoiceCommandsContext);
+    const [quote,setQuote] =  useState(null); //1
 
+// clock widget colors
     let options = {
         width: "300px",
         border: true,
@@ -20,7 +24,32 @@ const Devotions = (props)=>{
         }
     };
 
-    const {SpeechRecognitionHook} = useContext(VoiceCommandsContext);
+    function useQuote() {
+        const [quote, setQuote] = React.useState(null)
+      
+        return quote
+      }
+
+    useEffect(()=>{
+        fetch("https://beta.ourmanna.com/api/v1/get/?format=text&order=random")
+        .then(response => response.json())
+        .then(quotes =>{
+            const randomIndex = Math.floor(Math.random() * quotes.length);
+            setQuote(quotes[randomIndex]);
+        });
+    },[]);
+
+    /*fetchQuotes = () => {
+        setState({...state, isFetching: true})
+        fetch('https://beta.ourmanna.com/api/v1/get/?format=text&order=random')
+          .then((response => {
+              return response.json()
+          })
+          .then(result => setState({quotes: result, 
+                                         isFetching: false}))
+          .catch(e => console.log(e)));
+      }
+    */
 
     return (
         <div style={{height: "100vh", background: "black", padding: "5vw"}}>
@@ -39,8 +68,12 @@ const Devotions = (props)=>{
             <Col>
                 <AnalogClock {...options} />
             </Col>
+            <Col>
+               quote; 
+        </Col>
 
         </div>
+
     )
 };
 export default Devotions;
