@@ -16,7 +16,7 @@ import {useMongo} from "./hooks/useMongo";
 import {AppContext} from "./context/AppContext";
 import Routing from "./containers/__Routing/Routing";
 import CommandArray from "./components/Application/CommandArray";
-
+import Devotions from "./components/Devotions/Devotions";
 const App = () => {
 
     const [client, setClient] = useState(null);
@@ -112,7 +112,20 @@ const App = () => {
                 <AppContext.Provider value={{mongoHook, debuggingTools}}>
                     <VoiceCommandsContext.Provider value={{SpeechRecognitionHook}}>
                         <>
-                            <>
+                            {
+                                showTranscript &&
+                                SpeechRecognitionHook.displayTranscript
+                            }
+                        </>
+                        <Row>
+                            {
+                                showIntendArray &&
+                                <Col lg={3}>
+                                    <CommandArray commandArray={SpeechRecognitionHook.intendArray}/>
+                                </Col>
+                            }
+                            <Col>
+                                {/* <Devotions/> */}
                                 <Routing/>
                             </>
                             {
