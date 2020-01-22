@@ -12,6 +12,7 @@ import VoiceDemo from "../../components/VoiceDemo/VoiceDemo";
 import {useModal} from "../../hooks/useModal";
 import FaceDemo from "../FaceDemo/FaceDemo";
 import GesturePaintDemo from "../GestureDemo/GesturePaintDemo";
+import GestureClickMeGame from "../GestureDemo/GestureClickMeGame";
 import {useGreetingMessage} from "../../hooks/useGreetingMessage";
 import HelpPage from "../HelpPage/HelpPage";
 
@@ -128,6 +129,15 @@ const RoutingBody = (props) => {
         }
     };
 
+    const gestureMouseDemoPageCommand = {
+        command: ["mirror mirror I want to play click me game"],
+        answer: "Sounds good! I will take you to the Play Click game",
+        func: () => {
+            loggingContext.addLog("Voice Command: Going to the Play Click game");
+            history.push("/gesture_click_me_game")
+        }
+    };
+
     const goBackCommand = {
         command: ["mirror mirror I want to go back", "mirror mirror go back", "mirror mirror go to previous page" ],
         answer: "Alright taking you back!",
@@ -165,6 +175,7 @@ const RoutingBody = (props) => {
         voiceContext.addCommand(registerAccountCommand);
         voiceContext.addCommand(closePinCommand);
         voiceContext.addCommand(gestureDemoPaintPageCommand);
+        voiceContext.addCommand(gestureMouseDemoPageCommand);
         voiceContext.addCommand(faceDemoPageCommand);
         voiceContext.addCommand(goBackCommand);
         // voiceContext.addCommand(gestureDemoGamePageCommand);
@@ -212,10 +223,9 @@ const RoutingBody = (props) => {
             <PrivateRoute exact path="/gesture_paint" mongoHook={mongoHook}>
                 <GesturePaintDemo/>
             </PrivateRoute>
-            {/*<PrivateRoute exact path="/gesture_game_sky_ball" mongoHook={mongoHook}>*/}
-            {/*    <SkyBallGame/>*/}
-            {/*</PrivateRoute>*/}
-             
+            <PrivateRoute exact path="/gesture_click_me_game" mongoHook={mongoHook}>
+                <GestureClickMeGame/>
+            </PrivateRoute>
             <PrivateRoute exact path="/face_demo" mongoHook={mongoHook}>
                 <FaceDemo/>
             </PrivateRoute>
