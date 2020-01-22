@@ -15,7 +15,8 @@ const HelpPage = () => {
                     <h5><label style={{color: "red", fontSize: "28px"}}>Home: </label> Mirror mirror go home</h5>
                     <h5><label style={{color: "red", fontSize: "28px"}}>Voice Demo: </label> Mirror mirror go to voice demo page</h5>
                     <h5><label style={{color: "red", fontSize: "28px"}}>Face Demo: </label> Mirror mirror go to face demo page</h5>
-                    <h5><label style={{color: "red", fontSize: "28px"}}>Gesture Demo 1: </label> Mirror mirror I want to paint</h5>
+                    <h5><label style={{color: "red", fontSize: "28px"}}>Painting Canvas: </label> Mirror mirror I want to paint</h5>
+                    <h5><label style={{color: "red", fontSize: "28px"}}>Click Game: </label> Mirror mirror I want to play click me game</h5>
                     <h5><label style={{color: "red", fontSize: "28px"}}>Help page: </label> Mirror mirror help page</h5>
                     <h5><label style={{color: "red", fontSize: "28px"}}>Sleep: </label> Mirror mirror go to sleep</h5>
                     <h5><label style={{color: "red", fontSize: "28px"}}>Logout: </label> Mirror mirror logout</h5>
@@ -42,7 +43,7 @@ const HelpPage = () => {
                 </Col>
                 <div>
                     <h3 style={{color: "blue"}}>All Commands</h3>
-                    <h5 style={{color: "blue"}}>(Some commands only function in certain instances)</h5>
+                    <h5 style={{color: "blue"}}>(Some commands only work on certain pages)</h5>
                     {
                         voiceContext.intendArray.map((command) => {
                             return <div>
