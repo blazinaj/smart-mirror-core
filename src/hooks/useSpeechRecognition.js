@@ -105,21 +105,28 @@ const useSpeechRecognition = () => {
 
     useEffect(() => {
 
+        let commandFound = false;
         intendArray.map((intent) => {
 
             let commands = [].concat(intent.command);
-
             for (let command of commands) {
                 if (value.toString().toLocaleLowerCase().includes(command.toString().toLocaleLowerCase())) {
 
-                    if (intent["answer"]) {
-                        speechSynthesisHook.speak(intent["answer"]);
-                    }
+                    if(!commandFound) {
 
-                    if (intent.func) {
-                        intent.func();
+                        if (intent["answer"]) {
+                            speechSynthesisHook.speak(intent["answer"]);
+                        }
+
+                        if (intent.func) {
+                            intent.func();
+                        }
                     }
+                    commandFound = true;
+
+
                 }
+
             }
 
         });
@@ -134,28 +141,7 @@ const useSpeechRecognition = () => {
         setIntendArray(intendArray => [...intendArray, command])
     };
 
-    const removeCommand = (tempCommand) => {
-        // let commandIndex = intendArray.indexOf(command);
-        // alert("index is " + commandIndex);
-        // let temp = [...intendArray];
-        // if (commandIndex !== -1) {
-        //
-        //     temp.splice(commandIndex, 1);
-        //     setIntendArray([...temp])
-        // }
-        alert("remove command fired!" + tempCommand.command[0].toString())
-
-        intendArray.map( (item) => {
-            if (item.command[0].toString() == tempCommand.command[0].toString()) {
-                console.log("IntendArray " + item.command[0].toString() + "matches" + tempCommand.command[0].toString());
-            } else {
-                console.log("IntendArray " + item.command[0].toString() + "does not match" + tempCommand.command[0].toString());
-            }
-        });
-    };
-
-
-    const selectLanguage =
+      const selectLanguage =
         <>
             <label htmlFor="language">
                 Language
@@ -191,7 +177,6 @@ const useSpeechRecognition = () => {
         intendArray,
         setIntendArray,
         addCommand,
-        removeCommand,
         speak: speechSynthesisHook.speak
     };
 };

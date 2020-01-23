@@ -59,11 +59,11 @@ const VoiceDemo = (props) => {
         SpeechRecognitionHook.addCommand(tellJoke);
         SpeechRecognitionHook.addCommand(showJokeText);
 
-        return () => {
-            SpeechRecognitionHook.removeCommand(whoIsTheManCommand);
-            SpeechRecognitionHook.removeCommand(tellJoke);
-            SpeechRecognitionHook.removeCommand(showJokeText);
-        }
+        // return () => {
+        //     SpeechRecognitionHook.removeCommand(whoIsTheManCommand);
+        //     SpeechRecognitionHook.removeCommand(tellJoke);
+        //     SpeechRecognitionHook.removeCommand(showJokeText);
+        // }
     }, []);
 
 
