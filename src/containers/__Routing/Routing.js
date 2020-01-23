@@ -78,10 +78,10 @@ const RoutingBody = (props) => {
     };
 
     const devotionsCommand = {
-        command: ["mirror mirror go to devotions", "mirror mirror i want to see devotions", "mirror mirror take me to devotions"],
-        answer: "Alright! Ill take you to devotions",
+        command: ["mirror mirror go to devotion", "mirror mirror i want to see devotion", "mirror mirror take me to devotion"],
+        answer: "Alright! Ill take you to devotion",
         func: () => {
-            loggingContext.addLog("Voice Command: Alright! Ill take you to devotions")
+            loggingContext.addLog("Voice Command: Alright! Ill take you to devotion")
             history.push("/devotions")
         }
     };
