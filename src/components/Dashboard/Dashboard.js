@@ -5,7 +5,7 @@
  *
  */
 
-import React, { useState, useRef, useEffect } from "react";
+import React, {useState, useRef, useEffect} from "react";
 import GridLayout from "react-grid-layout";
 import CameraWidget from "camera-widget";
 import DigitalClock from "react-digital-clock";
@@ -14,7 +14,8 @@ import CameraSettings from "../CameraSettings/CameraSettings";
 import ReactWeather from "react-open-weather";
 import Calendar from 'react-calendar';
 import GoogleCalendarWrapper from "../Google/GoogleCalendarWrapper";
-import { HighContrastSelectorWhite, HighContrastSelectorBlack } from "office-ui-fabric-react";
+import {Row, Col} from "reactstrap";
+import {HighContrastSelectorWhite, HighContrastSelectorBlack} from "office-ui-fabric-react";
 // import GoogleCalendarWrapper from "../Google/GoogleCalendarWrapper";
 
 const Dashboard = (props) => {
@@ -24,6 +25,38 @@ const Dashboard = (props) => {
     const [componentWidth, setComponentWidth] = useState(500);
     const [componentHeight, setComponentHeight] = useState(500);
     const [componentAudio, setComponentAudio] = useState(false);
+
+    useEffect(() => {
+
+        getJoke();
+
+        setInterval(() => {
+            getJoke();
+        }, 10000)
+
+    }, []);
+
+    const [joke, setJoke] = useState("");
+
+    const getJoke = () => {
+        fetch('https://sv443.net/jokeapi/category/Programming?blacklistFlags=nsfw,religious,political"format=json')
+            .then((response) => {
+                return response.json();
+            })
+            .then((myJson) => {
+
+                console.log(myJson);
+                // alert(myJson.joke);
+                if (myJson.type === "single") {
+                    // alert("Single " + myJson.joke)
+                    setJoke(myJson.joke);
+                } else {
+                    //alert(myJson.setup + " " +  myJson.delivery)
+                    const twoPartJoke = myJson.setup + myJson.delivery;
+                    setJoke(twoPartJoke);
+                }
+            });
+    };
 
     const webcamRef = useRef(null);
 
@@ -45,28 +78,30 @@ const Dashboard = (props) => {
     };
 
     const cameraAPI = {
-      setWidthConstraint,
-      setHeightConstraint,
-      setComponentWidth,
-      setComponentHeight,
-      setComponentAudio
+        setWidthConstraint,
+        setHeightConstraint,
+        setComponentWidth,
+        setComponentHeight,
+        setComponentAudio
     };
 
     const style = {
-        background: "dimGrey",
+        background: "black",
+        width: "50%",
+        margin: "auto",
     };
 
     const selectedWidgets = [
         <div key="camera-widget" data-grid={{x: 4, y: 4, w: 5, h: 10}}>
             <CameraWidget coreAPI={coreAPI}/>
         </div>,
-        <div key="clock-widget" data-grid={{x: 12, y: 0, w: 2, h: 4}} style={style}>
+        <div key="clock-widget" id="clock-widget" data-grid={{x: 12, y: 0, w: 2, h: 4}} style={style}>
             <ClockWidget coreAPI={coreAPI}/>
         </div>,
-        <div key="camera-settings" data-grid={{ x: 0, y: 10, w: 2, h: 10}}>
+        <div key="camera-settings" data-grid={{x: 0, y: 10, w: 2, h: 10}}>
             <CameraSettings cameraAPI={cameraAPI} coreAPI={coreAPI}/>
         </div>,
-        <div key="weather-widget" data-grid={{ x: 12, y: 10, w: 2, h: 13}} >
+        <div key="weather-widget" data-grid={{x: 12, y: 10, w: 2, h: 13}}>
             <ReactWeather
                 style={{color: "white"}}
                 forecast="5days"
@@ -76,13 +111,13 @@ const Dashboard = (props) => {
                 unit="imperial"
             />
         </div>,
-        <div key="calendar-widget" data-grid={{ x: 0, y: 0, w: 3, minW: 3, h: 8}}>
+        <div key="calendar-widget" data-grid={{x: 0, y: 0, w: 3, minW: 3, h: 8}}>
             <Calendar
                 value={new Date()}
             />
         </div>,
-        <div key="digital-clock-widget" data-grid={{x: 6, y: 0, w: 2, h: 1}}>
-            <DigitalClock />
+        <div key="digital-clock-widget" id="digital-clock-widget" data-grid={{x: 6, y: 0, w: 2, h: 1}}>
+            <DigitalClock/>
         </div>,
         <div key="google-calendar-widget" data-grid={{x: 3, y: 0, w: 3, h: 5}}>
             <GoogleCalendarWrapper googleCalendarAPI={coreAPI}/>
@@ -90,17 +125,75 @@ const Dashboard = (props) => {
     ];
 
     return (
-        <div style={{"background":"black", height: "100vh"}}>
-            <GridLayout style={{"background":"black"}} cols={12} rowHeight={30} width={1200}>
-                {
-                    selectedWidgets.map((widget) =>
-                            React.cloneElement(widget)
-                    )
-                }
-            </GridLayout>
+        <div id="main-div">
+            <Row>
+                <Col sm={4} style={style}>
+                    <div key="calendar-widget" style={style}>
+                        <Calendar
+                            value={new Date()}
+                        />
+                    </div>
+                    <br/>
+                    <br/>
+                    <div key="digital-clock-widget" id="digital-clock-widget" style={style}>
+                        <DigitalClock/>
+                    </div>
+                </Col>
+                <Col sm={4} style={style}>
+                    <div key="clock-widget" id="clock-widget" style={style}>
+                        <ClockWidget coreAPI={coreAPI}/>
+                    </div>
+                </Col>
+                <Col sm={4} style={style}>
+                    <div key="weather-widget" style={style}>
+                        <ReactWeather
+                            style={{color: "white"}}
+                            forecast="5days"
+                            apikey="3a672a5bca657693859413a963d7b698"
+                            type="city"
+                            city="Spokane"
+                            unit="imperial"
+                        />
+                    </div>
+                </Col>
+            </Row>
+            <Row>
+                <Col sm={4}>
+                    <div key="google-calendar-widget" style={style}>
+                        <GoogleCalendarWrapper googleCalendarAPI={coreAPI}/>
+                    </div>
+                </Col>
+                <Col sm={4} style={style}>
+                    {
+                        joke ? joke : null
+                    }
+                </Col>
+                <Col sm={4} style={style}>
+
+                </Col>
+            </Row>
         </div>
     )
 };
+
+{/*<div style={{"background":"black", height: "100vh"}}>*/
+}
+{/*    <GridLayout style={{"background":"black"}} cols={12} rowHeight={30} width={1200}>*/
+}
+{/*        {*/
+}
+{/*            selectedWidgets.map((widget) =>*/
+}
+{/*                    React.cloneElement(widget)*/
+}
+{/*            )*/
+}
+{/*        }*/
+}
+{/*    </GridLayout>*/
+}
+{/*</div>*/
+}
 
 // Temporary to check out Anatoli's widget
 export const ClockWidget = (props) => {
