@@ -11,9 +11,11 @@ import Sleep from "../Sleep/Sleep";
 import VoiceDemo from "../../components/VoiceDemo/VoiceDemo";
 import {useModal} from "../../hooks/useModal";
 import FaceDemo from "../FaceDemo/FaceDemo";
+import Devotions from "../../components/Devotions/Devotions";
 import GesturePaintDemo from "../GestureDemo/GesturePaintDemo";
 import GestureClickMeGame from "../GestureDemo/GestureClickMeGame";
 import {useGreetingMessage} from "../../hooks/useGreetingMessage";
+import HelpPage from "../HelpPage/HelpPage";
 
 const RoutingBody = (props) => {
 
@@ -36,7 +38,7 @@ const RoutingBody = (props) => {
                                     Login using the Pin button on the login screen on any PC or Mobile device.<br /><br />
                                     Otherwise make sure to setup your face login to login hands free!<br /><br />
                                     {/*This will only be shown to you once, and will be deleted within ? days, so remember to change your email and password!<br /><br />*/}
-                                    <h5>When finished say: </h5><h4 style={{color: "blue"}}>Mirror mirror close</h4></a>,
+                                    <h5>When finished say: </h5><h4 style={{color: "blue"}}>Mirror mirror hide message</h4></a>,
             `IMPORTANT - PIN: ${mongoHook.pin}`);
 
     const homePageCommand = {
@@ -75,6 +77,15 @@ const RoutingBody = (props) => {
         }
     };
 
+    const devotionsCommand = {
+        command: ["mirror mirror go to devotion", "mirror mirror i want to see devotion", "mirror mirror take me to devotion"],
+        answer: "Alright! Ill take you to devotion",
+        func: () => {
+            loggingContext.addLog("Voice Command: Alright! Ill take you to devotion")
+            history.push("/devotions")
+        }
+    };
+
     const voiceDemoPageCommand = {
         command: ["Mirror mirror on the wall Go to voice demo page", "Mirror mirror Go to voice demo page"],
         answer: "Going to voice demo",
@@ -103,7 +114,7 @@ const RoutingBody = (props) => {
     };
 
     const closePinCommand = {
-        command: ["Mirror mirror close", "Mirror mirror I promise I actually wrote it down"],
+        command: ["Mirror mirror hide message", "Mirror mirror I promise I actually wrote it down"],
         answer: "Enjoy your New Account!",
         func: () => {
             pinDisplayModal.setModalIsOpen(false);
@@ -146,6 +157,25 @@ const RoutingBody = (props) => {
         }
     };
 
+    // const gestureDemoGamePageCommand = {
+    //     command: ["mirror mirror I want to play a game"],
+    //     answer: "Okay, lunching the Sky Ball game",
+    //     func: () => {
+    //         loggingContext.addLog("Voice Command: Mirror mirror I want to play a game");
+    //         history.push("/gesture_game_sky_ball")
+    //     }
+    // };
+
+    const helpPageCommand = {
+        command: ["mirror mirror help page", "mirror mirror on the wall help page", "mirror mirror go to help page", "mirror mirror take me to help page",
+                        "mirror mirror I have fallen and need a help page"],
+        answer: "Help is on it's way!",
+        func: () => {
+            loggingContext.addLog("Voice Command: Going to help page");
+            history.push("/help_page")
+        }
+    };
+
     useEffect(() => {
         voiceContext.addCommand(homePageCommand);
         voiceContext.addCommand(testPageCommand);
@@ -158,6 +188,9 @@ const RoutingBody = (props) => {
         voiceContext.addCommand(gestureMouseDemoPageCommand);
         voiceContext.addCommand(faceDemoPageCommand);
         voiceContext.addCommand(goBackCommand);
+        voiceContext.addCommand(devotionsCommand);
+        // voiceContext.addCommand(gestureDemoGamePageCommand);
+        voiceContext.addCommand(helpPageCommand);
     }, []);
 
     useEffect(() => {
@@ -204,11 +237,20 @@ const RoutingBody = (props) => {
             <PrivateRoute exact path="/gesture_click_me_game" mongoHook={mongoHook}>
                 <GestureClickMeGame/>
             </PrivateRoute>
+            {/*<PrivateRoute exact path="/gesture_game_sky_ball" mongoHook={mongoHook}>*/}
+            {/*    <SkyBallGame/>*/}
+            {/*</PrivateRoute>*/}
+            <PrivateRoute exact path="/devotions" mongoHook={mongoHook}>
+                <Devotions/>
+            </PrivateRoute>
             <PrivateRoute exact path="/face_demo" mongoHook={mongoHook}>
                 <FaceDemo/>
             </PrivateRoute>
             <Route exact path="/sleep">
                 <Sleep/>
+            </Route>
+            <Route exact path="/help_page">
+                <HelpPage/>
             </Route>
         </Switch>
     )

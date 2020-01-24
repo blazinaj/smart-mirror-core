@@ -68,15 +68,21 @@ export const useMongo = (input, logger) => {
                 const db = client.getServiceClient(RemoteMongoClient.factory, 'mongodb-atlas').db('smart_mirror');
                 db.collection("users").findOne({userId: authedUser.id})
                     .then(user => {
-                        console.log(`MongoDB: first: ${user.first_name} last: ${user.last_name}`);
-                        if(user.first_name !== undefined && user.first_name !== null){
-                            loggingContext.addLog("First Name is not Undefined");
-                            setFirstName(user.first_name);
-                        } else {setFirstName("user")}
-                        if(user.last_name !== undefined && user.last_name !== null){
-                            loggingContext.addLog("Last Name is not Undefined");
-                            setLastName(user.last_name);
-                        } else {setLastName("user")}
+                        try {
+                            if(user.first_name !== null && user.first_name !== undefined){
+                                loggingContext.addLog("First Name is not Undefined");
+                                setFirstName(user.first_name);
+                            } else {setFirstName("user")}
+                            if(user.last_name !== undefined && user.last_name !== null){
+                                loggingContext.addLog("Last Name is not Undefined");
+                                setLastName(user.last_name);
+                            } else {setLastName("user")}
+                        }
+                        catch(err){
+                            loggingContext.addLog("Error getting name: " + err);
+                            setFirstName("user");
+                            setLastName("user");
+                        }
                     });
 
                 setAuthenticatedUser(authedUser);
@@ -162,6 +168,10 @@ export const useMongo = (input, logger) => {
         return error;
     };
 
+    const removeUser = async () => {
+        await authenticatedUser.removeUser();
+    };
+
     const logout = () => {
         setAuthenticatedUser({});
         setIsLoggedIn(false);
@@ -176,6 +186,7 @@ export const useMongo = (input, logger) => {
         login,
         registerWithVoice,
         register,
+        removeUser,
         logout,
         authenticatedUser,
         pin,

@@ -143,8 +143,9 @@ const AccountManager = (props) => {
     };
 
     // currently doesn't delete account from MongoDB
-    const deleteAccountConfirmation = () => {
-        alert("Account Deleted! I guess....\nBye Bye =,(")
+    const deleteAccountConfirmation = async () => {
+        alert("Account Deleted! I guess....\nBye Bye =,(");
+        // await context.mongoHook.removeUser();
     };
 
     const [visibleDeleteConfirmation, setVisibleDeleteConfirmation] = useState(false);
@@ -233,18 +234,18 @@ const AccountManager = (props) => {
 
             <hr />
 
-            {
-                !isGuest ?
-                    <Button color="danger" onClick={() => deleteAccount()}>Delete Account</Button>
-                    :
-                    <></>
-            }
+            {/*{*/}
+            {/*    !isGuest ?*/}
+            {/*        <Button color="danger" onClick={() => deleteAccount()}>Delete Account</Button>*/}
+            {/*        :*/}
+            {/*        <></>*/}
+            {/*}*/}
 
-            <Alert color="danger" isOpen={visibleDeleteConfirmation} toggle={onDismissDeleteConfirmation}>
-                <label>Are you sure? </label>
-                &nbsp;
-                <Button color="danger" onClick={() => deleteAccountConfirmation()}>Confirm</Button>
-            </Alert>
+            {/*<Alert color="danger" isOpen={visibleDeleteConfirmation} toggle={onDismissDeleteConfirmation}>*/}
+            {/*    <label>Are you sure? </label>*/}
+            {/*    &nbsp;*/}
+            {/*    <Button color="danger" onClick={() => deleteAccountConfirmation()}>Confirm</Button>*/}
+            {/*</Alert>*/}
         </div>
     )
 

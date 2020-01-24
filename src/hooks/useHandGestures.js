@@ -171,7 +171,7 @@ export const useHandGestures = () => {
 
             time--;
 
-            if (document && document.getElementById && document.getElementById("timer").innerHTML) {
+            if (document && document.getElementById("timer") && document.getElementById("timer").innerHTML) {
                 document.getElementById("timer").innerHTML = time + "s";
 
                 if (time === 0) {
