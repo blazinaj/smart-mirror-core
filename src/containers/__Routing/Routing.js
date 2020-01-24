@@ -1,4 +1,4 @@
-import React, { useEffect, useContext } from "react";
+import React, {useEffect, useContext} from "react";
 import {BrowserRouter as Router, Route, Switch, useHistory} from "react-router-dom";
 import Login from "../../components/Login/Login";
 import Home from "../Home/Home";
@@ -32,14 +32,14 @@ const RoutingBody = (props) => {
     const greetingHook = useGreetingMessage();
 
     const registerVoiceModal = useModal("One moment, logging you in...", "Registration");
-    const pinDisplayModal = useModal(<a> WRITE THIS NUMBER DOWN!<br /><br />
-                                    <h2 style={{color: "red"}}>{mongoHook.pin}</h2><br />
-                                    This will be how you login to your account.<br />
-                                    Login using the Pin button on the login screen on any PC or Mobile device.<br /><br />
-                                    Otherwise make sure to setup your face login to login hands free!<br /><br />
-                                    {/*This will only be shown to you once, and will be deleted within ? days, so remember to change your email and password!<br /><br />*/}
-                                    <h5>When finished say: </h5><h4 style={{color: "blue"}}>Mirror mirror hide message</h4></a>,
-            `IMPORTANT - PIN: ${mongoHook.pin}`);
+    const pinDisplayModal = useModal(<a> WRITE THIS NUMBER DOWN!<br/><br/>
+            <h2 style={{color: "red"}}>{mongoHook.pin}</h2><br/>
+            This will be how you login to your account.<br/>
+            Login using the Pin button on the login screen on any PC or Mobile device.<br/><br/>
+            Otherwise make sure to setup your face login to login hands free!<br/><br/>
+            {/*This will only be shown to you once, and will be deleted within ? days, so remember to change your email and password!<br /><br />*/}
+            <h5>When finished say: </h5><h4 style={{color: "blue"}}>Mirror mirror hide message</h4></a>,
+        `IMPORTANT - PIN: ${mongoHook.pin}`);
 
     const homePageCommand = {
         command: ["Mirror mirror on the wall Go to home page", "mirror mirror on the wall go home", "mirror mirror on the wall wake up", "Mirror mirror Go to home page", "mirror mirror go home", "mirror mirror wake up"],
@@ -107,7 +107,7 @@ const RoutingBody = (props) => {
                     setTimeout((() => {
                         history.push("/");
                         registerVoiceModal.setModalIsOpen(false);
-                    }),6000);
+                    }), 6000);
                     pinDisplayModal.setModalIsOpen(true);
                 });
         })
@@ -140,7 +140,7 @@ const RoutingBody = (props) => {
     };
 
     const gestureMouseDemoPageCommand = {
-        command: ["mirror mirror I want to play click me game"],
+        command: ["mirror mirror I want to play a game"],
         answer: "Sounds good! I will take you to the Play Click game",
         func: () => {
             loggingContext.addLog("Voice Command: Going to the Play Click game");
@@ -149,7 +149,7 @@ const RoutingBody = (props) => {
     };
 
     const goBackCommand = {
-        command: ["mirror mirror I want to go back", "mirror mirror go back", "mirror mirror go to previous page" ],
+        command: ["mirror mirror I want to go back", "mirror mirror go back", "mirror mirror go to previous page"],
         answer: "Alright taking you back!",
         func: () => {
             loggingContext.addLog("Voice Command: Alright taking you back");
@@ -157,18 +157,9 @@ const RoutingBody = (props) => {
         }
     };
 
-    // const gestureDemoGamePageCommand = {
-    //     command: ["mirror mirror I want to play a game"],
-    //     answer: "Okay, lunching the Sky Ball game",
-    //     func: () => {
-    //         loggingContext.addLog("Voice Command: Mirror mirror I want to play a game");
-    //         history.push("/gesture_game_sky_ball")
-    //     }
-    // };
-
     const helpPageCommand = {
         command: ["mirror mirror help page", "mirror mirror on the wall help page", "mirror mirror go to help page", "mirror mirror take me to help page",
-                        "mirror mirror I have fallen and need a help page"],
+            "mirror mirror I have fallen and need a help page"],
         answer: "Help is on it's way!",
         func: () => {
             loggingContext.addLog("Voice Command: Going to help page");
@@ -189,26 +180,23 @@ const RoutingBody = (props) => {
         voiceContext.addCommand(faceDemoPageCommand);
         voiceContext.addCommand(goBackCommand);
         voiceContext.addCommand(devotionsCommand);
-        // voiceContext.addCommand(gestureDemoGamePageCommand);
         voiceContext.addCommand(helpPageCommand);
     }, []);
 
     useEffect(() => {
         loggingContext.addLog("Route UseEffect");
-        if(mongoHook.firstName !== "" && mongoHook.lastName !== "" && mongoHook.lastName !== "user"){
+        if (mongoHook.firstName !== "" && mongoHook.lastName !== "" && mongoHook.lastName !== "user") {
             console.log("Name");
             console.log(mongoHook.firstName + " " + mongoHook.lastName);
             greetingHook.changeName(`${mongoHook.firstName} ${mongoHook.lastName}`);
-        }
-        else if(mongoHook.firstName !== "" ){
+        } else if (mongoHook.firstName !== "") {
             console.log("Name");
             console.log(mongoHook.firstName);
             greetingHook.changeName(`${mongoHook.firstName}`);
-        }
-        else{
+        } else {
             greetingHook.changeName("");
         }
-    }, [mongoHook.firstName && mongoHook.lastName] );
+    }, [mongoHook.firstName && mongoHook.lastName]);
 
     return (
         <Switch>
