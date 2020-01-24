@@ -24,8 +24,10 @@ const Header = () => {
                 color: "white"
             }}
         >
+            <label>(Say "Mirror mirror help page" for a list of commands)</label>
             <h1>Smart Mirror Core</h1>
             <Button color="danger" onClick={() => context.mongoHook.logout()}>Log Out</Button>
+            &nbsp;
             {
                 profileHook.accountManagerHook.modalButton
             }

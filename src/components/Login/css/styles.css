@@ -1,5 +1,5 @@
 body {
-    background-color: #282c34;
+    background-color: black;
 }
 
 video {
@@ -57,7 +57,7 @@ video {
 #loginPage {
     width: 100%;
     height: 100%;
-    background-color: #282c34;
+    background-color: black;
 }
 
 #inputFieldsLogin {
