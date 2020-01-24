@@ -3,7 +3,6 @@ import * as handTrack from "handtrackjs";
 import {Spinner} from "reactstrap";
 import {Button} from "reactstrap";
 import pointer from "../pointer.png";
-import {useModal} from "./useModal";
 
 export const useHandGestures = () => {
 
@@ -11,8 +10,8 @@ export const useHandGestures = () => {
     const [y, setY] = useState('');
     const [model, setModel] = useState(null);
 
-    const video = document.getElementById('video');
-    const canvas = document.getElementById('video-canvas');
+    const video = document.getElementById('video') ? document.getElementById('video') : null;
+    const canvas = document.getElementById('video-canvas') ? document.getElementById('video-canvas') : null;
     const context = canvas && canvas.getContext("2d");
 
     const [ctx, setCtx] = useState(null);
@@ -50,59 +49,47 @@ export const useHandGestures = () => {
     };
 
     const runDetection = () => {
-        model.detect(video).then(predictions => {
 
-            model.renderPredictions(predictions, canvas, context, video);
-            if (Array.isArray(predictions)) {
-                predictions.map((item) => {
+        if (video && canvas && context) {
+            model.detect(video).then(predictions => {
 
-                    let xLocal = item.bbox[0] + (item.bbox[2] / 2);
-                    let yLocal = item.bbox[1] + (item.bbox[3] / 2);
+                model.renderPredictions(predictions, canvas, context, video);
+                if (Array.isArray(predictions)) {
+                    predictions.map((item) => {
 
-                    mouseClick(xLocal, yLocal);
+                        let xLocal = item.bbox[0] + (item.bbox[2] / 2);
+                        let yLocal = item.bbox[1] + (item.bbox[3] / 2);
 
-                    setX(item.bbox[0] + (item.bbox[2] / 2));
-                    setY(item.bbox[1] + (item.bbox[3] / 2));
+                        mouseClick(xLocal, yLocal);
 
-                })
-            }
-            requestAnimationFrame(runDetection);
-        });
+                        setX(item.bbox[0] + (item.bbox[2] / 2));
+                        setY(item.bbox[1] + (item.bbox[3] / 2));
+
+                    })
+                }
+                requestAnimationFrame(runDetection);
+            });
+        }
     };
-
-    // useEffect(() => {
-    //
-    //     let constraints = {video: {width: 450, height: 380}};
-    //
-    //     navigator.mediaDevices.getUserMedia(constraints)
-    //         .then(function (mediaStream) {
-    //             let video = document.querySelector('video');
-    //             video.srcObject = mediaStream;
-    //             video.onloadedmetadata = function (e) {
-    //                 video.play();
-    //             };
-    //         })
-    //         .catch(function (err) {
-    //             console.log(err.name + ": " + err.message);
-    //         });
-    // }, []);
 
 
     useEffect(() => {
 
-        let canvas = document.getElementById('draw-canvas');
-        canvas.width = window.innerWidth;
-        canvas.height = window.innerHeight;
+        let canvas = document.getElementById('draw-canvas') ? document.getElementById('draw-canvas') : null;
 
-        document.body.style.margin = "0";
+        if (canvas) {
+            canvas.width = window.innerWidth;
+            canvas.height = window.innerHeight;
 
-        setCtx(canvas.getContext('2d'));
+            document.body.style.margin = "0";
 
+            setCtx(canvas.getContext('2d'));
+        }
     }, []);
 
     useEffect(() => {
 
-        if (x && y) {
+        if (x && y && ctx) {
 
             ctx.beginPath(); // begin
 
@@ -119,8 +106,11 @@ export const useHandGestures = () => {
     }, [x]);
 
     const mouseClick = (x, y) => {
+
         let ev = document.createEvent("MouseEvent");
+
         let el = document.elementFromPoint(x, y);
+
         ev.initMouseEvent(
             "click",
             true /* bubble */, true /* cancelable */,
@@ -129,7 +119,9 @@ export const useHandGestures = () => {
             false, false, false, false, /* modifier keys */
             0 /*left*/, null
         );
-        el.dispatchEvent(ev);
+
+        if (el && el.dispatchEvent)
+            el.dispatchEvent(ev);
     };
 
     const paintUI =
