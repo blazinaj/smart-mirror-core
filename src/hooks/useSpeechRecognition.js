@@ -1,10 +1,12 @@
 import React, {
     useRef,
     useEffect,
-    useState
+    useState,
+    useContext
 } from 'react';
 import {Alert} from "reactstrap";
 import useSpeechSynthesis from "./useSpeechSynthesis";
+import {LoggingContext} from "../context/LoggingContext";
 
 const languageOptions = [
     {label: 'Cambodian', value: 'km-KH'},
@@ -32,6 +34,8 @@ const useSpeechRecognition = () => {
 
     const [lang, setLang] = useState('en-AU');
     const [value, setValue] = useState('');
+
+    const logger = useContext(LoggingContext).logger;
 
     const [intendArray, setIntendArray] = useState([
         {
@@ -126,14 +130,42 @@ const useSpeechRecognition = () => {
 
     }, [value]);
 
-    const addCommand = (command) => {
+    const addCommand = (intend) => {
 
-        const commandFound = intendArray.find((item) =>
-            (item.command ? item.command : undefined) === (command.command ? command.command : undefined)
-        );
+        let commandFound;
 
-        if (!commandFound)
-            setIntendArray(intendArray => [...intendArray, command])
+        intendArray.map((globalIntend) => {
+
+            if (Array.isArray(globalIntend.command) && !Array.isArray(intend.command)) {
+                commandFound = globalIntend.command.some((item) => item.command === intend.command);
+                if (!commandFound) {
+                    setIntendArray(intendArray => [...intendArray, intend])
+                } else {
+                    logger.addLog("Duplicated Command: " + (intend.command ? intend.command : null));
+                }
+            } else if (!Array.isArray(globalIntend.command) && Array.isArray(intend.command)) {
+                commandFound = intend.command.some((item) => item.command === globalIntend.command);
+                if (!commandFound) {
+                    setIntendArray(intendArray => [...intendArray, intend])
+                } else {
+                    logger.addLog("Duplicated Command: " + (intend.command ? intend.command : null));
+                }
+            } else if (!Array.isArray(globalIntend.command) && !Array.isArray(intend.command)) {
+                commandFound = globalIntend.command === intend.command;
+                if (!commandFound) {
+                    setIntendArray(intendArray => [...intendArray, intend])
+                } else {
+                    logger.addLog("Duplicated Command: " + (intend.command ? intend.command : null));
+                }
+            } else if (Array.isArray(globalIntend.command) && Array.isArray(intend.command)) {
+                commandFound = JSON.stringify(globalIntend.command) === JSON.stringify(intend.command);
+                if (!commandFound) {
+                    setIntendArray(intendArray => [...intendArray, intend])
+                } else {
+                    logger.addLog("Duplicated Command: " + (intend.command ? intend.command : null));
+                }
+            }
+        });
     };
 
     const selectLanguage =
