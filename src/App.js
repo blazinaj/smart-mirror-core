@@ -4,7 +4,7 @@
  *              Login Gate will be displayed upon Auth.
  */
 
-import React, { useState, useEffect} from 'react';
+import React, {useState, useEffect, useContext} from 'react';
 import './App.css';
 import {LoggingContext} from "./context/LoggingContext";
 import {useLogger} from "./hooks/useLogger";
@@ -16,7 +16,7 @@ import {useMongo} from "./hooks/useMongo";
 import {AppContext} from "./context/AppContext";
 import Routing from "./containers/__Routing/Routing";
 import CommandArray from "./components/Application/CommandArray";
-
+import Devotions from "./components/Devotions/Devotions";
 const App = () => {
 
     const [client, setClient] = useState(null);
@@ -44,7 +44,7 @@ const App = () => {
     const mongoHook = useMongo(client, logger);
 
     const openLogsCommand = {
-        command: ["mirror mirror on the wall open logs", "mirror mirror on the wall show logs","mirror mirror open logs", "mirror mirror show logs"],
+        command: ["mirror mirror on the wall open logs", "mirror mirror on the wall show logs", "mirror mirror open logs", "mirror mirror show logs"],
         answer: "Showing Logger",
         func: () => {
             logger.addLog("Voice Command: Opening logs..");
@@ -53,7 +53,7 @@ const App = () => {
     };
 
     const hideLogsCommand = {
-        command: ["mirror mirror on the wall hide logs", "mirror mirror on the wall close logs","mirror mirror hide logs", "mirror mirror close logs"],
+        command: ["mirror mirror on the wall hide logs", "mirror mirror on the wall close logs", "mirror mirror hide logs", "mirror mirror close logs"],
         answer: "Hiding Logger",
         func: () => {
             logger.addLog("Voice Command: Hiding logs..");
@@ -62,7 +62,7 @@ const App = () => {
     };
 
     const showTranscriptCommand = {
-        command: ["mirror mirror on the wall show transcript", "mirror mirror on the wall view transcript","mirror mirror show transcript", "mirror mirror view transcript"],
+        command: ["mirror mirror on the wall show transcript", "mirror mirror on the wall view transcript", "mirror mirror show transcript", "mirror mirror view transcript"],
         answer: "Showing Transcript",
         func: () => {
             logger.addLog("Voice Command: Showing Transcript");
@@ -71,7 +71,7 @@ const App = () => {
     };
 
     const hideTranscriptCommand = {
-        command: ["mirror mirror on the wall hide transcript", "mirror mirror on the wall close transcript","mirror mirror hide transcript", "mirror mirror close transcript"],
+        command: ["mirror mirror on the wall hide transcript", "mirror mirror on the wall close transcript", "mirror mirror hide transcript", "mirror mirror close transcript"],
         answer: "Hiding Transcript",
         func: () => {
             logger.addLog("Voice Command: Hiding Transcript");
@@ -80,7 +80,7 @@ const App = () => {
     };
 
     const showIntendArrayCommand = {
-        command: ["mirror mirror on the wall show commands","mirror mirror show commands"],
+        command: ["mirror mirror on the wall show commands", "mirror mirror show commands"],
         answer: "Showing Current Command Array",
         func: () => {
             logger.addLog("Voice Command: Showing Current Commands");
@@ -89,7 +89,7 @@ const App = () => {
     };
 
     const hideIntendArrayCommand = {
-        command: ["mirror mirror on the wall hide commands","mirror mirror hide commands"],
+        command: ["mirror mirror on the wall hide commands", "mirror mirror hide commands"],
         answer: "Hiding Current Command Array",
         func: () => {
             logger.addLog("Voice Command: Hiding Current Commands");
@@ -125,13 +125,14 @@ const App = () => {
                                 </Col>
                             }
                             <Col>
+                                {/* <Devotions/> */}
                                 <Routing/>
                             </Col>
                             {
                                 showLogger &&
-                                <Col>
+                                <>
                                     {logger.display}
-                                </Col>
+                                </>
                             }
                         </Row>
                     </VoiceCommandsContext.Provider>
