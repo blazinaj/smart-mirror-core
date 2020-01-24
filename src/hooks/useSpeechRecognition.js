@@ -35,10 +35,10 @@ const useSpeechRecognition = () => {
 
     const [intendArray, setIntendArray] = useState([
         {
-            command: ["mirror mirror on the wall what time is it" ,"mirror mirror what time is it"],
+            command: ["mirror mirror on the wall what time is it", "mirror mirror what time is it"],
             answer: "Current time is " + new Date().toLocaleString()
         },
-        
+
         {
             command: ["mirror mirror on the wall turn off display", "mirror mirror turn off display"],
             answer: "Turning off!",
@@ -126,8 +126,42 @@ const useSpeechRecognition = () => {
 
     }, [value]);
 
-    const addCommand = (command) => {
-        setIntendArray(intendArray => [...intendArray, command])
+    const addCommand = (intend) => {
+
+        let commandFound;
+
+        intendArray.map((globalIntend) => {
+
+            if (Array.isArray(globalIntend.command) && !Array.isArray(intend.command)) {
+                commandFound = globalIntend.command.some((item) => item.command === intend.command);
+                if (!commandFound) {
+                    setIntendArray(intendArray => [...intendArray, intend])
+                } else {
+                    console.log("Duplicated Command: " + (intend.command ? intend.command : null));
+                }
+            } else if (!Array.isArray(globalIntend.command) && Array.isArray(intend.command)) {
+                commandFound = intend.command.some((item) => item.command === globalIntend.command);
+                if (!commandFound) {
+                    setIntendArray(intendArray => [...intendArray, intend])
+                } else {
+                    console.log("Duplicated Command: " + (intend.command ? intend.command : null));
+                }
+            } else if (!Array.isArray(globalIntend.command) && !Array.isArray(intend.command)) {
+                commandFound = globalIntend.command === intend.command;
+                if (!commandFound) {
+                    setIntendArray(intendArray => [...intendArray, intend])
+                } else {
+                    console.log("Duplicated Command: " + (intend.command ? intend.command : null));
+                }
+            } else if (Array.isArray(globalIntend.command) && Array.isArray(intend.command)) {
+                commandFound = JSON.stringify(globalIntend.command) === JSON.stringify(intend.command);
+                if (!commandFound) {
+                    setIntendArray(intendArray => [...intendArray, intend])
+                } else {
+                    console.log("Duplicated Command: " + (intend.command ? intend.command : null));
+                }
+            }
+        });
     };
 
     const removeCommand = (command) => {
