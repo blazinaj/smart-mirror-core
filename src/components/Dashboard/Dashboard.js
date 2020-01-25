@@ -16,6 +16,7 @@ import Calendar from 'react-calendar';
 import GoogleCalendarWrapper from "../Google/GoogleCalendarWrapper";
 import {Row, Col} from "reactstrap";
 import {HighContrastSelectorWhite, HighContrastSelectorBlack} from "office-ui-fabric-react";
+import Webcam from "react-webcam";
 // import GoogleCalendarWrapper from "../Google/GoogleCalendarWrapper";
 
 const Dashboard = (props) => {
@@ -25,6 +26,7 @@ const Dashboard = (props) => {
     const [componentWidth, setComponentWidth] = useState(500);
     const [componentHeight, setComponentHeight] = useState(500);
     const [componentAudio, setComponentAudio] = useState(false);
+    const [showWebcamFeed, setShowWebcamFeed] = useState(true);
 
     useEffect(() => {
 
@@ -135,6 +137,14 @@ const Dashboard = (props) => {
                     </div>
                     <br/>
                     <br/>
+                    {
+                        showWebcamFeed &&
+                        <div key="digital-clock-widget" id="digital-clock-widget" style={{...style, marginBottom: "3em"}}>
+                            <Webcam
+                                width="40%"
+                            />
+                        </div>
+                    }
                     <div key="digital-clock-widget" id="digital-clock-widget" style={style}>
                         <DigitalClock/>
                     </div>
