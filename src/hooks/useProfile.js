@@ -68,6 +68,8 @@ export const useProfile = () => {
             "mirror mirror hide my account",
             "mirror mirror on the wall hide account manager",
             "mirror mirror hide account manager",
+            "mirror mirror on the wall close account manager",
+            "mirror mirror close account manager",
         ],
         answer: "Hiding Account Manager",
         func: () => {
