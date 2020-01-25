@@ -11,7 +11,6 @@ const Home = (props) => {
 
     return (
         <div>
-            <Header/>
             <Dashboard/>
         </div>
     )
