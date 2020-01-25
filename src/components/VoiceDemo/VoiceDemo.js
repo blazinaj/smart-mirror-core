@@ -2,16 +2,23 @@ import React, {useState, useEffect, useContext} from "react";
 import {VoiceCommandsContext} from "../../context/VoiceCommandsContext";
 import {Input, Label, Button, Row, Col} from 'reactstrap';
 import useSpeechSynthesis from "../../hooks/useSpeechSynthesis";
-import Search from "./Search";
 import axios from "axios";
+import {useModal} from "../../hooks/useModal";
 
-//Starting google image search PR.
 const VoiceDemo = (props) => {
 
     const {SpeechRecognitionHook} = useContext(VoiceCommandsContext);
     const speechSynthesisHook = useSpeechSynthesis();
     const [showJoke, setShowJoke] = useState(true);
     const [joke, setJoke] = useState("");
+    //Image search state variables
+    const [query, setQuery] = useState("");
+    const [results,setResults] = useState({});
+    const [loading, setLoading] = useState(false);
+    const [message, setMessage] = useState("");
+    const [totalResults, setTotalResults] = useState(0);
+    const [totalPages, setTotalPages] = useState(0);
+    const [currentPageNo, setCurrentPageNo] = useState(0);
 
     const whoIsTheManCommand = {
         command: ["mirror mirror on the wall who is the man", "mirror mirror who is the man"],
@@ -41,12 +48,12 @@ const VoiceDemo = (props) => {
         answer: "",
         func: (value) => {
 
-            const searchForRegExp = /search for/i;
-            let found = value.match(searchForRegExp);
+            //const searchForRegExp = /search for/i;
+            //let found = value.match(searchForRegExp);
             //alert(value.length);
             //console.log(found.index);
-            alert(value.substring(24)) //"mirror mirror search for puppies" is 24 characters long
-
+            //alert(value.substring(24))
+            setQuery(value.substring(24)); //"mirror mirror search for puppies" is 24 characters long
         }
     };
 
@@ -89,7 +96,7 @@ const VoiceDemo = (props) => {
                     SpeechRecognitionHook.displayTranscript
                 }
             </>
-            <Search/>
+
             <Col>
                 <Row>
                     <Col lg={3}>
@@ -118,7 +125,7 @@ const VoiceDemo = (props) => {
                             <h4 style={{color: "white"}}>
                                 Voice command and answer:
                             </h4>
-                            <h5>{}</h5>
+                            <h5>{query}</h5>
                         </Row>
                         <Row style={{height: "50vh"}}>
                             <h4 style={{color: "white"}}>
