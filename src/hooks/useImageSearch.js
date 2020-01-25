@@ -2,7 +2,7 @@ import React, {useState, useEffect, useContext} from "react";
 //import './Search.css';
 import axios from "axios";
 
-const Search = () => {
+const useImageSearch = () => {
 
     //Image search state variables
     const [query, setQuery] = useState("");
@@ -97,4 +97,4 @@ const Search = () => {
 };
 
 
-export default Search;
+export default useImageSearch;

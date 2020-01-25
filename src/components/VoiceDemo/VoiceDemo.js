@@ -3,7 +3,7 @@ import {VoiceCommandsContext} from "../../context/VoiceCommandsContext";
 import {Input, Label, Button, Row, Col} from 'reactstrap';
 import useSpeechSynthesis from "../../hooks/useSpeechSynthesis";
 import {useModal} from "../../hooks/useModal";
-import Search from "./Search";
+import Search from "../../hooks/useImageSearch";
 
 const VoiceDemo = (props) => {
 
