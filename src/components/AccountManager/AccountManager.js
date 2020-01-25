@@ -6,6 +6,8 @@ import GoogleCalendarConfig from "../Google/GoogleCalendarConfig";
 import FaceLoginSetup from "../Config/FaceLoginSetup/FaceLoginSetup";
 import {useDatabase} from "../../hooks/useDatabase";
 import {useLogger} from "../../hooks/useLogger";
+import {VoiceCommandsContext} from "../../context/VoiceCommandsContext";
+import {LoggingContext} from "../../context/LoggingContext";
 
 const AccountManager = (props) => {
 
@@ -150,6 +152,50 @@ const AccountManager = (props) => {
 
     const [visibleDeleteConfirmation, setVisibleDeleteConfirmation] = useState(false);
     const onDismissDeleteConfirmation = () => setVisibleDeleteConfirmation(false);
+
+    const {SpeechRecognitionHook} = useContext(VoiceCommandsContext);
+
+    const showFaceLoginSetupCommand = {
+        command: [
+            "mirror mirror on the wall face login setup",
+            "mirror mirror face login setup",
+            "mirror mirror on the wall face setup",
+            "mirror mirror face setup",
+            "mirror mirror on the wall setup face login",
+            "mirror mirror setup face login",
+        ],
+        answer: "Setting Up face login",
+        func: () => {
+            logger.addLog("Voice Command: Showing face login setup");
+            setFaceSetupOpen(true)
+        }
+    };
+
+    const closeFaceLoginSetupCommand = {
+        command: [
+            "mirror mirror on the wall close face login setup",
+            "mirror mirror close face login setup",
+            "mirror mirror on the wall close face setup",
+            "mirror mirror close face setup",
+            "mirror mirror on the wall close setup face login",
+            "mirror mirror close setup face login",
+        ],
+        answer: "Closing face login setup",
+        func: () => {
+            logger.addLog("Voice Command: Closing face login setup");
+            setFaceSetupOpen(false);
+        }
+    };
+
+    useEffect(() => {
+        SpeechRecognitionHook.addCommand(showFaceLoginSetupCommand);
+        SpeechRecognitionHook.addCommand(closeFaceLoginSetupCommand);
+
+        return () => {
+            SpeechRecognitionHook.removeCommand(showFaceLoginSetupCommand);
+            SpeechRecognitionHook.removeCommand(closeFaceLoginSetupCommand);
+        }
+    }, []);
 
     //Notes
     /*

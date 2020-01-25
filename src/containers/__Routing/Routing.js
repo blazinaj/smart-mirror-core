@@ -69,7 +69,7 @@ const RoutingBody = (props) => {
     };
 
     const logoutCommand = {
-        command: ["mirror mirror on the wall logout", "mirror mirror logout"],
+        command: ["mirror mirror on the wall logout", "mirror mirror logout", "mirror mirror log out"],
         answer: "Logging out",
         func: () => {
             loggingContext.addLog("Voice Command: Logging out");
@@ -205,7 +205,6 @@ const RoutingBody = (props) => {
                     registerVoiceModal.display
                 }
                 <Login mongoHook={mongoHook}/>
-
             </Route>
             <PrivateRoute exact path="/" mongoHook={mongoHook}>
                 {

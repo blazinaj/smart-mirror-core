@@ -2,8 +2,9 @@ import React, {useState, useEffect, useContext, Fragment} from "react";
 import ReactDOM from 'react-dom';
 import {Input, Label, Button, Row, Col} from 'reactstrap';
 import {VoiceCommandsContext} from "../../context/VoiceCommandsContext";
-import AnalogClock from 'analog-clock-react';
+// import AnalogClock from 'analog-clock-react';
 import axios from 'axios';
+import AnalogClock from "analog-clock-react";
 
 
 

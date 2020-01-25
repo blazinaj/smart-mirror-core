@@ -1,27 +1,20 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useContext } from "react";
 import {useDatabase} from "../../../hooks/useDatabase";
 import {Button, Col, ListGroup, ListGroupItem, Modal, ModalBody, ModalHeader, Row} from "reactstrap";
-import {useModal} from "../../../hooks/useModal";
-import useFaceApi from "face-api-hook/dist";
 import {
     Stitch,
-    RemoteMongoClient,
-    AnonymousCredential
+    RemoteMongoClient
 } from 'mongodb-stitch-browser-sdk';
 import useFace from "../../../hooks/useFace";
-import * as faceapi from "face-api.js";
+import {VoiceCommandsContext} from "../../../context/VoiceCommandsContext";
+import {LoggingContext} from "../../../context/LoggingContext";
 
 const FaceLoginSetup = (props) => {
 
     const databaseHook = useDatabase();
 
-    const savedFacesQuery = {
-        owner_id: databaseHook.user.id
-    };
-
     const [savedFaces, setSavedFaces] = useState([]);
     const [modalIsOpen, setModalIsOpen] = useState(false);
-    const [testLoginModalIsOpen, setTestLoginModalIsOpen] = useState(false);
     const [currentFaces, setCurrentFaces] = useState([]);
 
     const client = Stitch.defaultAppClient;
@@ -38,11 +31,10 @@ const FaceLoginSetup = (props) => {
         getSavedFaces();
     }, []);
 
-    // const faceApiHook = useFaceApi();
     const faceApiHook = useFace();
 
     const saveNewFace = (descriptor) => {
-        alert(JSON.stringify(descriptor))
+        // alert(JSON.stringify(descriptor))
         const client = Stitch.defaultAppClient;
 
         const db = client.getServiceClient(RemoteMongoClient.factory, 'mongodb-atlas').db('smart_mirror');
@@ -64,45 +56,50 @@ const FaceLoginSetup = (props) => {
         setCurrentFaces(faceApiHook.labeledDescriptors)
     }, [faceApiHook.labeledDescriptors]);
 
-    const matchFace = async (descriptor) => {
-        console.log("Trying to match Face to user ID: " + databaseHook.user.id + "...");
-        let faces = await db.collection('face_descriptors').find({}, { limit: 100}).asArray();
-        console.log("Fetched Faces from database: " + JSON.stringify(faces));
-        console.log("Trying to match face..");
-
-        if (!descriptor) {
-            alert("Could not match face!!!");
-            return null;
-        }
-
-        let match = false;
-
-        for (let faceObjectInDatabase of faces) {
-
-            let descArray = [];
-
-            for (let entry of faceObjectInDatabase.descriptor.descriptors) {
-                let desc = [];
-
-                for (let num of entry) {
-                    desc.push(num)
-                }
-
-                descArray.push(desc)
-            }
-
-            const dist = await faceapi.euclideanDistance(descArray[0], descriptor.descriptors[0]);
-
-            console.log("euclidean distance: " + dist)
-
-            if (dist > 0.1) {
-                match = true
-            }
-
-        }
-
-        console.log("Match = " + match)
+    const saveFaceToDB =  async () => {
+        let descriptor = await faceApiHook.getDescriptorsFromImage("user");
+        console.log("Got Descriptor: " + JSON.stringify(descriptor));
+        saveNewFace(descriptor);
+        SpeechRecognitionHook.speak("Face successfully saved.");
+        setModalIsOpen(false)
     };
+
+    const {SpeechRecognitionHook} = useContext(VoiceCommandsContext);
+    const {logger} = useContext(LoggingContext);
+
+    const saveNewFaceCommand = {
+        command: [
+            "mirror mirror on the wall save a new face",
+            "mirror mirror save a new face"
+        ],
+        answer: "Opening face capture wizard",
+        func: () => {
+            logger.addLog("Voice Command: Open face capture wizard");
+            setModalIsOpen(!modalIsOpen);
+        }
+    };
+
+    const saveFaceCommand = {
+        command: [
+            "mirror mirror on the wall save my face",
+            "mirror mirror save my face"
+        ],
+        answer: "Saving face to the database",
+        func: () => {
+            logger.addLog("Voice Command: Saving face to database");
+            saveFaceToDB();
+        }
+    };
+
+    useEffect(() => {
+        SpeechRecognitionHook.addCommand(saveFaceCommand);
+        SpeechRecognitionHook.addCommand(saveNewFaceCommand);
+
+        return () => {
+            SpeechRecognitionHook.removeCommand(saveFaceCommand);
+            SpeechRecognitionHook.removeCommand(saveNewFaceCommand);
+        }
+    }, []);
 
     return (
 
@@ -110,7 +107,7 @@ const FaceLoginSetup = (props) => {
             <Col>
                 <h4>Settings</h4>
                 <Button onClick={() => setModalIsOpen(!modalIsOpen)}>Save a new Face</Button>
-                <Modal isOpen={modalIsOpen} toggle={() => setModalIsOpen(!modalIsOpen)}>
+                <Modal isOpen={modalIsOpen} toggle={() => setModalIsOpen(!modalIsOpen)} style={{minWidth: "75vw"}}>
                     <ModalHeader>
                         Save a new Face
                     </ModalHeader>
@@ -119,15 +116,9 @@ const FaceLoginSetup = (props) => {
                             faceApiHook.videoFeed
                         }
                         <Button
-                            onClick={
-                                async () => {
-                                    let descriptor = await faceApiHook.getDescriptorsFromImage("jacob");
-                                    console.log("Got Descriptor: " + JSON.stringify(descriptor));
-                                    saveNewFace(descriptor)
-                                }
-                            }
+                            onClick={() => saveFaceToDB()}
                         >
-                            Save your face to the Database
+                            Save my face
                         </Button>
                     </ModalBody>
                 </Modal>
@@ -140,7 +131,9 @@ const FaceLoginSetup = (props) => {
                         savedFaces.length > 0
                         && savedFaces.map((face, index) =>
                             <ListGroupItem key={index}>
-                                {JSON.stringify(face.descriptor)}
+                                Label: {face.descriptor && face.descriptor.label}
+                                <br/>
+                                # of Descriptors: {face.descriptor && face.descriptor.descriptors && face.descriptor.descriptors.length}
                             </ListGroupItem>
                         )
                     }
