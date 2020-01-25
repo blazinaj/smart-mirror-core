@@ -107,10 +107,10 @@ const App = () => {
     }, []);
 
     return (
-        <div style={{background: "black", color: "white"}} className="App">
-            <LoggingContext.Provider value={{logger}}>
-                <AppContext.Provider value={{mongoHook, debuggingTools}}>
-                    <VoiceCommandsContext.Provider value={{SpeechRecognitionHook}}>
+        <LoggingContext.Provider value={{logger}}>
+            <AppContext.Provider value={{mongoHook, debuggingTools}}>
+                <VoiceCommandsContext.Provider value={{SpeechRecognitionHook}}>
+                    <div style={{background: "black", color: "white"}} className="App">
                         <>
                             {
                                 showTranscript &&
@@ -135,10 +135,10 @@ const App = () => {
                                 </>
                             }
                         </Row>
-                    </VoiceCommandsContext.Provider>
-                </AppContext.Provider>
-            </LoggingContext.Provider>
-        </div>
+                    </div>
+                </VoiceCommandsContext.Provider>
+            </AppContext.Provider>
+        </LoggingContext.Provider>
     );
 };
 
