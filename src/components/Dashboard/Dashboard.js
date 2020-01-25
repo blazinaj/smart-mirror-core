@@ -158,7 +158,7 @@ const Dashboard = (props) => {
                     <div key="weather-widget" style={style}>
                         <ReactWeather
                             style={{color: "white"}}
-                            forecast="5days"
+                            forecast="1day"
                             apikey="3a672a5bca657693859413a963d7b698"
                             type="city"
                             city="Spokane"
