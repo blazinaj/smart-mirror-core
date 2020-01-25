@@ -176,12 +176,13 @@ const Dashboard = (props) => {
                 </Col>
                 <Col sm={4} style={style}>
                     {
-                        showWebcamFeed &&
-                        <div key="digital-clock-widget" id="digital-clock-widget" style={{...style, marginBottom: "3em"}}>
+                        showWebcamFeed ?
+                        <div key="webcam-feed" id="webcam-feed" style={{...style, marginBottom: "3em"}}>
                             <Webcam
                                 width="40%"
                             />
                         </div>
+                            : null
                     }
                     <div key="digital-clock-widget" id="digital-clock-widget" style={style}>
                         <DigitalClock/>
