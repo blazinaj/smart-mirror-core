@@ -38,12 +38,19 @@ const Login = (props) => {
     };
 
     const faceLoginCommand = {
-        command: ["Face Login", "mirror mirror on the wall check my face", "mirror mirror on the wall face log in", "mirror mirror check my face", "mirror mirror face log in"],
+        command: [
+            "mirror mirror on the wall check my face",
+            "mirror mirror on the wall face log in",
+            "mirror mirror check my face",
+            "mirror mirror face log in",
+            "mirror mirror log in with my face"
+        ],
         answer: "I'm Trying to detect your face",
         func: async () => {
             let descriptor = await faceApiHook.getDescriptorsFromImage("jacob", "video-feed");
             console.log("Got Descriptor: " + JSON.stringify(descriptor));
             await matchFace(descriptor);
+            // voiceContext.SpeechRecognitionHook.removeCommand(faceLoginCommand);
         }
     };
 
