@@ -50,23 +50,6 @@ useEffect(() => {
     });
 },[]);
 
-function Quote (props){
-    return <h1>{JSON.stringify(quote)}</h1>
-}
-
-function Loading (props){
-    return <h1>Loading ... </h1>
-}
-
-function showQuote(props) {
-    const isNull = (JSON.stringify(quote)== null)
-    if (isNull) {
-      return <Loading />;
-    }
-    return <Quote />;
-  }
-
-
     return (
         <div style={{height: "100vh", background: "black", padding: "5vw"}}>
             <h1>DEVOTIONS</h1>
@@ -78,8 +61,11 @@ function showQuote(props) {
             </>
             */}
             <Col>
+            <h1></h1>
+            </Col>
+            <Col>
                 {/* <h1>{JSON.stringify(quote)}</h1> */}
-                {showQuote()}
+                <h1>{quote? quote:"Loading ..."}</h1>
             </Col>
 
         </div>

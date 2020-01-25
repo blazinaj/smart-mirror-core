@@ -125,7 +125,6 @@ const App = () => {
                                 </Col>
                             }
                             <Col>
-                                {/* <Devotions/> */}
                                 <Routing/>
                             </Col>
                             {
