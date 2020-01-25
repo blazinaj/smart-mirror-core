@@ -69,7 +69,7 @@ const RoutingBody = (props) => {
     };
 
     const logoutCommand = {
-        command: ["mirror mirror on the wall logout", "mirror mirror logout"],
+        command: ["mirror mirror on the wall logout", "mirror mirror on the wall log out", "mirror mirror logout", "mirror mirror log out" , "mirror mirror log me out" ],
         answer: "Logging out",
         func: () => {
             loggingContext.addLog("Voice Command: Logging out");
@@ -78,7 +78,7 @@ const RoutingBody = (props) => {
     };
 
     const devotionsCommand = {
-        command: ["mirror mirror go to devotion", "mirror mirror i want to see devotion", "mirror mirror take me to devotion"],
+        command: ["mirror mirror go to devotion", "mirror mirror I want to see devotion", "mirror mirror take me to devotion"],
         answer: "Alright! Ill take you to devotion",
         func: () => {
             loggingContext.addLog("Voice Command: Alright! Ill take you to devotion")
