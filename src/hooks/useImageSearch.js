@@ -16,12 +16,12 @@ const useImageSearch = () => {
 
     const searchFor = (newQuery) => {
        setQuery(newQuery);
-        //fetchSearchResults(1, newQuery);
+        fetchSearchResults(1 , newQuery);  //inititall setting the page number to just be one page
        // console.log(query);
     }
 
     useEffect( () => {
-        //console.log(query);
+        //this was required to get the query state var to be rendered.
     }, [query]);
 
     const getPageCount = ( total, denominator ) => {
@@ -41,7 +41,8 @@ const useImageSearch = () => {
         setCancel(axios.CancelToken.source());
 
         axios.get( searchUrl, {
-            cancelToken: cancel.token
+             cancel //was originally "cancelToken: this.cancel.token"
+
         } )
             .then( res => {
                 const total = res.data.total;
@@ -56,6 +57,7 @@ const useImageSearch = () => {
                 setTotalPages(totalPagesCount);
                 setCurrentPageNo(updatedPageNo);
                 setLoading(false);
+                console.log(res);  //Debug
 
             } )
             .catch( error => {
@@ -65,6 +67,7 @@ const useImageSearch = () => {
                     }
                 }
             )
+
     };
 
     const mySearchBox =
