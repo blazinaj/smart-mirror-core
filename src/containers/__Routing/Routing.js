@@ -217,7 +217,6 @@ const RoutingBody = (props) => {
                     registerVoiceModal.display
                 }
                 <Login mongoHook={mongoHook}/>
-
             </Route>
             <PrivateRoute exact path="/" mongoHook={mongoHook}>
                 {

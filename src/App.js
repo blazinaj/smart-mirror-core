@@ -16,7 +16,6 @@ import {useMongo} from "./hooks/useMongo";
 import {AppContext} from "./context/AppContext";
 import Routing from "./containers/__Routing/Routing";
 import CommandArray from "./components/Application/CommandArray";
-import Devotions from "./components/Devotions/Devotions";
 import Header from "./containers/Home/Header";
 const App = () => {
 
@@ -127,7 +126,6 @@ const App = () => {
                                 </Col>
                             }
                             <Col>
-                                {/* <Devotions/> */}
                                 <Routing/>
                             </Col>
                             {
