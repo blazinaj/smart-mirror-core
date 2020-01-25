@@ -27,7 +27,7 @@ export const useProfile = () => {
     // Generates a Reactstrap Table out of the authenicatedUser object
     const profileTableHook = useTable(context.mongoHook.authenticatedUser);
 
-    const accountManagerButton = <Button size="sm" className="btn-pill" color="primary">Account Manager</Button>;
+    const accountManagerButton = <Button size="sm" className="btn-pill" color="primary">Account</Button>;
     const accountManagerHook = useModal(<AccountManager />, "Account Manager", accountManagerButton);
 
     const faceLoginSetupButton = <Button size="sm" className="btn-pill" color="info">Setup Face Login</Button>;
