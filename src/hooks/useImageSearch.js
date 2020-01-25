@@ -46,7 +46,7 @@ const useImageSearch = () => {
         } )
             .then( res => {
                 const total = res.data.total;
-                const totalPagesCount = getPageCount( total, 20 );
+                const totalPagesCount = getPageCount( total, 4 );  //Limit to 4 results, for a 2x2 grid of pictures.
                 const resultNotFoundMsg = ! res.data.hits.length
                     ? 'There are no more search results. Please try a new search'
                     : '';
@@ -57,7 +57,7 @@ const useImageSearch = () => {
                 setTotalPages(totalPagesCount);
                 setCurrentPageNo(updatedPageNo);
                 setLoading(false);
-                console.log(res);  //Debug
+               // console.log(res);  //Debug
 
             } )
             .catch( error => {
@@ -92,8 +92,34 @@ const useImageSearch = () => {
         </>
     ;
 
+   const renderSearchResults = () => {
+        //const { results } = this.state;
+
+
+        if (  Object.keys (results).length && results.length ) {
+           // alert("made it past the if statement in the renderSearchResults"); //Debug
+
+            return (
+                <div className="results-container">
+                    { results.map( result => {
+                        return (
+                            <a key={ result.id } href={ result.previewURL } className="result-item">
+                                <h6 className="image-username">{result.user}</h6>
+                                <div className="image-wrapper">
+                                    <img className="image" src={ result.previewURL } alt={`${result.username} image`}/>
+                                </div>
+                            </a>
+                        )
+                    } ) }
+
+                </div>
+            )
+        }
+    };
+
     return {
         mySearchBox,
+        renderSearchResults,
         searchFor
     }
 

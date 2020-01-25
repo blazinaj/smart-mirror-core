@@ -93,6 +93,7 @@ const VoiceDemo = (props) => {
                 }
             </>
             {search.mySearchBox}
+            {search.renderSearchResults()}
             <Col>
                 <Row>
                     <Col lg={3}>
