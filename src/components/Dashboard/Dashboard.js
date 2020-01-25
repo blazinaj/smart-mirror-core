@@ -5,7 +5,7 @@
  *
  */
 
-import React, {useState, useRef, useEffect} from "react";
+import React, {useState, useRef, useEffect, useContext} from "react";
 import GridLayout from "react-grid-layout";
 import CameraWidget from "camera-widget";
 import DigitalClock from "react-digital-clock";
@@ -17,6 +17,8 @@ import GoogleCalendarWrapper from "../Google/GoogleCalendarWrapper";
 import {Row, Col} from "reactstrap";
 import {HighContrastSelectorWhite, HighContrastSelectorBlack} from "office-ui-fabric-react";
 import Webcam from "react-webcam";
+import {VoiceCommandsContext} from "../../context/VoiceCommandsContext";
+import {LoggingContext} from "../../context/LoggingContext";
 // import GoogleCalendarWrapper from "../Google/GoogleCalendarWrapper";
 
 const Dashboard = (props) => {
@@ -26,7 +28,9 @@ const Dashboard = (props) => {
     const [componentWidth, setComponentWidth] = useState(500);
     const [componentHeight, setComponentHeight] = useState(500);
     const [componentAudio, setComponentAudio] = useState(false);
-    const [showWebcamFeed, setShowWebcamFeed] = useState(true);
+    const [showWebcamFeed, setShowWebcamFeed] = useState(false);
+
+    const {logger} = useContext(LoggingContext);
 
     useEffect(() => {
 
@@ -125,6 +129,37 @@ const Dashboard = (props) => {
             <GoogleCalendarWrapper googleCalendarAPI={coreAPI}/>
         </div>
     ];
+
+
+    const showWebcamCommand = {
+        command: ["mirror mirror on the wall show webcam", "mirror mirror show webcam"],
+        answer: "Showing Webcam in Upper right corner",
+        func: () => {
+            logger.addLog("Voice Command: Showing webcam");
+            setShowWebcamFeed(true);
+        }
+    };
+
+    const hideWebcamCommand = {
+        command: ["mirror mirror on the wall hide webcam", "mirror mirror hide webcam"],
+        answer: "Hiding Webcam",
+        func: () => {
+            logger.addLog("Voice Command: Hiding webcam");
+            setShowWebcamFeed(false);
+        }
+    };
+
+    const {SpeechRecognitionHook} = useContext(VoiceCommandsContext);
+
+    useEffect(() => {
+        SpeechRecognitionHook.addCommand(showWebcamCommand);
+        SpeechRecognitionHook.addCommand(hideWebcamCommand);
+
+        return () => {
+            SpeechRecognitionHook.removeCommand(showWebcamCommand);
+            SpeechRecognitionHook.removeCommand(hideWebcamCommand);
+        }
+    }, []);
 
     return (
         <div id="main-div">
