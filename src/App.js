@@ -17,6 +17,7 @@ import {AppContext} from "./context/AppContext";
 import Routing from "./containers/__Routing/Routing";
 import CommandArray from "./components/Application/CommandArray";
 import Devotions from "./components/Devotions/Devotions";
+import Header from "./containers/Home/Header";
 const App = () => {
 
     const [client, setClient] = useState(null);
@@ -110,6 +111,7 @@ const App = () => {
         <LoggingContext.Provider value={{logger}}>
             <AppContext.Provider value={{mongoHook, debuggingTools}}>
                 <VoiceCommandsContext.Provider value={{SpeechRecognitionHook}}>
+                    {mongoHook.isLoggedIn && <Header/>}
                     <div style={{background: "black", color: "white"}} className="App">
                         <>
                             {
