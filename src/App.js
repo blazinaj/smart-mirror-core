@@ -17,6 +17,7 @@ import {AppContext} from "./context/AppContext";
 import Routing from "./containers/__Routing/Routing";
 import CommandArray from "./components/Application/CommandArray";
 import Devotions from "./components/Devotions/Devotions";
+import VoiceDemo from "./components/VoiceDemo/VoiceDemo";
 const App = () => {
 
     const [client, setClient] = useState(null);
@@ -125,8 +126,8 @@ const App = () => {
                                 </Col>
                             }
                             <Col>
-                                {/* <Devotions/> */}
-                                <Routing/>
+                                <VoiceDemo/>
+                                {/*<Routing/>*/}
                             </Col>
                             {
                                 showLogger &&
