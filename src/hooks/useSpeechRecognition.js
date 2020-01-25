@@ -125,43 +125,7 @@ const useSpeechRecognition = () => {
         });
     }, [value]);
 
-    const addCommand = (intend) => {
-
-        let commandFound;
-
-        intendArray.map((globalIntend) => {
-
-            if (Array.isArray(globalIntend.command) && !Array.isArray(intend.command)) {
-                commandFound = globalIntend.command.some((item) => item.command === intend.command);
-                if (!commandFound) {
-                    setIntendArray(intendArray => [...intendArray, intend])
-                } else {
-                    console.log("Duplicated Command: " + (intend.command ? intend.command : null));
-                }
-            } else if (!Array.isArray(globalIntend.command) && Array.isArray(intend.command)) {
-                commandFound = intend.command.some((item) => item.command === globalIntend.command);
-                if (!commandFound) {
-                    setIntendArray(intendArray => [...intendArray, intend])
-                } else {
-                    console.log("Duplicated Command: " + (intend.command ? intend.command : null));
-                }
-            } else if (!Array.isArray(globalIntend.command) && !Array.isArray(intend.command)) {
-                commandFound = globalIntend.command === intend.command;
-                if (!commandFound) {
-                    setIntendArray(intendArray => [...intendArray, intend])
-                } else {
-                    console.log("Duplicated Command: " + (intend.command ? intend.command : null));
-                }
-            } else if (Array.isArray(globalIntend.command) && Array.isArray(intend.command)) {
-                commandFound = JSON.stringify(globalIntend.command) === JSON.stringify(intend.command);
-                if (!commandFound) {
-                    setIntendArray(intendArray => [...intendArray, intend])
-                } else {
-                    console.log("Duplicated Command: " + (intend.command ? intend.command : null));
-                }
-            }
-        });
-    };
+   
 
     const removeCommand = (command) => {
         let commandIndex = intendArray.indexOf(command);
