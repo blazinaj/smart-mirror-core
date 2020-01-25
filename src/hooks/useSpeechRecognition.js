@@ -104,26 +104,25 @@ const useSpeechRecognition = () => {
     }, []);
 
     useEffect(() => {
+        let commandFound = false;
 
         intendArray.map((intent) => {
-
             let commands = [].concat(intent.command);
-
             for (let command of commands) {
                 if (value.toString().toLocaleLowerCase().includes(command.toString().toLocaleLowerCase())) {
 
-                    if (intent["answer"]) {
-                        speechSynthesisHook.speak(intent["answer"]);
+                    if(!commandFound) {
+                        if (intent["answer"]) {
+                            speechSynthesisHook.speak(intent["answer"]);
+                        }
+                        if (intent.func) {
+                            intent.func();
+                        }
                     }
-
-                    if (intent.func) {
-                        intent.func();
-                    }
+                    commandFound = true;
                 }
             }
-
         });
-
     }, [value]);
 
     const addCommand = (intend) => {
