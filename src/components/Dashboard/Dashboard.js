@@ -208,9 +208,7 @@ export const ClockWidget = (props) => {
     }, []);
 
     return (
-        <div>
-            <Clock value={time}/>
-        </div>
+        <Clock value={time}/>
     )
 };
 
