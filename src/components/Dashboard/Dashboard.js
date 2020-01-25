@@ -130,13 +130,16 @@ const Dashboard = (props) => {
         <div id="main-div">
             <Row>
                 <Col sm={4} style={style}>
-                    <div key="calendar-widget" style={style}>
+                    <div key="calendar-widget" style={{...style}}>
                         <Calendar
                             value={new Date()}
                         />
                     </div>
-                    <br/>
-                    <br/>
+                </Col>
+                <Col sm={4} style={style}>
+
+                </Col>
+                <Col sm={4} style={style}>
                     {
                         showWebcamFeed &&
                         <div key="digital-clock-widget" id="digital-clock-widget" style={{...style, marginBottom: "3em"}}>
@@ -148,13 +151,13 @@ const Dashboard = (props) => {
                     <div key="digital-clock-widget" id="digital-clock-widget" style={style}>
                         <DigitalClock/>
                     </div>
-                </Col>
-                <Col sm={4} style={style}>
-                    <div key="clock-widget" id="clock-widget" style={style}>
+                    <br/>
+                    <br/>
+                    <div key="clock-widget" id="clock-widget" style={{...style, marginRight: "12%"}}>
                         <ClockWidget coreAPI={coreAPI}/>
                     </div>
-                </Col>
-                <Col sm={4} style={style}>
+                    <br/>
+                    <br/>
                     <div key="weather-widget" style={style}>
                         <ReactWeather
                             style={{color: "white"}}
