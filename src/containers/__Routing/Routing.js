@@ -16,6 +16,7 @@ import GesturePaintDemo from "../GestureDemo/GesturePaintDemo";
 import GestureClickMeGame from "../GestureDemo/GestureClickMeGame";
 import {useGreetingMessage} from "../../hooks/useGreetingMessage";
 import HelpPage from "../HelpPage/HelpPage";
+import WikipediaSearchPage from "../Wikipedia/WikipediaSearchPage";
 
 const RoutingBody = (props) => {
 
@@ -172,6 +173,15 @@ const RoutingBody = (props) => {
         }
     };
 
+    const searchWikipediaCommand = {
+        command: ["mirror mirror search wikipedia page"],
+        answer: "Moving to wikipedia search page!",
+        func: () => {
+            loggingContext.addLog("Voice Command: Going to search wikipedia page");
+            history.push("/search_wikipedia")
+        }
+    };
+
     useEffect(() => {
         voiceContext.addCommand(homePageCommand);
         voiceContext.addCommand(testPageCommand);
@@ -186,6 +196,7 @@ const RoutingBody = (props) => {
         voiceContext.addCommand(goBackCommand);
         voiceContext.addCommand(devotionsCommand);
         voiceContext.addCommand(helpPageCommand);
+        voiceContext.addCommand(searchWikipediaCommand);
     }, []);
 
     useEffect(() => {
@@ -237,6 +248,9 @@ const RoutingBody = (props) => {
             </PrivateRoute>
             <PrivateRoute exact path="/face_demo" mongoHook={mongoHook}>
                 <FaceDemo/>
+            </PrivateRoute>
+            <PrivateRoute exact path="/search_wikipedia" mongoHook={mongoHook}>
+                <WikipediaSearchPage/>
             </PrivateRoute>
             <Route exact path="/sleep">
                 <Sleep/>
