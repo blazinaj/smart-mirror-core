@@ -249,14 +249,6 @@ const FaceDemo = (props) => {
                                 </Row>
                             </Col>
                         </Row>
-                    </Col>
-                    <Col lg={6}>
-                        <div style={{height: "50vh", margin: "auto auto"}}>
-                            <h4 style={{color: "white"}}>Camera Feed</h4>
-                            {faceApiHook.videoFeed}
-                        </div>
-                    </Col>
-                    <Col lg={3}>
                         <Row style={{height: "50vh", color: "white"}}>
                             <Col>
                                 <Row>
@@ -266,14 +258,14 @@ const FaceDemo = (props) => {
                                 </Row>
                                 <Row>
                                     <h6>
-                                    {
-                                        faceApiHook.loadingAllOutputs ?
-                                            <>
-                                                Loading Gender.. <Spinner color="primary"/>
-                                            </>
-                                            :
-                                            resultObject ? resultObject.gender : "No Gender Found"
-                                    }
+                                        {
+                                            faceApiHook.loadingAllOutputs ?
+                                                <>
+                                                    Loading Gender.. <Spinner color="primary"/>
+                                                </>
+                                                :
+                                                resultObject ? resultObject.gender : "No Gender Found"
+                                        }
                                     </h6>
                                 </Row>
                             </Col>
@@ -299,6 +291,12 @@ const FaceDemo = (props) => {
                                 </Row>
                             </Col>
                         </Row>
+                    </Col>
+                    <Col>
+                        <div style={{height: "50vh", margin: "auto auto"}}>
+                            <h4 style={{color: "white"}}>Camera Feed</h4>
+                            {faceApiHook.videoFeed}
+                        </div>
                     </Col>
                 </Row>
             </Col>
