@@ -82,13 +82,13 @@ const WikipediaSearchPage = () => {
                     case "many": {
                         // Extracting many items from query and putting them into foundResults
                         Object.keys(results).map(key => {
-                            loggingContext.addLog(results[key]);
+                            //loggingContext.addLog(results[key]);
                             if(results[key].title.toLowerCase() === searchQuery.toLowerCase()){
                                 tempResults = [{key: key, title: results[key].title, extract: results[key].extract}];
                             }
                         });
                         Object.keys(results).map(key => {
-                            loggingContext.addLog(results[key]);
+                            //loggingContext.addLog(results[key]);
                             if(results[key].title.toLowerCase() !== searchQuery.toLowerCase()){
                                 tempResults = [...tempResults,{key: key, title: results[key].title, extract: results[key].extract}];
                             }
@@ -97,9 +97,18 @@ const WikipediaSearchPage = () => {
                     }
                     case "one": {
                         // Extracting one items from query and putting them into foundResults
-                        let keys = Object.keys(results);
-                        tempResults = [{title: results[keys[0]].title, extract: results[keys[0]].extract}]
-                        break;
+                        Object.keys(results).map(key => {
+                            //loggingContext.addLog(results[key]);
+                            if(results[key].title.toLowerCase() === searchQuery.toLowerCase()){
+                                console.log(results[key]);
+                                tempResults = [{key: key, title: results[key].title, extract: results[key].extract}];
+                            }
+                        });
+                        if(tempResults.length === 0){
+                            let keys = Object.keys(results);
+                            tempResults = [{title: results[keys[0]].title, extract: results[keys[0]].extract}];
+                            break;
+                        }
                     }
                     default: {}
                 }
