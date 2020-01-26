@@ -106,7 +106,11 @@ const FaceLoginSetup = (props) => {
         <Row>
             <Col>
                 <h4>Settings</h4>
-                <Button onClick={() => setModalIsOpen(!modalIsOpen)}>Save a new Face</Button>
+                <Button onClick={() => setModalIsOpen(!modalIsOpen)}>
+                    Save a new Face
+                    <br/>
+                    <small>🎤 "mirror mirror save a new face"</small>
+                </Button>
                 <Modal isOpen={modalIsOpen} toggle={() => setModalIsOpen(!modalIsOpen)} style={{minWidth: "75vw"}}>
                     <ModalHeader>
                         Save a new Face
@@ -119,6 +123,8 @@ const FaceLoginSetup = (props) => {
                             onClick={() => saveFaceToDB()}
                         >
                             Save my face
+                            <br/>
+                            <small>🎤 "mirror mirror save my face"</small>
                         </Button>
                     </ModalBody>
                 </Modal>

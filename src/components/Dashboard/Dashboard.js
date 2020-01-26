@@ -19,6 +19,7 @@ import {HighContrastSelectorWhite, HighContrastSelectorBlack} from "office-ui-fa
 import Webcam from "react-webcam";
 import {VoiceCommandsContext} from "../../context/VoiceCommandsContext";
 import {LoggingContext} from "../../context/LoggingContext";
+import {AppContext} from "../../context/AppContext";
 // import GoogleCalendarWrapper from "../Google/GoogleCalendarWrapper";
 
 const Dashboard = (props) => {
@@ -28,9 +29,10 @@ const Dashboard = (props) => {
     const [componentWidth, setComponentWidth] = useState(500);
     const [componentHeight, setComponentHeight] = useState(500);
     const [componentAudio, setComponentAudio] = useState(false);
-    const [showWebcamFeed, setShowWebcamFeed] = useState(false);
+    const [showWebcamFeed, setShowWebcamFeed] = useState(true);
 
     const {logger} = useContext(LoggingContext);
+    const {webcamTools} = useContext(AppContext);
 
     useEffect(() => {
 
@@ -176,7 +178,7 @@ const Dashboard = (props) => {
                 </Col>
                 <Col sm={4} style={style}>
                     {
-                        showWebcamFeed ?
+                        !webcamTools.disableWebCam && showWebcamFeed ?
                         <div key="webcam-feed" id="webcam-feed" style={{...style, marginBottom: "3em"}}>
                             <Webcam
                                 width="40%"
@@ -213,9 +215,11 @@ const Dashboard = (props) => {
                     </div>
                 </Col>
                 <Col sm={4} style={style}>
-                    {
-                        joke ? joke : null
-                    }
+                    <div style={{position: "relative", bottom: "0px"}}>
+                        {
+                            joke ? joke : null
+                        }
+                    </div>
                 </Col>
                 <Col sm={4} style={style}>
 

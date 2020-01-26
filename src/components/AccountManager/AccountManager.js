@@ -256,7 +256,11 @@ const AccountManager = (props) => {
 
             <hr />
 
-            <Button color="info" onClick={toggleFaceSetup} style={{ marginBottom: '1rem' }}>Face Login Setup</Button>
+            <Button color="info" onClick={toggleFaceSetup} style={{ marginBottom: '1rem' }}>
+                Face Login Setup
+                <br/>
+                <small>🎤 "mirror mirror face login setup"</small>
+            </Button>
             <Collapse isOpen={isFaceSetupOpen}>
                 {
                     !isGuest ?

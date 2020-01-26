@@ -23,6 +23,12 @@ const App = () => {
     const [showLogger, setShowLogger] = useState(false);
     const [showTranscript, setShowTranscript] = useState(false);
     const [showIntendArray, setShowIntendArray] = useState(false);
+    const [disableWebCam, setDisableWebCam] = useState(false);
+
+    const webcamTools = {
+        disableWebCam,
+        setDisableWebCam
+    };
 
     const debuggingTools = {
         showLogger,
@@ -108,7 +114,7 @@ const App = () => {
 
     return (
         <LoggingContext.Provider value={{logger}}>
-            <AppContext.Provider value={{mongoHook, debuggingTools}}>
+            <AppContext.Provider value={{mongoHook, debuggingTools, webcamTools}}>
                 <VoiceCommandsContext.Provider value={{SpeechRecognitionHook}}>
                     {mongoHook.isLoggedIn && <Header/>}
                     <div style={{background: "black", color: "white"}} className="App">
@@ -118,23 +124,7 @@ const App = () => {
                                 SpeechRecognitionHook.displayTranscript
                             }
                         </>
-                        <Row>
-                            {
-                                showIntendArray &&
-                                <Col lg={3}>
-                                    <CommandArray commandArray={SpeechRecognitionHook.intendArray}/>
-                                </Col>
-                            }
-                            <Col>
-                                <Routing/>
-                            </Col>
-                            {
-                                showLogger &&
-                                <>
-                                    {logger.display}
-                                </>
-                            }
-                        </Row>
+                        <Routing/>
                     </div>
                 </VoiceCommandsContext.Provider>
             </AppContext.Provider>

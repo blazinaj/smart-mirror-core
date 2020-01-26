@@ -44,6 +44,15 @@ export const useProfile = () => {
 
     const useModalGoogleCalendarConfig = useModal(<GoogleCalendarConfig />, "Google Calendar Configuration", GoogleCalendarButton);
 
+    useEffect(() => {
+        if (accountManagerHook.modalIsOpen) {
+            context.webcamTools.setDisableWebCam(true);
+        }
+        else {
+            context.webcamTools.setDisableWebCam(false);
+        }
+    }, [accountManagerHook.modalIsOpen]);
+
     const showAccountCommand = {
         command: [
             "mirror mirror on the wall go to my account",
