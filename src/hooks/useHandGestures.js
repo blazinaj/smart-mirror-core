@@ -139,7 +139,7 @@ export const useHandGestures = () => {
                 model ? null : <Spinner color="primary"/>
             }
 
-            <canvas id="video-canvas" style={{display: "none"}}></canvas>
+            <canvas id="video-canvas"></canvas>
             <canvas id="draw-canvas" style={{backgroundColor: "black"}}></canvas>
 
             <video autoPlay="autoplay" style={{display: "none"}} id="video" width={window.innerWidth}

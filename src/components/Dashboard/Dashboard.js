@@ -20,6 +20,7 @@ import Webcam from "react-webcam";
 import {VoiceCommandsContext} from "../../context/VoiceCommandsContext";
 import {LoggingContext} from "../../context/LoggingContext";
 import {AppContext} from "../../context/AppContext";
+import axios from "axios";
 // import GoogleCalendarWrapper from "../Google/GoogleCalendarWrapper";
 
 const Dashboard = (props) => {
@@ -30,6 +31,9 @@ const Dashboard = (props) => {
     const [componentHeight, setComponentHeight] = useState(500);
     const [componentAudio, setComponentAudio] = useState(false);
     const [showWebcamFeed, setShowWebcamFeed] = useState(true);
+
+    const [newsArray, setNewsArray] = useState([]);
+    const [news, setNews] = useState("");
 
     const {logger} = useContext(LoggingContext);
     const {webcamTools} = useContext(AppContext);
@@ -45,6 +49,28 @@ const Dashboard = (props) => {
     }, []);
 
     const [joke, setJoke] = useState("");
+
+    useEffect(() => {
+
+        axios.get("https://newsapi.org/v2/top-headlines?country=us&apiKey=56b421342f49477b931f8d1929c3de83")
+            .then(responce => {
+                const news = responce.data;
+                setNewsArray(news && news.articles)
+
+
+            });
+    }, []);
+
+    useEffect(() => {
+        if (newsArray.length > 0) {
+
+            setNews(newsArray[Math.floor(Math.random() * newsArray.length)]);
+
+            setInterval(() => {
+                setNews(newsArray[Math.floor(Math.random() * newsArray.length)]);
+            }, 30000);
+        }
+    }, [newsArray]);
 
     const getJoke = () => {
         fetch('https://sv443.net/jokeapi/category/Programming?blacklistFlags=nsfw,religious,political"format=json')
@@ -179,11 +205,11 @@ const Dashboard = (props) => {
                 <Col sm={4} style={style}>
                     {
                         !webcamTools.disableWebCam && showWebcamFeed ?
-                        <div key="webcam-feed" id="webcam-feed" style={{...style, marginBottom: "3em"}}>
-                            <Webcam
-                                width="40%"
-                            />
-                        </div>
+                            <div key="webcam-feed" id="webcam-feed" style={{...style, marginBottom: "3em"}}>
+                                <Webcam
+                                    width="40%"
+                                />
+                            </div>
                             : null
                     }
                     <div key="digital-clock-widget" id="digital-clock-widget" style={style}>
@@ -222,6 +248,24 @@ const Dashboard = (props) => {
                     </div>
                 </Col>
                 <Col sm={4} style={style}>
+                </Col>
+            </Row>
+            <Row>
+                <Col sm={4}>
+
+                </Col>
+                <Col sm={4}>
+                    {
+                        news ?
+                            <>
+                                <h4>News Feed:</h4>
+                                <p>{"Title: " + (news.title ? news.title : null)}</p>
+                                <p>{"Description: " + (news.description ? news.description : null)}</p>
+                                <p>{"Author: " + (news.author ? news.author : null)}</p>
+                            </> : null
+                    }
+                </Col>
+                <Col sm={4}>
 
                 </Col>
             </Row>
