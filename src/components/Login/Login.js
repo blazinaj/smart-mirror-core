@@ -69,7 +69,7 @@ const Login = (props) => {
     const faceApiHook = useFace();
     const loggingContext = useContext(LoggingContext).logger;
     const voiceContext = useContext(VoiceCommandsContext);
-    const debuggingTools = useContext(AppContext).debuggingTools;
+    const {debuggingTools, webcamTools} = useContext(AppContext);
 
     useEffect(() => {
         voiceContext.SpeechRecognitionHook.addCommand(manualLoginCommand);
@@ -296,7 +296,10 @@ const Login = (props) => {
             </Collapse>
             <div>
             {
-                faceApiHook.videoFeed
+                !webcamTools.disableWebCam ?
+                    faceApiHook.videoFeed
+                    :
+                    "Web Cam is disabled by Application"
             }
                 {
                     faceLoginStatus &&
