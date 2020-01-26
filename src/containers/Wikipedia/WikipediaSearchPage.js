@@ -1,11 +1,14 @@
-import React, {useState} from "react"
+import React, {useState, useContext, useEffect} from "react"
 import {Button, Input, InputGroup, InputGroupAddon} from "reactstrap";
-import axios from "axios";
+import {LoggingContext} from "../../context/LoggingContext";
+import {VoiceCommandsContext} from "../../context/VoiceCommandsContext";
 
 const WikipediaSearchPage = () => {
 
+    const loggingContext = useContext(LoggingContext).logger;
+    const voiceContext = useContext(VoiceCommandsContext);
+
     const [searchQuery, setSearchQuery] = useState("");
-    const [fullResults, setFullResults] = useState([]);
     const [foundResults, setFoundResults] = useState(["Hello", "Testing"]);
 
     const fetchResults = () => {
@@ -14,23 +17,32 @@ const WikipediaSearchPage = () => {
         fetch(endpoint)
             .then(response => response.json())
             .then(data => {
-                console.log(data.query.pages);
+                loggingContext.addLog(data.query.pages);
                 const results = data.query.pages;
                 let tempResults = [];
-                //console.log(results);
-                // results.map((item) => {
-                //     console.log(item);
-                //     //tempResults = [...tempResults, {title: item.title, snippet: item.snippet}];
-                // });
+
+                // Extracting all items from query and putting them into foundResults
                 Object.keys(results).map(key => {
-                   console.log(results[key]);
+                    loggingContext.addLog(results[key]);
                     tempResults = [...tempResults, {title: results[key].title, extract: results[key].extract}];
                 });
-                console.log(tempResults);
+
+                loggingContext.addLog(tempResults);
                 setFoundResults(tempResults);
             })
-            .catch((err) => console.log(err));
+            .catch((err) => loggingContext.addLog("Wikipedia fetch failed with: " + err));
     };
+
+    // Not functioning currently?...
+    const searchCommand = {
+        command: ["mirror mirror search wikipedia"],
+        answer: `Here are your results`,
+        func: async () => fetchResults()
+    };
+
+    useEffect(() => {
+        voiceContext.SpeechRecognitionHook.addCommand(searchCommand);
+    }, []);
 
     return (
         <div>
@@ -43,7 +55,7 @@ const WikipediaSearchPage = () => {
             </div>
             <div>
                 {
-                    foundResults ?
+                    foundResults.length > 0 ?
                         foundResults.map((item) => {
                             return <div>
                                         <hr />
