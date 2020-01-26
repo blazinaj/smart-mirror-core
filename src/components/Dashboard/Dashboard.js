@@ -258,7 +258,7 @@ const Dashboard = (props) => {
                     {
                         news ?
                             <>
-                                <h3>News Feed:</h3>
+                                <h4>News Feed:</h4>
                                 <p>{"Title: " + (news.title ? news.title : null)}</p>
                                 <p>{"Description: " + (news.description ? news.description : null)}</p>
                                 <p>{"Author: " + (news.author ? news.author : null)}</p>
