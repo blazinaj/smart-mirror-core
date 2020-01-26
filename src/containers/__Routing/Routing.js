@@ -174,7 +174,7 @@ const RoutingBody = (props) => {
     };
 
     const searchWikipediaCommand = {
-        command: ["mirror mirror search wikipedia page"],
+        command: ["mirror mirror wikipedia page"],
         answer: "Moving to wikipedia search page!",
         func: () => {
             loggingContext.addLog("Voice Command: Going to search wikipedia page");
