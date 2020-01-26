@@ -35,10 +35,10 @@ const useSpeechRecognition = () => {
 
     const [intendArray, setIntendArray] = useState([
         {
-            command: ["mirror mirror on the wall what time is it" ,"mirror mirror what time is it"],
+            command: ["mirror mirror on the wall what time is it", "mirror mirror what time is it"],
             answer: "Current time is " + new Date().toLocaleString()
         },
-        
+
         {
             command: ["mirror mirror on the wall turn off display", "mirror mirror turn off display"],
             answer: "Turning off!",
@@ -104,26 +104,26 @@ const useSpeechRecognition = () => {
     }, []);
 
     useEffect(() => {
+        let commandFound = false;
 
         intendArray.map((intent) => {
-
             let commands = [].concat(intent.command);
-
             for (let command of commands) {
                 if (value.toString().toLocaleLowerCase().includes(command.toString().toLocaleLowerCase())) {
 
-                    if (intent["answer"]) {
-                        speechSynthesisHook.speak(intent["answer"]);
-                    }
+                    if(!commandFound) {
+                        if (intent["answer"]) {
+                            speechSynthesisHook.speak(intent["answer"]);
+                        }
+                        if (intent.func) {
+                            intent.func(value);
+                        }
 
-                    if (intent.func) {
-                        intent.func(value);
                     }
+                    commandFound = true;
                 }
             }
-
         });
-
     }, [value]);
 
     const addCommand = (command) => {
@@ -131,13 +131,13 @@ const useSpeechRecognition = () => {
     };
 
     const removeCommand = (command) => {
-        let commandIndex = intendArray.indexOf(command);
-        let temp = [...intendArray];
-
-        if (commandIndex !== -1) {
-            temp.splice(commandIndex, 1);
-            setIntendArray([...temp])
-        }
+        // let commandIndex = intendArray.indexOf(command);
+        // let temp = [...intendArray];
+        //
+        // if (commandIndex !== -1) {
+        //     temp.splice(commandIndex, 1);
+        //     setIntendArray([...temp])
+        // }
     };
 
     const selectLanguage =

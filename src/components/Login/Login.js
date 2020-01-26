@@ -38,12 +38,19 @@ const Login = (props) => {
     };
 
     const faceLoginCommand = {
-        command: ["Face Login", "mirror mirror on the wall check my face", "mirror mirror on the wall face log in", "mirror mirror check my face", "mirror mirror face log in"],
+        command: [
+            "mirror mirror on the wall check my face",
+            "mirror mirror on the wall face log in",
+            "mirror mirror check my face",
+            "mirror mirror face log in",
+            "mirror mirror log in with my face"
+        ],
         answer: "I'm Trying to detect your face",
         func: async () => {
             let descriptor = await faceApiHook.getDescriptorsFromImage("jacob", "video-feed");
             console.log("Got Descriptor: " + JSON.stringify(descriptor));
             await matchFace(descriptor);
+            // voiceContext.SpeechRecognitionHook.removeCommand(faceLoginCommand);
         }
     };
 
@@ -62,7 +69,7 @@ const Login = (props) => {
     const faceApiHook = useFace();
     const loggingContext = useContext(LoggingContext).logger;
     const voiceContext = useContext(VoiceCommandsContext);
-    const debuggingTools = useContext(AppContext).debuggingTools;
+    const {debuggingTools, webcamTools} = useContext(AppContext);
 
     useEffect(() => {
         voiceContext.SpeechRecognitionHook.addCommand(manualLoginCommand);
@@ -289,7 +296,10 @@ const Login = (props) => {
             </Collapse>
             <div>
             {
-                faceApiHook.videoFeed
+                !webcamTools.disableWebCam ?
+                    faceApiHook.videoFeed
+                    :
+                    "Web Cam is disabled by Application"
             }
                 {
                     faceLoginStatus &&

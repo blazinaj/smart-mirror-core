@@ -2,22 +2,23 @@ import React, {useState, useEffect, useContext, Fragment} from "react";
 import ReactDOM from 'react-dom';
 import {Input, Label, Button, Row, Col} from 'reactstrap';
 import {VoiceCommandsContext} from "../../context/VoiceCommandsContext";
-import AnalogClock from 'analog-clock-react';
+// import AnalogClock from 'analog-clock-react';
 import axios from 'axios';
+import AnalogClock from "analog-clock-react";
 
 
 
 const Devotions = (props)=>{
     const {SpeechRecognitionHook} = useContext(VoiceCommandsContext);
-    const [quote,setQuote] =  useState(null); //1
+    const [quote,setQuote] =  useState(null); 
     
 
 // clock widget colors
     let options = {
-        width: "300px",
-        border: true,
+        width: "200px",
+        border:  true,
         borderColor: "#2e2e2e",
-        baseColor: "#17a2b8",
+        baseColor: "black",//"#17a2b8",
         centerColor: "#459cff",
         handColors: {
           second: "#d81c7a",
@@ -26,7 +27,7 @@ const Devotions = (props)=>{
         }
     };
 
-   //Jacobs vertion
+   //J vertion
    /*
     const getRandomQuote = () => {
         fetch("https://beta.ourmanna.com/api/v1/get/?format=text&order=random")
@@ -37,7 +38,7 @@ const Devotions = (props)=>{
         }));
 }
 */
-// Anatolys vertion
+
 useEffect(() => {
 
     axios.get("https://beta.ourmanna.com/api/v1/get/?format=text&order=random")
@@ -45,11 +46,10 @@ useEffect(() => {
         const quote = responce.data; 
         console.log(quote)
         setQuote(quote) ;
-        //console.log("Todays Quotes :"+todaysQuote)
+        
         
     });
 },[]);
-
 
     return (
         <div style={{height: "100vh", background: "black", padding: "5vw"}}>
@@ -62,7 +62,11 @@ useEffect(() => {
             </>
             */}
             <Col>
-                <h1>{JSON.stringify(quote)}</h1>
+            <h1></h1>
+            </Col>
+            <Col>
+                {/* <h1>{JSON.stringify(quote)}</h1> */}
+                <h1>{quote? quote:"Loading ..."}</h1>
             </Col>
 
         </div>
