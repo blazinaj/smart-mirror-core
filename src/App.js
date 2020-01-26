@@ -17,6 +17,7 @@ import {AppContext} from "./context/AppContext";
 import Routing from "./containers/__Routing/Routing";
 import CommandArray from "./components/Application/CommandArray";
 import Header from "./containers/Home/Header";
+
 const App = () => {
 
     const [client, setClient] = useState(null);
@@ -129,6 +130,7 @@ const App = () => {
                 </VoiceCommandsContext.Provider>
             </AppContext.Provider>
         </LoggingContext.Provider>
+
     );
 };
 

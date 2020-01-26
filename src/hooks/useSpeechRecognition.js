@@ -116,8 +116,9 @@ const useSpeechRecognition = () => {
                             speechSynthesisHook.speak(intent["answer"]);
                         }
                         if (intent.func) {
-                            intent.func();
+                            intent.func(value);
                         }
+
                     }
                     commandFound = true;
                 }
