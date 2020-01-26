@@ -21,6 +21,8 @@ const RoutingBody = (props) => {
 
     let appContext = useContext(AppContext);
 
+    let {webcamTools} = appContext;
+
     let mongoHook = appContext.mongoHook;
 
     const voiceContext = useContext(VoiceCommandsContext).SpeechRecognitionHook;
@@ -38,7 +40,8 @@ const RoutingBody = (props) => {
                                     Login using the Pin button on the login screen on any PC or Mobile device.<br /><br />
                                     Otherwise make sure to setup your face login to login hands free!<br /><br />
                                     {/*This will only be shown to you once, and will be deleted within ? days, so remember to change your email and password!<br /><br />*/}
-                                    <h5>When finished say: </h5><h4 style={{color: "blue"}}>Mirror mirror hide message</h4></a>,
+                                    <h5>Do you want to set up Face Login? Say: </h5><h4 style={{color: "blue"}}>🎤 Mirror mirror go to my account</h4>
+                                    <h5>When finished say: </h5><h4 style={{color: "blue"}}>🎤 Mirror mirror hide message</h4></a>,
             `IMPORTANT - PIN: ${mongoHook.pin}`);
 
     const homePageCommand = {
@@ -99,6 +102,7 @@ const RoutingBody = (props) => {
         command: ["Mirror mirror on the wall register new account", "Mirror mirror register new account"],
         answer: "Registering new account, one moment!",
         func: (async () => {
+            webcamTools.setDisableWebCam(true);
             mongoHook.logout();
             await mongoHook.registerWithVoice()
                 .then(() => {
@@ -107,6 +111,7 @@ const RoutingBody = (props) => {
                     setTimeout((() => {
                         history.push("/");
                         registerVoiceModal.setModalIsOpen(false);
+                        webcamTools.setDisableWebCam(false);
                     }),6000);
                     pinDisplayModal.setModalIsOpen(true);
                 });
