@@ -125,7 +125,9 @@ const useSpeechRecognition = () => {
         });
     }, [value]);
 
-   
+    const addCommand = (command) => {
+        setIntendArray(intendArray => [...intendArray, command])
+    };
 
     const removeCommand = (command) => {
         let commandIndex = intendArray.indexOf(command);
