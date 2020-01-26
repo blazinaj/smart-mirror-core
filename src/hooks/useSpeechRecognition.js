@@ -130,13 +130,13 @@ const useSpeechRecognition = () => {
     };
 
     const removeCommand = (command) => {
-        let commandIndex = intendArray.indexOf(command);
-        let temp = [...intendArray];
-
-        if (commandIndex !== -1) {
-            temp.splice(commandIndex, 1);
-            setIntendArray([...temp])
-        }
+        // let commandIndex = intendArray.indexOf(command);
+        // let temp = [...intendArray];
+        //
+        // if (commandIndex !== -1) {
+        //     temp.splice(commandIndex, 1);
+        //     setIntendArray([...temp])
+        // }
     };
 
     const selectLanguage =
