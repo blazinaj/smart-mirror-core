@@ -1,5 +1,5 @@
 import React, {useState, useEffect, useContext} from "react";
-//import './Search.css';
+import '../components/VoiceDemo/Search.css';
 import axios from "axios";
 
 const useImageSearch = () => {
@@ -72,20 +72,6 @@ const useImageSearch = () => {
 
     const mySearchBox =
         <>
-            <div className="container">
-                {/*Heading*/}
-                <h2 className="heading">Live Search: React Application</h2>
-                {/*Search Input*/}
-                <label className="search-label" htmlFor="search-input">
-                    <input
-                        type="text"
-                        value=""
-                        id="search-input"
-                        placeholder="Search..."
-                    />
-                    <i className="fa fa-search search-icon"/>
-                </label>
-            </div>
             <div>
                 <h1>Searching for ... {query}</h1>
             </div>
@@ -104,7 +90,7 @@ const useImageSearch = () => {
                     { results.map( result => {
                         return (
                             <a key={ result.id } href={ result.previewURL } className="result-item">
-                                <h6 className="image-username">{result.user}</h6>
+
                                 <div className="image-wrapper">
                                     <img className="image" src={ result.previewURL } alt={`${result.username} image`}/>
                                 </div>

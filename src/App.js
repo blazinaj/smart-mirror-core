@@ -125,9 +125,8 @@ const App = () => {
                                     <CommandArray commandArray={SpeechRecognitionHook.intendArray}/>
                                 </Col>
                             }
-                            <Col>
-                                <VoiceDemo/>
-                                {/*<Routing/>*/}
+                            <Col>                                
+                                <Routing/>
                             </Col>
                             {
                                 showLogger &&
