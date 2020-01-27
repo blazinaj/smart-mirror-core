@@ -83,53 +83,44 @@ const VoiceDemo = (props) => {
     }, []);
 
 
+
     return (
 
         <div style={{height: "100vh", background: "black", padding: "5vw"}}>
-            <h1>Voice Demo Page</h1>
+            <h1>🎤 Voice Demo Page</h1>
             <>
                 {
                     SpeechRecognitionHook.displayTranscript
                 }
             </>
-            {search.mySearchBox}
-            {search.renderSearchResults()}
             <Col>
                 <Row>
-                    <Col lg={3}>
-                        <Row style={{height: "50vh"}}>
-                            <h4 style={{color: "white"}}>
-                                Example Voice Commands:
-                            </h4>
-                            <h6 style={{color: "white"}}>"Mirror Mirror tell me a joke."</h6>
-                            <h6 style={{color: "white"}}>"Mirror Mirror who is the man?"</h6>
-                            <h6 style={{color: "white"}}>"Mirror Mirror toggle joke text."</h6>
-                        </Row>
-                        <Row style={{height: "50vh"}}>
-                            <h4 style={{color: "white"}}>
-                                Other info:
-                            </h4>
+                    <Col lg={6}>
+
+                        <Row style={{height: "50vh", align:"top"}}>
+
+                            <pre>
+                               <h2 style={{color: "white"}}> Example Voice Commands: </h2>
+                               <h4 style={{color: "white"}}>"Mirror Mirror tell me a joke."</h4>
+                               <h4 style={{color: "white"}}>"Mirror Mirror who is the man?"</h4>
+                               <h4 style={{color: "white"}}>"Mirror Mirror search for puppies."</h4>
+                            </pre>
                         </Row>
                     </Col>
                     <Col lg={6}>
-                        <div style={{height: "50vh", margin: "auto auto", background: "black"}}>
-                            <h2 style={{color: "white"}}>Joke</h2>
-                            <h3 style={{color: "white"}}>{showJoke && joke}</h3>
-                        </div>
-                    </Col>
-                    <Col lg={3}>
                         <Row style={{height: "50vh"}}>
-                            <h4 style={{color: "white"}}>
-                                Voice command and answer:
-                            </h4>
-                            <h5>{query}</h5>
-                        </Row>
-                        <Row style={{height: "50vh"}}>
-                            <h4 style={{color: "white"}}>
-                                Fill stuff in:
-                            </h4>
+                            <div style={{height: "50vh", margin: "auto auto", background: "black"}}>
+                                <h2 style={{color: "white"}}>Joke</h2>
+                                <h3 style={{color: "white"}}>{showJoke && joke}</h3>
+                            </div>
                         </Row>
                     </Col>
+
+                        <Row style={{height: "50vh"}}>
+                            {search.mySearchBox}
+                            {search.renderSearchResults()}
+                        </Row>
+
                 </Row>
             </Col>
         </div>
