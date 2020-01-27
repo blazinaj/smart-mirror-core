@@ -1,4 +1,4 @@
-import React, {useEffect, useContext} from "react";
+import React, { useEffect, useContext } from "react";
 import {BrowserRouter as Router, Route, Switch, useHistory} from "react-router-dom";
 import Login from "../../components/Login/Login";
 import Home from "../Home/Home";
@@ -16,13 +16,10 @@ import GesturePaintDemo from "../GestureDemo/GesturePaintDemo";
 import GestureClickMeGame from "../GestureDemo/GestureClickMeGame";
 import {useGreetingMessage} from "../../hooks/useGreetingMessage";
 import HelpPage from "../HelpPage/HelpPage";
-import GestureShowHands from "../GestureDemo/GestureShowHands";
 
 const RoutingBody = (props) => {
 
     let appContext = useContext(AppContext);
-
-    let {webcamTools} = appContext;
 
     let mongoHook = appContext.mongoHook;
 
@@ -41,8 +38,7 @@ const RoutingBody = (props) => {
                                     Login using the Pin button on the login screen on any PC or Mobile device.<br /><br />
                                     Otherwise make sure to setup your face login to login hands free!<br /><br />
                                     {/*This will only be shown to you once, and will be deleted within ? days, so remember to change your email and password!<br /><br />*/}
-                                    <h5>Do you want to set up Face Login? Say: </h5><h4 style={{color: "blue"}}>🎤 Mirror mirror go to my account</h4>
-                                    <h5>When finished say: </h5><h4 style={{color: "blue"}}>🎤 Mirror mirror hide message</h4></a>,
+                                    <h5>When finished say: </h5><h4 style={{color: "blue"}}>Mirror mirror hide message</h4></a>,
             `IMPORTANT - PIN: ${mongoHook.pin}`);
 
     const homePageCommand = {
@@ -73,7 +69,7 @@ const RoutingBody = (props) => {
     };
 
     const logoutCommand = {
-        command: ["mirror mirror on the wall logout", "mirror mirror on the wall log out", "mirror mirror logout", "mirror mirror log out" , "mirror mirror log me out" ],
+        command: ["mirror mirror on the wall logout", "mirror mirror logout", "mirror mirror log out", "mirror mirror on the wall log out"],
         answer: "Logging out",
         func: () => {
             loggingContext.addLog("Voice Command: Logging out");
@@ -82,7 +78,7 @@ const RoutingBody = (props) => {
     };
 
     const devotionsCommand = {
-        command: ["mirror mirror go to devotion", "mirror mirror I want to see devotion", "mirror mirror take me to devotion"],
+        command: ["mirror mirror go to devotion", "mirror mirror i want to see devotion", "mirror mirror take me to devotion"],
         answer: "Alright! Ill take you to devotion",
         func: () => {
             loggingContext.addLog("Voice Command: Alright! Ill take you to devotion")
@@ -103,7 +99,6 @@ const RoutingBody = (props) => {
         command: ["Mirror mirror on the wall register new account", "Mirror mirror register new account"],
         answer: "Registering new account, one moment!",
         func: (async () => {
-            webcamTools.setDisableWebCam(true);
             mongoHook.logout();
             await mongoHook.registerWithVoice()
                 .then(() => {
@@ -112,7 +107,6 @@ const RoutingBody = (props) => {
                     setTimeout((() => {
                         history.push("/");
                         registerVoiceModal.setModalIsOpen(false);
-                        webcamTools.setDisableWebCam(false);
                     }),6000);
                     pinDisplayModal.setModalIsOpen(true);
                 });
@@ -120,7 +114,7 @@ const RoutingBody = (props) => {
     };
 
     const closePinCommand = {
-        command: ["Mirror mirror hide message", "Mirror mirror I promise I actually wrote it down"],
+        command: ["Mirror m irror hide message", "Mirror mirror I promise I actually wrote it down"],
         answer: "Enjoy your New Account!",
         func: () => {
             pinDisplayModal.setModalIsOpen(false);
@@ -145,17 +139,8 @@ const RoutingBody = (props) => {
         }
     };
 
-    const gestureShowHandsPageCommand = {
-        command: ["mirror mirror detect my hand"],
-        answer: "Hold on, detecting your hands",
-        func: () => {
-            loggingContext.addLog("Voice Command: Going to gesture demo page");
-            history.push("/gesture_show_hands")
-        }
-    };
-
     const gestureMouseDemoPageCommand = {
-        command: ["mirror mirror I want to play a game"],
+        command: ["mirror mirror I want to play click me game"],
         answer: "Sounds good! I will take you to the Play Click game",
         func: () => {
             loggingContext.addLog("Voice Command: Going to the Play Click game");
@@ -164,7 +149,7 @@ const RoutingBody = (props) => {
     };
 
     const goBackCommand = {
-        command: ["mirror mirror I want to go back", "mirror mirror go back", "mirror mirror go to previous page"],
+        command: ["mirror mirror I want to go back", "mirror mirror go back", "mirror mirror go to previous page" ],
         answer: "Alright taking you back!",
         func: () => {
             loggingContext.addLog("Voice Command: Alright taking you back");
@@ -172,9 +157,18 @@ const RoutingBody = (props) => {
         }
     };
 
+    // const gestureDemoGamePageCommand = {
+    //     command: ["mirror mirror I want to play a game"],
+    //     answer: "Okay, lunching the Sky Ball game",
+    //     func: () => {
+    //         loggingContext.addLog("Voice Command: Mirror mirror I want to play a game");
+    //         history.push("/gesture_game_sky_ball")
+    //     }
+    // };
+
     const helpPageCommand = {
         command: ["mirror mirror help page", "mirror mirror on the wall help page", "mirror mirror go to help page", "mirror mirror take me to help page",
-            "mirror mirror I have fallen and need a help page"],
+                        "mirror mirror I have fallen and need a help page"],
         answer: "Help is on it's way!",
         func: () => {
             loggingContext.addLog("Voice Command: Going to help page");
@@ -195,24 +189,26 @@ const RoutingBody = (props) => {
         voiceContext.addCommand(faceDemoPageCommand);
         voiceContext.addCommand(goBackCommand);
         voiceContext.addCommand(devotionsCommand);
+        // voiceContext.addCommand(gestureDemoGamePageCommand);
         voiceContext.addCommand(helpPageCommand);
-        voiceContext.addCommand(gestureShowHandsPageCommand);
     }, []);
 
     useEffect(() => {
         loggingContext.addLog("Route UseEffect");
-        if (mongoHook.firstName !== "" && mongoHook.lastName !== "" && mongoHook.lastName !== "user") {
+        if(mongoHook.firstName !== "" && mongoHook.lastName !== "" && mongoHook.lastName !== "user"){
             console.log("Name");
             console.log(mongoHook.firstName + " " + mongoHook.lastName);
             greetingHook.changeName(`${mongoHook.firstName} ${mongoHook.lastName}`);
-        } else if (mongoHook.firstName !== "") {
+        }
+        else if(mongoHook.firstName !== "" ){
             console.log("Name");
             console.log(mongoHook.firstName);
             greetingHook.changeName(`${mongoHook.firstName}`);
-        } else {
+        }
+        else{
             greetingHook.changeName("");
         }
-    }, [mongoHook.firstName && mongoHook.lastName]);
+    }, [mongoHook.firstName && mongoHook.lastName] );
 
     return (
         <Switch>
@@ -221,6 +217,7 @@ const RoutingBody = (props) => {
                     registerVoiceModal.display
                 }
                 <Login mongoHook={mongoHook}/>
+
             </Route>
             <PrivateRoute exact path="/" mongoHook={mongoHook}>
                 {
@@ -240,9 +237,9 @@ const RoutingBody = (props) => {
             <PrivateRoute exact path="/gesture_click_me_game" mongoHook={mongoHook}>
                 <GestureClickMeGame/>
             </PrivateRoute>
-            <PrivateRoute exact path="/gesture_show_hands" mongoHook={mongoHook}>
-                <GestureShowHands/>
-            </PrivateRoute>
+            {/*<PrivateRoute exact path="/gesture_game_sky_ball" mongoHook={mongoHook}>*/}
+            {/*    <SkyBallGame/>*/}
+            {/*</PrivateRoute>*/}
             <PrivateRoute exact path="/devotions" mongoHook={mongoHook}>
                 <Devotions/>
             </PrivateRoute>
