@@ -97,7 +97,7 @@ const VoiceDemo = (props) => {
                 <Row>
                     <Col lg={6}>
 
-                        <Row style={{height: "50vh", align:"top"}}>
+                        <Row style={{height: "25vh", align:"top"}}>
 
                             <pre>
                                <h2 style={{color: "white"}}> Example Voice Commands: </h2>
@@ -108,15 +108,15 @@ const VoiceDemo = (props) => {
                         </Row>
                     </Col>
                     <Col lg={6}>
-                        <Row style={{height: "50vh"}}>
-                            <div style={{height: "50vh", margin: "auto auto", background: "black"}}>
+                        <Row style={{height: "25vh"}}>
+                            <div style={{height: "25vh", margin: "auto auto", background: "black"}}>
                                 <h2 style={{color: "white"}}>Joke</h2>
                                 <h3 style={{color: "white"}}>{showJoke && joke}</h3>
                             </div>
                         </Row>
                     </Col>
 
-                        <Row style={{height: "50vh"}}>
+                        <Row style={{height: "75vh"}}>
                             {search.mySearchBox}
                             {search.renderSearchResults()}
                         </Row>
