@@ -105,6 +105,12 @@ const App = () => {
         }
     };
 
+    const refreshCommand = {
+        command: "mirror mirror refresh",
+        answer: "",
+        func: () => window.location.reload()
+    };
+
     useEffect(() => {
         SpeechRecognitionHook.addCommand(openLogsCommand);
         SpeechRecognitionHook.addCommand(hideLogsCommand);
@@ -112,6 +118,7 @@ const App = () => {
         SpeechRecognitionHook.addCommand(hideTranscriptCommand);
         SpeechRecognitionHook.addCommand(showIntendArrayCommand);
         SpeechRecognitionHook.addCommand(hideIntendArrayCommand);
+        SpeechRecognitionHook.addCommand(refreshCommand);
     }, []);
 
     return (

@@ -111,7 +111,10 @@ const useSpeechRecognition = () => {
             for (let command of commands) {
                 if (value.toString().toLocaleLowerCase().includes(command.toString().toLocaleLowerCase())) {
 
-                    if(intent["answer"] === "Showing Account Manager" || !commandFound) {
+                    if(
+                        intent["answer"] === "Showing Account Manager" ||
+                        intent["answer"] === "Setting Up face login" ||
+                        !commandFound) {
                         if (intent["answer"]) {
                             speechSynthesisHook.speak(intent["answer"]);
                         }
