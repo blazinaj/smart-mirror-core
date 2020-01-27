@@ -203,7 +203,7 @@ const FaceDemo = (props) => {
                                                         :
                                                         <p style={{color: "white"}}>{getCurrentExpression(resultObject.expressions)}</p>
                                                     :
-                                                "No Expressions Found"
+                                                    "No Expressions Found"
                                         }
                                     </h6>
                                 </Row>
@@ -249,6 +249,14 @@ const FaceDemo = (props) => {
                                 </Row>
                             </Col>
                         </Row>
+                    </Col>
+                    <Col lg={6}>
+                        <div style={{height: "40vh", margin: "auto auto"}}>
+                            <h4 style={{color: "white"}}>Camera Feed</h4>
+                            {faceApiHook.videoFeed}
+                        </div>
+                    </Col>
+                    <Col lg={3}>
                         <Row style={{height: "50vh", color: "white"}}>
                             <Col>
                                 <Row>
@@ -291,12 +299,6 @@ const FaceDemo = (props) => {
                                 </Row>
                             </Col>
                         </Row>
-                    </Col>
-                    <Col>
-                        <div style={{height: "50vh", margin: "auto auto"}}>
-                            <h4 style={{color: "white"}}>Camera Feed</h4>
-                            {faceApiHook.videoFeed}
-                        </div>
                     </Col>
                 </Row>
             </Col>
