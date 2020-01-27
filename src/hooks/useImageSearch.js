@@ -72,9 +72,7 @@ const useImageSearch = () => {
 
     const mySearchBox =
         <>
-            <div>
                 <h1>Searching for ... {query}</h1>
-            </div>
         </>
     ;
 
