@@ -19,6 +19,11 @@ const VoiceDemo = (props) => {
         answer: "Jeff is the man"
     };
 
+    const StuCommand = {
+        command: ["mirror mirror on the wall who's the prettiest of them all"],
+        answer: "Stu Steiner of course!"
+    };
+
     const showJokeText = {
         command: ["mirror mirror toggle joke text"],
         answer: "toggled",
@@ -80,6 +85,7 @@ const VoiceDemo = (props) => {
         SpeechRecognitionHook.addCommand(tellJoke);
         SpeechRecognitionHook.addCommand(showJokeText);
         SpeechRecognitionHook.addCommand(imageSearch);
+        SpeechRecognitionHook.addCommand(StuCommand);
     }, []);
 
 
@@ -93,12 +99,11 @@ const VoiceDemo = (props) => {
                     SpeechRecognitionHook.displayTranscript
                 }
             </>
+            <br/>
             <Col>
                 <Row>
                     <Col lg={6}>
-
-                        <Row style={{height: "25vh", align:"top"}}>
-
+                        <Row style={{height: "20vh", align:"top"}}>
                             <pre>
                                <h2 style={{color: "white"}}> Example Voice Commands: </h2>
                                <h4 style={{color: "white"}}>"Mirror Mirror tell me a joke."</h4>
@@ -107,19 +112,18 @@ const VoiceDemo = (props) => {
                             </pre>
                         </Row>
                     </Col>
+
                     <Col lg={6}>
-                        <Row style={{height: "25vh"}}>
-                            <div style={{height: "25vh", margin: "auto auto", background: "black"}}>
-                                <h2 style={{color: "white"}}>Joke</h2>
-                                <h3 style={{color: "white"}}>{showJoke && joke}</h3>
-                            </div>
+                        <Row style={{height: "20vh", align:"center"}}>
+                                <h2 style={{color: "white",align:"top"}}>Joke:</h2>
+                                <h4 style={{color: "white", align:"top", }}>{showJoke && joke}</h4>
                         </Row>
                     </Col>
 
-                        <Row style={{height: "75vh"}}>
-                            {search.mySearchBox}
-                            {search.renderSearchResults()}
-                        </Row>
+                    <Row style={{height: "20vh"}}>
+                        {search.mySearchBox}
+                        {search.renderSearchResults()}
+                    </Row>
 
                 </Row>
             </Col>
