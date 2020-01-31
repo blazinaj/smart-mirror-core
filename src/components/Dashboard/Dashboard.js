@@ -177,15 +177,46 @@ const Dashboard = (props) => {
         }
     };
 
+    const tellNewsCommand = {
+        command: ["mirror mirror on the wall tell me news", "mirror mirror tell me news", "mirror mirror tell me more news"],
+        answer: "Ok, getting news feed!",
+        func: () => {
+            logger.addLog("Voice Command: wall what are current news");
+
+            axios.get("https://newsapi.org/v2/top-headlines?country=us&apiKey=56b421342f49477b931f8d1929c3de83")
+                .then(responce => {
+                    const news = responce.data;
+
+                    if (news && news.articles) {
+
+                        let newsFeed = news.articles;
+
+                        let x;
+                        for (x = 1; x < 4; x++) {
+                            SpeechRecognitionHook.speak(
+                                `News ${x}!` + (newsFeed[Math.floor(Math.random() * newsFeed.length)].title ?
+                                newsFeed[Math.floor(Math.random() * newsFeed.length)].title : undefined)
+                                + (newsFeed[Math.floor(Math.random() * newsFeed.length)].description ?
+                                newsFeed[Math.floor(Math.random() * newsFeed.length)].description : undefined)
+                            );
+                        }
+                    }
+                });
+        }
+    };
+
     const {SpeechRecognitionHook} = useContext(VoiceCommandsContext);
 
     useEffect(() => {
         SpeechRecognitionHook.addCommand(showWebcamCommand);
         SpeechRecognitionHook.addCommand(hideWebcamCommand);
+        SpeechRecognitionHook.addCommand(tellNewsCommand);
+
 
         return () => {
             SpeechRecognitionHook.removeCommand(showWebcamCommand);
             SpeechRecognitionHook.removeCommand(hideWebcamCommand);
+            SpeechRecognitionHook.removeCommand(tellNewsCommand);
         }
     }, []);
 

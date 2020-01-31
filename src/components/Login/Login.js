@@ -295,12 +295,9 @@ const Login = (props) => {
                 </div>
             </Collapse>
             <div>
-            {
-                !webcamTools.disableWebCam ?
+                {
                     faceApiHook.videoFeed
-                    :
-                    "Web Cam is disabled by Application"
-            }
+                }
                 {
                     faceLoginStatus &&
                     <Alert color="info" isOpen={faceLoginStatus !== null}>
