@@ -19,9 +19,10 @@ export const useGreetingMessage = () => {
         `Ello govenor, how is ${name} today?`,
 
         // 2 - Irish Greeting
-        `Top of the morning to you ${name}, how are you today lad?`
+        `Top of the morning to you ${name}, how are you today lad?`,
 
-        // 3 - Scottish Greeting
+        // 3 - Simple Greeting
+        `${name}`
 
         // n - .......
     ];
@@ -42,7 +43,7 @@ export const useGreetingMessage = () => {
         if(name !== ""){
             setTimeout(() => {
                 loggingContext.addLog("Greeting User");
-                voiceContext.SpeechRecognitionHook.speak(greetingStyles[style])
+                voiceContext.SpeechRecognitionHook.speak(greetingStyles[3])
             }, 2000);
         }
     }, [name]);
