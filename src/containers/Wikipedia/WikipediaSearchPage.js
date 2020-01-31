@@ -11,15 +11,15 @@ const WikipediaSearchPage = () => {
     const [searchQuery, setSearchQuery] = useState("");
     const [foundResults, setFoundResults] = useState([]);
     const [voiceSearch, setVoiceSearch] = useState(true);
-    const changeVoiceSearchOption = () => {
-        switch (voiceSearch) {
-            case true: setVoiceSearch(false);
-                break;
-            case false: setVoiceSearch(true);
-                break;
-            default: {console.log("unimaginable anger passes over the programmer who reads this")};
-        }
-    };
+    // const changeVoiceSearchOption = () => {
+    //     switch (voiceSearch) {
+    //         case true: setVoiceSearch(false);
+    //             break;
+    //         case false: setVoiceSearch(true);
+    //             break;
+    //         default: {console.log("unimaginable anger passes over the programmer who reads this")}
+    //     }
+    // };
 
     // True for many results, false for one
     const [searchQuantity, setSearchQuantity] = useState("many");
@@ -107,8 +107,8 @@ const WikipediaSearchPage = () => {
                         if(tempResults.length === 0){
                             let keys = Object.keys(results);
                             tempResults = [{title: results[keys[0]].title, extract: results[keys[0]].extract}];
-                            break;
                         }
+                        break;
                     }
                     default: {}
                 }
@@ -125,12 +125,12 @@ const WikipediaSearchPage = () => {
 
     // Not functioning currently?...
     const searchCommand = {
-        command: ["mirror mirror search wikipedia"],
+        command: ["mirror mirror search"],
         answer: `Here are your results`,
-        func: () => {
-            changeVoiceSearchOption()
-            loggingContext.addLog(voiceSearch);
-        }
+        func: (() => {
+            setVoiceSearch(voiceSearch => !voiceSearch);
+            loggingContext.addLog("Search Command")
+        })
     };
 
     const setRadioOne = {
