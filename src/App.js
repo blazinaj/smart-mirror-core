@@ -18,6 +18,7 @@ import Routing from "./containers/__Routing/Routing";
 import CommandArray from "./components/Application/CommandArray";
 import Header from "./containers/Home/Header";
 import FaceDemo from "./containers/FaceDemo/FaceDemo";
+import Inspiration from './components/Inspiration/Inspiration';
 
 const App = () => {
 
@@ -133,7 +134,8 @@ const App = () => {
                                 SpeechRecognitionHook.displayTranscript
                             }
                         </>
-                        <Routing/>
+                        {/* <Routing/> */}
+                        <Inspiration/>
                     </div>
                 </VoiceCommandsContext.Provider>
             </AppContext.Provider>
