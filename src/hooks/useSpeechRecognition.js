@@ -16,7 +16,8 @@ const languageOptions = [
     {label: '普通话 (中国大陆) - Mandarin', value: 'zh'},
     {label: 'Portuguese', value: 'pt-BR'},
     {label: 'Español', value: 'es-MX'},
-    {label: 'Svenska - Swedish', value: 'sv-SE'}
+    {label: 'Svenska - Swedish', value: 'sv-SE'},
+    {label: 'Русский (Россия)', value: 'ru-RU'}
 ];
 //This is just a test comment. JH
 
@@ -37,12 +38,6 @@ const useSpeechRecognition = () => {
         {
             command: ["mirror mirror on the wall what time is it", "mirror mirror what time is it"],
             answer: "Current time is " + new Date().toLocaleString()
-        },
-
-        {
-            command: ["mirror mirror on the wall turn off display", "mirror mirror turn off display"],
-            answer: "Turning off!",
-            func: ""
         }
     ]);
 
@@ -111,7 +106,7 @@ const useSpeechRecognition = () => {
             for (let command of commands) {
                 if (value.toString().toLocaleLowerCase().includes(command.toString().toLocaleLowerCase())) {
 
-                    if(
+                    if (
                         intent["answer"] === "Showing Account Manager" ||
                         intent["answer"] === "Setting Up face login" ||
                         !commandFound) {
@@ -160,6 +155,12 @@ const useSpeechRecognition = () => {
             </select>
         </>;
 
+        const changeLanguage = (speakLang) => {
+            if(recognition.current.lang){
+                recognition.current.lang = speakLang;
+            }
+        };
+
     const displayTranscript =
         supported ?
             <Alert color="dark">
@@ -180,7 +181,10 @@ const useSpeechRecognition = () => {
         setIntendArray,
         addCommand,
         removeCommand,
-        speak: speechSynthesisHook.speak
+        setLang,
+        setLangVoice: speechSynthesisHook.setLangVoice,
+        speak: speechSynthesisHook.speak,
+        changeLanguage
     };
 };
 
