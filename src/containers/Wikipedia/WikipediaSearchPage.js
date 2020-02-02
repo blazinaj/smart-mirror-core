@@ -1,5 +1,5 @@
 import React, {useState, useContext, useEffect, useRef} from "react"
-import {Button, FormGroup, Input, InputGroup, InputGroupAddon, Label} from "reactstrap";
+import {Button, Input, InputGroup, InputGroupAddon} from "reactstrap";
 import {LoggingContext} from "../../context/LoggingContext";
 import {VoiceCommandsContext} from "../../context/VoiceCommandsContext";
 
@@ -11,63 +11,11 @@ const WikipediaSearchPage = () => {
     const [searchQuery, setSearchQuery] = useState("");
     const [foundResults, setFoundResults] = useState([]);
     const [voiceSearch, setVoiceSearch] = useState(true);
-    // const changeVoiceSearchOption = () => {
-    //     switch (voiceSearch) {
-    //         case true: setVoiceSearch(false);
-    //             break;
-    //         case false: setVoiceSearch(true);
-    //             break;
-    //         default: {console.log("unimaginable anger passes over the programmer who reads this")}
-    //     }
-    // };
-
-    // True for many results, false for one
     const [searchQuantity, setSearchQuantity] = useState("many");
 
     const radioButtonOne = useRef();
     const radioButtonMany = useRef();
     const searchButton = useRef();
-
-    // const fetchResults = async () => {
-    //     //const url = `https://en.wikipedia.org/w/api.php?action=query&list=search&prop=info&inprop=url&utf8=&format=json&origin=*&srlimit=20&srsearch=${searchQuery}`;
-    //     const url = `https://en.wikipedia.org/w/api.php?format=json&action=query&generator=search&gsrnamespace=0&gsrlimit=10&prop=extracts|pageimages&pithumbsize=400&origin=*&exintro&explaintext&exsentences=1&exlimit=max&gsrsearch=${searchQuery}`;
-    //     await axios.get(url)
-    //         .then(data => {
-    //             loggingContext.addLog(data);
-    //             const results = data.data.query.pages;
-    //             let tempResults = [];
-    //
-    //             // true for many, false for one
-    //             switch(searchQuantity){
-    //                 case "many": {
-    //                     // Extracting many items from query and putting them into foundResults
-    //                     Object.keys(results).map(key => {
-    //                         loggingContext.addLog(results[key]);
-    //                         if(results[key].title.toLowerCase() === searchQuery.toLowerCase()){
-    //                             tempResults = [{key: key, title: results[key].title, extract: results[key].extract, image: results[key].thumbnail.source}];
-    //                         }
-    //                     });
-    //                     Object.keys(results).map(key => {
-    //                         loggingContext.addLog(results[key]);
-    //                         if(results[key].title.toLowerCase() !== searchQuery.toLowerCase()){
-    //                             tempResults = [...tempResults,{key: key, title: results[key].title, extract: results[key].extract, image: results[key].thumbnail.source}];
-    //                         }
-    //                     });
-    //                     break;
-    //                 }
-    //                 case "one": {
-    //                     // Extracting one items from query and putting them into foundResults
-    //                     let keys = Object.keys(results);
-    //                     tempResults = [{title: results[keys[0]].title, extract: results[keys[0]].extract}]
-    //                     break;
-    //                 }
-    //                 default: {}
-    //             }
-    //             loggingContext.addLog(tempResults);
-    //             setFoundResults(tempResults);
-    //         })
-    //         .catch((err) => loggingContext.addLog("Wikipedia fetch failed with: " + err));
-    // };
 
     const wiki = async () => {
         const url = `https://en.wikipedia.org/w/api.php?format=json&action=query&generator=search&gsrnamespace=0&gsrlimit=10&prop=extracts|pageimages&pithumbsize=400&origin=*&exintro&explaintext&exsentences=1&exlimit=max&gsrsearch=${searchQuery}`;
@@ -88,6 +36,7 @@ const WikipediaSearchPage = () => {
                             }
                         });
 
+                        // Left as a start to improving result if only partial query
                         let closeKey = -1;
                         // if(tempResults.length === 0){
                         //     Object.keys(results).map(key => {
@@ -163,16 +112,6 @@ const WikipediaSearchPage = () => {
         loggingContext.addLog(voiceSearch);
     }, [voiceSearch]);
 
-    // Not functioning currently?...
-    // const searchCommand = {
-    //     command: ["mirror mirror search Wikipedia"],
-    //     answer: `Here are your results`,
-    //     func: (() => {
-    //         setVoiceSearch(voiceSearch => !voiceSearch);
-    //         loggingContext.addLog("Search Command")
-    //     })
-    // };
-
     const setRadioOne = {
         command: ["mirror mirror select one"],
         answer: `Selecting one`,
@@ -205,7 +144,6 @@ const WikipediaSearchPage = () => {
     };
 
     useEffect(() => {
-        // voiceContext.SpeechRecognitionHook.addCommand(searchCommand);
         voiceContext.SpeechRecognitionHook.addCommand(setRadioOne);
         voiceContext.SpeechRecognitionHook.addCommand(setRadioMany);
         voiceContext.SpeechRecognitionHook.addCommand(searchCommandVoice);
