@@ -14,6 +14,7 @@
     "handtrackjs": "0.0.13",
     "mongodb-stitch-browser-sdk": "^4.6.0",
     "office-ui-fabric-react": "^7.47.0",
+    "pretty-checkbox": "^3.0.3",
     "prop-types": "latest",
     "qs": "^6.9.1",
     "react": "^16.11.0",
