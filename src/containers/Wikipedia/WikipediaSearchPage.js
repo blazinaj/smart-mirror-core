@@ -125,7 +125,7 @@ const WikipediaSearchPage = () => {
 
     // Not functioning currently?...
     const searchCommand = {
-        command: ["mirror mirror search"],
+        command: ["mirror mirror search Wikipedia"],
         answer: `Here are your results`,
         func: (() => {
             setVoiceSearch(voiceSearch => !voiceSearch);
