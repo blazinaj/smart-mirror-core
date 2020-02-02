@@ -1,7 +1,8 @@
 import React, {
     useEffect,
     useState,
-    useCallback
+    useCallback,
+    useRef
 } from 'react';
 
 const useSpeechSynthesis = () => {
@@ -13,13 +14,12 @@ const useSpeechSynthesis = () => {
     const [text, setText] = useState('');
     const [pitch, setPitch] = useState(1);
     const [rate, setRate] = useState(1);
-    const [voiceIndex, setVoiceIndex] = useState(null);
 
     const onEnd = () => {
         // You could do something here after speaking has finished
     };
 
-    const voice = voices[voiceIndex] || null;
+    const voice = useRef(voices[0] ? voices[0] : null);
 
     const styleFlexRow = {display: 'flex', flexDirection: 'row'};
     const styleContainerRatePitch = {display: 'flex', flexDirection: 'column', marginBottom: 12};
@@ -63,7 +63,7 @@ const useSpeechSynthesis = () => {
         // spoken, so we need to create a new instance each time
         const utterance = new window.SpeechSynthesisUtterance();
         utterance.text = textProps ? textProps : text;
-        utterance.voice = voice;
+        utterance.voice = voice.current;
         utterance.onend = handleEnd;
         utterance.rate = rate;
         utterance.pitch = pitch;
@@ -83,9 +83,11 @@ const useSpeechSynthesis = () => {
             <select
                 id="voice"
                 name="voice"
-                value={voiceIndex || ''}
+                value={0}
                 onChange={(event) => {
-                    setVoiceIndex(event.target.value);
+                    if (voices[event.target.value]){
+                        voice.current = voices[event.target.value]
+                    }
                 }}
             >
                 <option value="">Default</option>
@@ -96,6 +98,11 @@ const useSpeechSynthesis = () => {
                 ))}
             </select>
         </>;
+
+    const setLangVoice = (langIndex) => {
+        if (voices[langIndex])
+            voice.current = voices[langIndex];
+    };
 
     const ratePitch =
         <div style={styleContainerRatePitch}>
@@ -124,7 +131,8 @@ const useSpeechSynthesis = () => {
         voices,
         selectVoice,
         ratePitch,
-        setText
+        setText,
+        setLangVoice
     };
 };
 
