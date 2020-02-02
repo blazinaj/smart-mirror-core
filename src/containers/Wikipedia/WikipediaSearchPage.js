@@ -87,10 +87,36 @@ const WikipediaSearchPage = () => {
                                 tempResults = [{key: key, title: results[key].title, extract: results[key].extract}];
                             }
                         });
+
+                        let closeKey = -1;
+                        // if(tempResults.length === 0){
+                        //     Object.keys(results).map(key => {
+                        //
+                        //         let queryWords = results[key].title.split(" ");
+                        //         for(let i=0; i < queryWords.length; i++){
+                        //             if(queryWords[i].toLocaleLowerCase() === searchQuery.toLocaleLowerCase()){
+                        //                 loggingContext.addLog(results[key].title);
+                        //                 tempResults = [{key: key, title: results[key].title, extract: results[key].extract}];
+                        //                 closeKey = key;
+                        //                 break;
+                        //             }
+                        //         }
+                        //     });
+                        // }
+
                         Object.keys(results).map(key => {
                             //loggingContext.addLog(results[key]);
-                            if(results[key].title.toLocaleLowerCase() !== searchQuery.toLocaleLowerCase()){
-                                tempResults = [...tempResults,{key: key, title: results[key].title, extract: results[key].extract}];
+                            if(closeKey <= -1) {
+                                if(results[key].title.toLocaleLowerCase() !== searchQuery.toLocaleLowerCase()){
+                                    if(closeKey !== key) {
+                                        tempResults = [...tempResults,{key: key, title: results[key].title, extract: results[key].extract}];
+                                    }
+                                }
+                            }
+                            else {
+                                if(results[key].title.toLocaleLowerCase() !== searchQuery.toLocaleLowerCase()){
+                                    tempResults = [...tempResults,{key: key, title: results[key].title, extract: results[key].extract}];
+                                }
                             }
                         });
                         break;
@@ -100,13 +126,26 @@ const WikipediaSearchPage = () => {
                         Object.keys(results).map(key => {
                             //loggingContext.addLog(results[key]);
                             if(results[key].title.toLocaleLowerCase() === searchQuery.toLocaleLowerCase()){
+                                loggingContext.addLog("Searching one...");
                                 console.log(results[key]);
-                                tempResults = [{key: key, title: results[key].title, extract: results[key].extract, image: results[key].thumbnail.source}];
+                                if(results[key].thumbnail !== undefined && results[key].thumbnail !== null){
+                                    loggingContext.addLog("Found image...");
+                                    tempResults = [{key: key, title: results[key].title, extract: results[key].extract, image: results[key].thumbnail.source}];
+                                }
+                                else {
+                                    loggingContext.addLog("No image...");
+                                    tempResults = [{key: key, title: results[key].title, extract: results[key].extract}];
+                                }
                             }
                         });
                         if(tempResults.length === 0){
                             let keys = Object.keys(results);
-                            tempResults = [{title: results[keys[0]].title, extract: results[keys[0]].extract, image: results[keys[0]].thumbnail.source}];
+                            if(results[keys[0]].thumbnail !== undefined && results[keys[0]].thumbnail !== null){
+                                tempResults = [{title: results[keys[0]].title, extract: results[keys[0]].extract, image: results[keys[0]].thumbnail.source}];
+                            }
+                            else {
+                                tempResults = [{title: results[keys[0]].title, extract: results[keys[0]].extract}];
+                            }
                         }
                         break;
                     }
@@ -159,7 +198,9 @@ const WikipediaSearchPage = () => {
         answer: "",
         func: (value) => {
             setSearchQuery(value.substring(25));
-            setVoiceSearch(voiceSearch => !voiceSearch);
+            setTimeout(() => {
+                setVoiceSearch(voiceSearch => !voiceSearch);
+            }, 800);
         }
     };
 
