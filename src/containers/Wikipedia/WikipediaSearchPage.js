@@ -83,13 +83,13 @@ const WikipediaSearchPage = () => {
                         // Extracting many items from query and putting them into foundResults
                         Object.keys(results).map(key => {
                             //loggingContext.addLog(results[key]);
-                            if(results[key].title.toLowerCase() === searchQuery.toLowerCase()){
+                            if(results[key].title.toLocaleLowerCase() === searchQuery.toLocaleLowerCase()){
                                 tempResults = [{key: key, title: results[key].title, extract: results[key].extract}];
                             }
                         });
                         Object.keys(results).map(key => {
                             //loggingContext.addLog(results[key]);
-                            if(results[key].title.toLowerCase() !== searchQuery.toLowerCase()){
+                            if(results[key].title.toLocaleLowerCase() !== searchQuery.toLocaleLowerCase()){
                                 tempResults = [...tempResults,{key: key, title: results[key].title, extract: results[key].extract}];
                             }
                         });
@@ -99,14 +99,14 @@ const WikipediaSearchPage = () => {
                         // Extracting one items from query and putting them into foundResults
                         Object.keys(results).map(key => {
                             //loggingContext.addLog(results[key]);
-                            if(results[key].title.toLowerCase() === searchQuery.toLowerCase()){
+                            if(results[key].title.toLocaleLowerCase() === searchQuery.toLocaleLowerCase()){
                                 console.log(results[key]);
-                                tempResults = [{key: key, title: results[key].title, extract: results[key].extract}];
+                                tempResults = [{key: key, title: results[key].title, extract: results[key].extract, image: results[key].thumbnail.source}];
                             }
                         });
                         if(tempResults.length === 0){
                             let keys = Object.keys(results);
-                            tempResults = [{title: results[keys[0]].title, extract: results[keys[0]].extract}];
+                            tempResults = [{title: results[keys[0]].title, extract: results[keys[0]].extract, image: results[keys[0]].thumbnail.source}];
                         }
                         break;
                     }
@@ -121,17 +121,18 @@ const WikipediaSearchPage = () => {
     useEffect (() => {
         wiki();
         loggingContext.addLog("Voice search finished...");
+        loggingContext.addLog(voiceSearch);
     }, [voiceSearch]);
 
     // Not functioning currently?...
-    const searchCommand = {
-        command: ["mirror mirror search Wikipedia"],
-        answer: `Here are your results`,
-        func: (() => {
-            setVoiceSearch(voiceSearch => !voiceSearch);
-            loggingContext.addLog("Search Command")
-        })
-    };
+    // const searchCommand = {
+    //     command: ["mirror mirror search Wikipedia"],
+    //     answer: `Here are your results`,
+    //     func: (() => {
+    //         setVoiceSearch(voiceSearch => !voiceSearch);
+    //         loggingContext.addLog("Search Command")
+    //     })
+    // };
 
     const setRadioOne = {
         command: ["mirror mirror select one"],
@@ -139,6 +140,7 @@ const WikipediaSearchPage = () => {
         func: () => {
             radioButtonOne.current.checked = true;
             setSearchQuantity("one");
+            setVoiceSearch(voiceSearch => !voiceSearch);
         }
     };
 
@@ -148,13 +150,24 @@ const WikipediaSearchPage = () => {
         func: () => {
             radioButtonMany.current.checked = true;
             setSearchQuantity("many");
+            setVoiceSearch(voiceSearch => !voiceSearch);
+        }
+    };
+
+    const searchCommandVoice = {
+        command: ["mirror mirror search for"],
+        answer: "",
+        func: (value) => {
+            setSearchQuery(value.substring(25));
+            setVoiceSearch(voiceSearch => !voiceSearch);
         }
     };
 
     useEffect(() => {
-        voiceContext.SpeechRecognitionHook.addCommand(searchCommand);
+        // voiceContext.SpeechRecognitionHook.addCommand(searchCommand);
         voiceContext.SpeechRecognitionHook.addCommand(setRadioOne);
         voiceContext.SpeechRecognitionHook.addCommand(setRadioMany);
+        voiceContext.SpeechRecognitionHook.addCommand(searchCommandVoice);
     }, []);
 
     return (
@@ -177,7 +190,7 @@ const WikipediaSearchPage = () => {
                 </div>
                 <InputGroup className={"inputGroupLogin"}>
                     <Input type="text" value={searchQuery} placeholder="Query..." onChange={(e) => setSearchQuery(e.target.value)}/>
-                    <InputGroupAddon addonType="append"><Button ref={searchButton} onClick={() => wiki()}>Search</Button></InputGroupAddon>
+                    <InputGroupAddon addonType="append"><Button id="searchButton" ref={searchButton} onClick={() => wiki()}>Search</Button></InputGroupAddon>
                 </InputGroup>
             </div>
             <br />
@@ -188,9 +201,7 @@ const WikipediaSearchPage = () => {
                             return <div>
                                         <div style={{border: "1px solid white"}}>
                                             {
-                                                item.thumbnail && <a rel="noopener noreferrer" href={`https://en.wikipedia.org/?curid=${item.key}`} target="_blank">
-                                                    <img className="w-full max-w-xs m-auto" src={item.thumbnail.source} alt={"No image available..."} />
-                                                </a>
+                                                radioButtonOne.current.checked && <img className="w-full max-w-xs m-auto" src={item.image} alt={"No image available..."} />
                                             }
                                             <hr />
                                             <h3>{item.title}</h3>
