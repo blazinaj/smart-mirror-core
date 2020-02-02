@@ -17,6 +17,7 @@ import GestureClickMeGame from "../GestureDemo/GestureClickMeGame";
 import {useGreetingMessage} from "../../hooks/useGreetingMessage";
 import HelpPage from "../HelpPage/HelpPage";
 import GestureShowHands from "../GestureDemo/GestureShowHands";
+import RussianDemoPage from "../RussianDemoPage/RussianDemoPage";
 
 const RoutingBody = (props) => {
 
@@ -35,15 +36,16 @@ const RoutingBody = (props) => {
     const greetingHook = useGreetingMessage();
 
     const registerVoiceModal = useModal("One moment, logging you in...", "Registration");
-    const pinDisplayModal = useModal(<a> WRITE THIS NUMBER DOWN!<br /><br />
-                                    <h2 style={{color: "red"}}>{mongoHook.pin}</h2><br />
-                                    This will be how you login to your account.<br />
-                                    Login using the Pin button on the login screen on any PC or Mobile device.<br /><br />
-                                    Otherwise make sure to setup your face login to login hands free!<br /><br />
-                                    {/*This will only be shown to you once, and will be deleted within ? days, so remember to change your email and password!<br /><br />*/}
-                                    <h5>Do you want to set up Face Login? Say: </h5><h4 style={{color: "blue"}}>🎤 Mirror mirror go to my account</h4>
-                                    <h5>When finished say: </h5><h4 style={{color: "blue"}}>🎤 Mirror mirror hide message</h4></a>,
-            `IMPORTANT - PIN: ${mongoHook.pin}`);
+    const pinDisplayModal = useModal(<a> WRITE THIS NUMBER DOWN!<br/><br/>
+            <h2 style={{color: "red"}}>{mongoHook.pin}</h2><br/>
+            This will be how you login to your account.<br/>
+            Login using the Pin button on the login screen on any PC or Mobile device.<br/><br/>
+            Otherwise make sure to setup your face login to login hands free!<br/><br/>
+            {/*This will only be shown to you once, and will be deleted within ? days, so remember to change your email and password!<br /><br />*/}
+            <h5>Do you want to set up Face Login? Say: </h5><h4 style={{color: "blue"}}>🎤 Mirror mirror go to my
+                account</h4>
+            <h5>When finished say: </h5><h4 style={{color: "blue"}}>🎤 Mirror mirror hide message</h4></a>,
+        `IMPORTANT - PIN: ${mongoHook.pin}`);
 
     const homePageCommand = {
         command: ["Mirror mirror on the wall Go to home page", "mirror mirror on the wall go home", "mirror mirror on the wall wake up", "Mirror mirror Go to home page", "mirror mirror go home", "mirror mirror wake up"],
@@ -73,7 +75,7 @@ const RoutingBody = (props) => {
     };
 
     const logoutCommand = {
-        command: ["mirror mirror on the wall logout", "mirror mirror on the wall log out", "mirror mirror logout", "mirror mirror log out" , "mirror mirror log me out" ],
+        command: ["mirror mirror on the wall logout", "mirror mirror on the wall log out", "mirror mirror logout", "mirror mirror log out", "mirror mirror log me out"],
         answer: "Logging out",
         func: () => {
             loggingContext.addLog("Voice Command: Logging out");
@@ -113,7 +115,7 @@ const RoutingBody = (props) => {
                         history.push("/");
                         registerVoiceModal.setModalIsOpen(false);
                         webcamTools.setDisableWebCam(false);
-                    }),6000);
+                    }), 6000);
                     pinDisplayModal.setModalIsOpen(true);
                 });
         })
@@ -182,6 +184,15 @@ const RoutingBody = (props) => {
         }
     };
 
+    const russianDemoPage = {
+        command: ["mirror mirror go to Russian Demo page", "mirror mirror on the wall go to Russian Demo page"],
+        answer: "Let me learn some Russian!",
+        func: () => {
+            loggingContext.addLog("Voice Command: Going to Russian page");
+            history.push("/russian_page");
+        }
+    };
+
     useEffect(() => {
         voiceContext.addCommand(homePageCommand);
         voiceContext.addCommand(testPageCommand);
@@ -197,6 +208,7 @@ const RoutingBody = (props) => {
         voiceContext.addCommand(devotionsCommand);
         voiceContext.addCommand(helpPageCommand);
         voiceContext.addCommand(gestureShowHandsPageCommand);
+        voiceContext.addCommand(russianDemoPage);
     }, []);
 
     useEffect(() => {
@@ -248,6 +260,9 @@ const RoutingBody = (props) => {
             </PrivateRoute>
             <PrivateRoute exact path="/face_demo" mongoHook={mongoHook}>
                 <FaceDemo/>
+            </PrivateRoute>
+            <PrivateRoute exact path="/russian_page" mongoHook={mongoHook}>
+                <RussianDemoPage/>
             </PrivateRoute>
             <Route exact path="/sleep">
                 <Sleep/>
