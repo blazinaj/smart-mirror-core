@@ -2,14 +2,13 @@ import React, {useState, useEffect, useContext, Fragment} from "react";
 import ReactDOM from 'react-dom';
 import {Input, Label, Button, Row, Col} from 'reactstrap';
 import {VoiceCommandsContext} from "../../context/VoiceCommandsContext";
-// import AnalogClock from 'analog-clock-react';
 import axios from 'axios';
 import AnalogClock from "analog-clock-react";
 
 
 
 const Inspiration = (props)=>{
-    const {SpeechRecognitionHook} = useContext(VoiceCommandsContext);
+    //const {SpeechRecognitionHook} = useContext(VoiceCommandsContext);
     const [quote,setQuote] =  useState(null); 
     
 
@@ -27,19 +26,10 @@ const Inspiration = (props)=>{
         }
     };
 
-//    //Jason vertion
-   
-//     const getRandomQuote = () => {
-//         fetch("https://type.fit/api/quotes")
-//         .then(response => console.log(JSON.stringify(response))
-//         .then(quotes =>{
-//             const randomIndex = Math.floor(Math.random() * quotes.length);
-//             return quotes[randomIndex];
-//         }));
-// }
 
 
-//JSON sugrested version
+
+//JSON suggested version
 // const getQuote =()=>{
 // fetch("https://type.fit/api/quotes")
 //   .then(function(response) {
@@ -59,8 +49,6 @@ useEffect(() => {
         const quote = responce.data; 
         console.log(quote)
         setQuote(quote) ;
-        
-        
     });
 },[]);
 
@@ -72,7 +60,7 @@ useEffect(() => {
             <h1></h1>
             </Col>
             <Col>
-                <h1>{JSON.stringify(quote)}</h1>
+                <h1>{JSON.stringify(quote[1])}</h1>
                 {/* <h1>{quote? quote:"Loading ..."}</h1> */}
             </Col>
 
