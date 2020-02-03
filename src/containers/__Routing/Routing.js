@@ -19,6 +19,7 @@ import HelpPage from "../HelpPage/HelpPage";
 import WikipediaSearchPage from "../Wikipedia/WikipediaSearchPage";
 import GestureShowHands from "../GestureDemo/GestureShowHands";
 
+
 const RoutingBody = (props) => {
 
     let appContext = useContext(AppContext);
@@ -154,7 +155,7 @@ const RoutingBody = (props) => {
         command: ["mirror mirror I want to go back", "mirror mirror go back", "mirror mirror go to previous page" ],
         answer: "Alright taking you back!",
         func: () => {
-            loggingContext.addLog("Voice Command: Alright taking you back");
+            loggingContext.addLog("Voice Command: Alright! Taking you back");
             history.goBack();
         }
     };
