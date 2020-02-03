@@ -204,7 +204,7 @@ const RoutingBody = (props) => {
         // voiceContext.addCommand(gestureDemoGamePageCommand);
         voiceContext.addCommand(helpPageCommand);
         voiceContext.addCommand(searchWikipediaCommand);
-        voiceContext.addCommand(gestureShowHandsPageCommand);
+        // voiceContext.addCommand(gestureShowHandsPageCommand);
     }, []);
 
     useEffect(() => {
