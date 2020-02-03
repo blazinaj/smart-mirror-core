@@ -18,6 +18,8 @@ import Routing from "./containers/__Routing/Routing";
 import CommandArray from "./components/Application/CommandArray";
 import Header from "./containers/Home/Header";
 import FaceDemo from "./containers/FaceDemo/FaceDemo";
+import Inspiration from './components/Inspiration/Inspiration';
+import Devotions from './components/Devotions/Devotions';
 
 const App = () => {
 
@@ -134,6 +136,8 @@ const App = () => {
                             }
                         </>
                         <Routing/>
+                        {/* <Inspiration/> */}
+                        {/* <Devotions/> */}
                     </div>
                 </VoiceCommandsContext.Provider>
             </AppContext.Provider>

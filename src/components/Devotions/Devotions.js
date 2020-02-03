@@ -2,16 +2,21 @@ import React, {useState, useEffect, useContext, Fragment} from "react";
 import ReactDOM from 'react-dom';
 import {Input, Label, Button, Row, Col} from 'reactstrap';
 import {VoiceCommandsContext} from "../../context/VoiceCommandsContext";
-// import AnalogClock from 'analog-clock-react';
 import axios from 'axios';
 import AnalogClock from "analog-clock-react";
 
+const refreshPageCommand = {
+    command: ["mirror mirror refresh page", "mirror mirror refresh devotion", "Mirror mirror give me a new verse"],
+    answer: "",
+    func: () => window.location.reload()
+};
 
 
 const Devotions = (props)=>{
     const {SpeechRecognitionHook} = useContext(VoiceCommandsContext);
     const [quote,setQuote] =  useState(null); 
-    
+
+
 
 // clock widget colors
     let options = {
@@ -45,11 +50,13 @@ useEffect(() => {
     .then(responce => {
         const quote = responce.data; 
         console.log(quote)
-        setQuote(quote) ;
-        
-        
+        setQuote(quote) ;   
     });
 },[]);
+
+useEffect(() => {
+    SpeechRecognitionHook.addCommand(refreshPageCommand);
+}, []);
 
     return (
         <div style={{height: "100vh", background: "black", padding: "5vw"}}>
@@ -67,6 +74,9 @@ useEffect(() => {
             <Col>
                 {/* <h1>{JSON.stringify(quote)}</h1> */}
                 <h1>{quote? quote:"Loading ..."}</h1>
+            </Col>
+            <Col><h1> </h1>
+                <h4> To reload say: "Mirror mirror give me a new verse"</h4>
             </Col>
 
         </div>
