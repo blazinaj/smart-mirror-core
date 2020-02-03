@@ -14,7 +14,7 @@ const Devotions = (props)=>{
     const [quote,setQuote] =  useState(null); 
     
     const refreshPageCommand = {
-        command: ["mirror mirror refresh page", "mirror mirror refresh devotion", "Mirror mirror give me a new verse"],
+        command: ["mirror mirror change quote", "mirror mirror change verse","mirror mirror change devotion", "Mirror mirror give me a new verse"],
         answer: "",
         // func: () => window.location.reload()
         func: () => getQuote()
