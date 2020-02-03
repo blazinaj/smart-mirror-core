@@ -159,8 +159,14 @@ const FaceDemo = (props) => {
             <h1>Face Demo Page</h1>
             <Col>
                 <Row>
-                    <Col lg={3}>
-                        <Row style={{height: "50vh", color: "white"}}>
+                    <div style={{height: "40vh", margin: "auto auto"}}>
+                        <h4 style={{color: "white"}}>Camera Feed</h4>
+                        {faceApiHook.videoFeed}
+                    </div>
+                </Row>
+                <Row>
+                    <Col lg={6}>
+                        <Row style={{margin: "5em", color: "white"}}>
                             <Col>
                                 <Row>
                                     <h4 style={{color: "white"}}>
@@ -209,7 +215,7 @@ const FaceDemo = (props) => {
                                 </Row>
                             </Col>
                         </Row>
-                        <Row style={{height: "50vh", color: "white"}}>
+                        <Row style={{margin: "5em", color: "white"}}>
                             <Col>
                                 <Row>
                                     <h4 style={{color: "white"}}>
@@ -251,13 +257,7 @@ const FaceDemo = (props) => {
                         </Row>
                     </Col>
                     <Col lg={6}>
-                        <div style={{height: "40vh", margin: "auto auto"}}>
-                            <h4 style={{color: "white"}}>Camera Feed</h4>
-                            {faceApiHook.videoFeed}
-                        </div>
-                    </Col>
-                    <Col lg={3}>
-                        <Row style={{height: "50vh", color: "white"}}>
+                        <Row style={{margin: "5em", color: "white"}}>
                             <Col>
                                 <Row>
                                     <h4 style={{color: "white"}}>
@@ -278,7 +278,7 @@ const FaceDemo = (props) => {
                                 </Row>
                             </Col>
                         </Row>
-                        <Row style={{height: "50vh", color: "white"}}>
+                        <Row style={{margin: "5em", color: "white"}}>
                             <Col>
                                 <Row>
                                     <h4 style={{color: "white"}}>

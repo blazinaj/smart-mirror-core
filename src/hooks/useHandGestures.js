@@ -144,8 +144,8 @@ export const useHandGestures = () => {
             <canvas id="video-canvas"></canvas>
             <canvas id="draw-canvas" style={{display: "none"}}></canvas>
 
-            <video autoPlay="autoplay" style={{display: "none"}} id="video" width={window.innerWidth}
-                   height={window.innerHeight}>
+            <video autoPlay="autoplay" style={{display: "none"}} id="video" width="1000px"
+                   height="720px">
             </video>
         </div>;
 
