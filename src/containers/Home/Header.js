@@ -102,8 +102,12 @@ const Header = (props) => {
                             Search Wikipedia
                         </DropdownItem>
                         <DropdownItem disabled className="dropdownItem"
-                                      onClick={() => props.history.push("/russian_demo??")}>
+                                      onClick={() => props.history.push("/russian_page")}>
                             Russian Demo
+                        </DropdownItem>
+                        <DropdownItem disabled className="dropdownItem"
+                                      onClick={() => props.history.push("/french_page")}>
+                            French Demo
                         </DropdownItem>
                         <DropdownItem disabled className="dropdownItem"
                                       onClick={() => props.history.push("/help_page")}>
