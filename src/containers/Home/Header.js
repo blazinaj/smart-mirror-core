@@ -3,13 +3,16 @@
  *              Includes the Log Out and User Profile buttons.
  */
 
-import {useContext} from "react";
+import {useContext, useState} from "react";
 import {useProfile} from "../../hooks/useProfile";
-import {Button, DropdownItem, DropdownMenu, DropdownToggle, Nav, UncontrolledDropdown} from "reactstrap";
+import {Button, Dropdown, DropdownItem, DropdownMenu, DropdownToggle, UncontrolledDropdown} from "reactstrap";
 import React from "react";
 import {AppContext} from "../../context/AppContext";
+import set from "@babel/runtime/helpers/esm/set";
 
-const Header = () => {
+const Header = (props) => {
+
+    const [gestureNavbar, setGestureNavbar] = useState(false);
 
     const context = useContext(AppContext);
 
@@ -33,11 +36,81 @@ const Header = () => {
                 style={{
                     width: "100%",
                     height: "5%",
-                    backgroundColor: "black",
-                    color: "white"
+                    // backgroundColor: "black",
+                    // color: "white"
+                    display: "flex"
                 }}
             >
                 <img src={"/logo1.gif"} alt="logo" style={{width: "12%"}}/>
+            </div>
+            <div
+                style={{
+                    position: "absolute",
+                    right: "10%",
+                    top: "0"
+                }}>
+                <UncontrolledDropdown>
+                    <DropdownToggle id="dropdown" nav caret>
+                        Navigation
+                    </DropdownToggle>
+                    <DropdownMenu right id="dropdownMenu" modifiers={{
+                        setMaxHeight: {
+                            enabled: true,
+                            order: 890,
+                            fn: (data) => {
+                                return {
+                                    ...data,
+                                    styles: {
+                                        ...data.styles,
+                                        overflow: 'auto',
+                                        maxHeight: '250px',
+                                    },
+                                };
+                            },
+                        },
+                    }}>
+                        <DropdownItem className="dropdownItem"
+                                      onClick={() => props.history.push("/")}>
+                            Home
+                        </DropdownItem>
+                        <DropdownItem className="dropdownItem"
+                                      onClick={() => props.history.push("/voice_demo")}>
+                            Voice Demo
+                        </DropdownItem>
+                        <DropdownItem className="dropdownItem"
+                                      onClick={() => props.history.push("/gesture_paint")}>
+                            Gesture (Paint)
+                        </DropdownItem>
+                        <DropdownItem className="dropdownItem"
+                                      onClick={() => props.history.push("/gesture_click_me_game")}>
+                            Gesture (ClickGame)
+                        </DropdownItem>
+                        <DropdownItem className="dropdownItem"
+                                      onClick={() => props.history.push("/gesture_show_hands")}>
+                            Gesture (ShowHands)
+                        </DropdownItem>
+                        <DropdownItem className="dropdownItem"
+                                      onClick={() => props.history.push("/devotions")}>
+                            Devotions
+                        </DropdownItem>
+                        <DropdownItem className="dropdownItem"
+                                      onClick={() => props.history.push("/face_demo")}>
+                            Face Demo
+                        </DropdownItem>
+                        <DropdownItem className="dropdownItem"
+                                      onClick={() => props.history.push("/search_wikipedia")}>
+                            Search Wikipedia
+                        </DropdownItem>
+                        <DropdownItem disabled className="dropdownItem"
+                                      onClick={() => props.history.push("/russian_demo??")}>
+                            Russian Demo
+                        </DropdownItem>
+                        <DropdownItem disabled className="dropdownItem"
+                                      onClick={() => props.history.push("/help_page")}>
+                            Help Page
+                        </DropdownItem>
+                    </DropdownMenu>
+                </UncontrolledDropdown>
             </div>
             <div
                 style={{

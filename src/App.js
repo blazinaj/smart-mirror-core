@@ -4,20 +4,16 @@
  *              Login Gate will be displayed upon Auth.
  */
 
-import React, {useState, useEffect, useContext} from 'react';
+import React, {useState, useEffect} from 'react';
 import './App.css';
 import {LoggingContext} from "./context/LoggingContext";
 import {useLogger} from "./hooks/useLogger";
-import {Col, Row} from "reactstrap";
 import {VoiceCommandsContext} from "./context/VoiceCommandsContext";
 import useSpeechRecognition from "./hooks/useSpeechRecognition";
 import {Stitch} from "mongodb-stitch-browser-sdk";
 import {useMongo} from "./hooks/useMongo";
 import {AppContext} from "./context/AppContext";
 import Routing from "./containers/__Routing/Routing";
-import CommandArray from "./components/Application/CommandArray";
-import Header from "./containers/Home/Header";
-import FaceDemo from "./containers/FaceDemo/FaceDemo";
 
 const App = () => {
 
@@ -125,7 +121,6 @@ const App = () => {
         <LoggingContext.Provider value={{logger}}>
             <AppContext.Provider value={{mongoHook, debuggingTools, webcamTools}}>
                 <VoiceCommandsContext.Provider value={{SpeechRecognitionHook}}>
-                    {mongoHook.isLoggedIn && <Header/>}
                     <div style={{background: "black", color: "white"}} className="App">
                         <>
                             {
