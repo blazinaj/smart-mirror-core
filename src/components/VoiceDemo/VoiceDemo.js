@@ -4,7 +4,7 @@ import {Input, Label, Button, Row, Col} from 'reactstrap';
 import useSpeechSynthesis from "../../hooks/useSpeechSynthesis";
 import {useModal} from "../../hooks/useModal";
 import Search from "../../hooks/useImageSearch";
-
+//starting WIP PR
 const VoiceDemo = (props) => {
 
     const {SpeechRecognitionHook} = useContext(VoiceCommandsContext);
