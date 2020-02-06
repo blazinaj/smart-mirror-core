@@ -5,14 +5,11 @@
 
 import {useContext, useState} from "react";
 import {useProfile} from "../../hooks/useProfile";
-import {Button, Dropdown, DropdownItem, DropdownMenu, DropdownToggle, UncontrolledDropdown} from "reactstrap";
+import {Button, DropdownItem, DropdownMenu, DropdownToggle, UncontrolledDropdown} from "reactstrap";
 import React from "react";
 import {AppContext} from "../../context/AppContext";
-import set from "@babel/runtime/helpers/esm/set";
 
 const Header = (props) => {
-
-    const [gestureNavbar, setGestureNavbar] = useState(false);
 
     const context = useContext(AppContext);
 
@@ -102,7 +99,7 @@ const Header = (props) => {
                                       onClick={() => props.history.push("/search_wikipedia")}>
                             Search Wikipedia
                         </DropdownItem>
-                        <DropdownItem disabled className="dropdownItem"
+                        <DropdownItem className="dropdownItem"
                                       onClick={() => props.history.push("/russian_page")}>
                             Russian Demo
                         </DropdownItem>

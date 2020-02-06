@@ -223,12 +223,6 @@ const RoutingBody = (props) => {
         voiceContext.addCommand(russianDemoPage);
     }, []);
 
-    const pushPage = (page) => {
-        if(page !== null && page !== undefined){
-            history.push(page);
-        }
-    };
-
     useEffect(() => {
         loggingContext.addLog("Route UseEffect");
         if (mongoHook.firstName !== "" && mongoHook.lastName !== "" && mongoHook.lastName !== "user") {
@@ -281,6 +275,9 @@ const RoutingBody = (props) => {
                 <PrivateRoute exact path="/face_demo" mongoHook={mongoHook}>
                     <FaceDemo/>
                 </PrivateRoute>
+                <PrivateRoute exact path="/russian_page" mongoHook={mongoHook}>
+                    <RussianDemoPage/>
+                </PrivateRoute>
                 <PrivateRoute exact path="/search_wikipedia" mongoHook={mongoHook}>
                     <WikipediaSearchPage/>
                 </PrivateRoute>
@@ -292,9 +289,6 @@ const RoutingBody = (props) => {
                 </Route>
             </Switch>
         </div>
-            <PrivateRoute exact path="/russian_page" mongoHook={mongoHook}>
-                <RussianDemoPage/>
-            </PrivateRoute>
     )
 
 };
