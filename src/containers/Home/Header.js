@@ -36,8 +36,8 @@ const Header = (props) => {
                 style={{
                     width: "100%",
                     height: "5%",
-                    // backgroundColor: "black",
-                    // color: "white"
+                    backgroundColor: "black",
+                    color: "white",
                     display: "flex"
                 }}
             >
@@ -64,6 +64,7 @@ const Header = (props) => {
                                         ...data.styles,
                                         overflow: 'auto',
                                         maxHeight: '250px',
+                                        
                                     },
                                 };
                             },
