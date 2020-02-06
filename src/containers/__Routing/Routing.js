@@ -18,6 +18,7 @@ import {useGreetingMessage} from "../../hooks/useGreetingMessage";
 import HelpPage from "../HelpPage/HelpPage";
 import WikipediaSearchPage from "../Wikipedia/WikipediaSearchPage";
 import GestureShowHands from "../GestureDemo/GestureShowHands";
+import Header from "../Home/Header";
 import RussianDemoPage from "../RussianDemoPage/RussianDemoPage";
 
 const RoutingBody = (props) => {
@@ -238,53 +239,56 @@ const RoutingBody = (props) => {
     }, [mongoHook.firstName && mongoHook.lastName]);
 
     return (
-        <Switch>
-            <Route exact path="/login">
-                {
-                    registerVoiceModal.display
-                }
-                <Login mongoHook={mongoHook}/>
-            </Route>
-            <PrivateRoute exact path="/" mongoHook={mongoHook}>
-                {
-                    pinDisplayModal.display
-                }
-                <Home/>
-            </PrivateRoute>
-            <PrivateRoute exact path="/test" mongoHook={mongoHook}>
-                <TestPage/>
-            </PrivateRoute>
-            <PrivateRoute exact path="/voice_demo" mongoHook={mongoHook}>
-                <VoiceDemo/>
-            </PrivateRoute>
-            <PrivateRoute exact path="/gesture_paint" mongoHook={mongoHook}>
-                <GesturePaintDemo/>
-            </PrivateRoute>
-            <PrivateRoute exact path="/gesture_click_me_game" mongoHook={mongoHook}>
-                <GestureClickMeGame/>
-            </PrivateRoute>
-            <PrivateRoute exact path="/gesture_show_hands" mongoHook={mongoHook}>
-                <GestureShowHands/>
-            </PrivateRoute>
-            <PrivateRoute exact path="/devotions" mongoHook={mongoHook}>
-                <Devotions/>
-            </PrivateRoute>
-            <PrivateRoute exact path="/face_demo" mongoHook={mongoHook}>
-                <FaceDemo/>
-            </PrivateRoute>
-            <PrivateRoute exact path="/russian_page" mongoHook={mongoHook}>
-                <RussianDemoPage/>
-            </PrivateRoute>
-            <PrivateRoute exact path="/search_wikipedia" mongoHook={mongoHook}>
-                <WikipediaSearchPage/>
-            </PrivateRoute>
-            <Route exact path="/sleep">
-                <Sleep/>
-            </Route>
-            <Route exact path="/help_page">
-                <HelpPage/>
-            </Route>
-        </Switch>
+        <div>
+            {mongoHook.isLoggedIn && <Header history={history}/>}
+            <Switch>
+                <Route exact path="/login">
+                    {
+                        registerVoiceModal.display
+                    }
+                    <Login mongoHook={mongoHook}/>
+                </Route>
+                <PrivateRoute exact path="/" mongoHook={mongoHook}>
+                    {
+                        pinDisplayModal.display
+                    }
+                    <Home/>
+                </PrivateRoute>
+                <PrivateRoute exact path="/test" mongoHook={mongoHook}>
+                    <TestPage/>
+                </PrivateRoute>
+                <PrivateRoute exact path="/voice_demo" mongoHook={mongoHook}>
+                    <VoiceDemo/>
+                </PrivateRoute>
+                <PrivateRoute exact path="/gesture_paint" mongoHook={mongoHook}>
+                    <GesturePaintDemo/>
+                </PrivateRoute>
+                <PrivateRoute exact path="/gesture_click_me_game" mongoHook={mongoHook}>
+                    <GestureClickMeGame/>
+                </PrivateRoute>
+                <PrivateRoute exact path="/gesture_show_hands" mongoHook={mongoHook}>
+                    <GestureShowHands/>
+                </PrivateRoute>
+                <PrivateRoute exact path="/devotions" mongoHook={mongoHook}>
+                    <Devotions/>
+                </PrivateRoute>
+                <PrivateRoute exact path="/face_demo" mongoHook={mongoHook}>
+                    <FaceDemo/>
+                </PrivateRoute>
+                <PrivateRoute exact path="/russian_page" mongoHook={mongoHook}>
+                    <RussianDemoPage/>
+                </PrivateRoute>
+                <PrivateRoute exact path="/search_wikipedia" mongoHook={mongoHook}>
+                    <WikipediaSearchPage/>
+                </PrivateRoute>
+                <Route exact path="/sleep">
+                    <Sleep/>
+                </Route>
+                <Route exact path="/help_page">
+                    <HelpPage/>
+                </Route>
+            </Switch>
+        </div>
     )
 
 };
