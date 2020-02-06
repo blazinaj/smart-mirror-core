@@ -64,7 +64,7 @@ const Header = (props) => {
                                         ...data.styles,
                                         overflow: 'auto',
                                         maxHeight: '250px',
-                                        
+
                                     },
                                 };
                             },
