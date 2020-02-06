@@ -33,18 +33,21 @@ const useSpeechRecognition = () => {
     const [lang, setLang] = useState('en-AU');
     const [value, setValue] = useState('');
 
-    const [intendArray, setIntendArray] = useState([
+    const intendArray = useRef([
         {
             command: ["mirror mirror on the wall what time is it", "mirror mirror what time is it"],
             answer: "Current time is " + new Date().toLocaleString()
-        },
-
-        {
-            command: ["mirror mirror on the wall turn off display", "mirror mirror turn off display"],
-            answer: "Turning off!",
-            func: ""
         }
     ]);
+
+    const setIntendArray = (intend) => {
+        
+        let intendFound = intendArray.current.some((item) => JSON.stringify(item) === JSON.stringify(intend));
+        
+        if(!intendFound){
+            intendArray.current.push(intend);
+        }
+    };
 
     const onEnd = () => {
         // You could do something here after listening has finished
@@ -106,41 +109,37 @@ const useSpeechRecognition = () => {
     useEffect(() => {
         let commandFound = false;
 
-        intendArray.map((intent) => {
+        intendArray.current.map((intent) => {
             let commands = [].concat(intent.command);
             for (let command of commands) {
-                if (value.toString().toLocaleLowerCase().includes(command.toString().toLocaleLowerCase())) {
+                if (value.toString().toLocaleLowerCase().match(command.toString().toLocaleLowerCase())) {
+                    if(value.length === command.length){
+                        if(!commandFound) {
+                            if (intent["answer"]) {
+                                speechSynthesisHook.speak(intent["answer"]);
+                            }
+                            if (intent.func) {
+                                intent.func(value);
+                            }
 
-                    if(
-                        intent["answer"] === "Showing Account Manager" ||
-                        intent["answer"] === "Setting Up face login" ||
-                        !commandFound) {
-                        if (intent["answer"]) {
-                            speechSynthesisHook.speak(intent["answer"]);
                         }
-                        if (intent.func) {
-                            intent.func(value);
-                        }
-
+                        commandFound = true;
                     }
-                    commandFound = true;
-                }
+            }
             }
         });
     }, [value]);
 
     const addCommand = (command) => {
-        setIntendArray(intendArray => [...intendArray, command])
+        setIntendArray(command);
     };
 
     const removeCommand = (command) => {
-        // let commandIndex = intendArray.indexOf(command);
-        // let temp = [...intendArray];
-        //
-        // if (commandIndex !== -1) {
-        //     temp.splice(commandIndex, 1);
-        //     setIntendArray([...temp])
-        // }
+        let index = intendArray.current.findIndex((item) => JSON.stringify(item) === JSON.stringify(command));
+
+        if(index != -1){
+            intendArray.current.splice(index, 1);
+        }
     };
 
     const selectLanguage =
