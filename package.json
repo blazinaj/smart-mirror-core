@@ -32,7 +32,8 @@
     "react-scripts": "3.2.0",
     "react-social-login": "^3.4.6",
     "react-webcam": "^4.0.0",
-    "reactstrap": "^8.1.1"
+    "reactstrap": "^8.1.1",
+    "webusb": "^2.0.1"
   },
   "scripts": {
     "start": "set HTTPS=true&&react-scripts start",

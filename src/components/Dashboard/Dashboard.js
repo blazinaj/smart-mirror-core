@@ -125,6 +125,20 @@ const Dashboard = (props) => {
         margin: "auto",
     };
 
+    ////take picture section
+    const [imageState, setImageState] = useState(null);
+
+
+    const capture = () => {
+        const imageSrc = Webcam.
+        setImageState(imageSrc);
+    }
+
+
+
+    ////end of section
+
+
     const selectedWidgets = [
         <div key="camera-widget" data-grid={{x: 4, y: 4, w: 5, h: 10}}>
             <CameraWidget coreAPI={coreAPI}/>
@@ -225,6 +239,8 @@ const Dashboard = (props) => {
             <Row>
                 <Col sm={4} style={style}>
                     <div key="calendar-widget" style={{...style}}>
+                        <button onClick={capture}>Capture photo</button>
+                        <img src={imageState}/>
                         <Calendar
                             value={new Date()}
                         />
