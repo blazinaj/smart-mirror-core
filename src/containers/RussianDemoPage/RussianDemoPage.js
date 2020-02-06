@@ -11,7 +11,7 @@ const RussianDemoPage = () => {
         answer: "Yes! I know English",
         func: () => {
             SpeechRecognitionHook.changeLanguage('en-AU');
-            SpeechRecognitionHook.setLangVoice(0);
+            SpeechRecognitionHook.setLangVoice('en-AU');
         }
     };
 
@@ -20,19 +20,25 @@ const RussianDemoPage = () => {
         answer: "У меня все хорошо, спасибо что интересуетесь!"
     };
 
-    const whoIsGreg = {
-        command: ["зеркало зеркало кто такой Григорий останин", "зеркало зеркало на стене кто такой Григорий останин"],
-        answer: "Григорий Останин является студентом университета Eastern Washington University и просто классный пацан!"
+    const whoIsPutin = {
+        command: ["зеркало зеркало кто такой Владимир Путин", "зеркало зеркало на стене кто такой Владимир Путин"],
+        answer: "Влади́мир Влади́мирович Пу́тин российский государственный и политический деятель, действующий президент Российской Федерации и верховный главнокомандующий Вооружёнными силами Российской Федерации"
     };
 
     useEffect(() => {
 
         SpeechRecognitionHook.changeLanguage('ru-RU');
-        SpeechRecognitionHook.setLangVoice(18);
+        SpeechRecognitionHook.setLangVoice('ru-RU');
 
         SpeechRecognitionHook.addCommand(speakEnglish);
         SpeechRecognitionHook.addCommand(kakDela);
-        SpeechRecognitionHook.addCommand(whoIsGreg);
+        SpeechRecognitionHook.addCommand(whoIsPutin);
+
+        return () => {
+            SpeechRecognitionHook.removeCommand(speakEnglish);
+            SpeechRecognitionHook.removeCommand(kakDela);
+            SpeechRecognitionHook.removeCommand(whoIsPutin);
+        }
 
     }, []);
 
@@ -45,7 +51,7 @@ const RussianDemoPage = () => {
             </Row>
             <Row>
                 <Col sm={12}>
-                    <h2>Команда: Зеркало Зеркало кто такой Григорий Останин?</h2>
+                    <h2>Команда: Зеркало Зеркало кто такой Владимир Путин?</h2>
                 </Col>
             </Row>
             <Row>
