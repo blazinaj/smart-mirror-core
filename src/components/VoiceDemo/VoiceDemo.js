@@ -55,7 +55,7 @@ const VoiceDemo = (props) => {
                     setJoke(myJson.joke);
                 } else {
                     //alert(myJson.setup + " " +  myJson.delivery)
-                    const twoPartJoke = myJson.setup + myJson.delivery;
+                    const twoPartJoke = myJson.setup + " " + myJson.delivery;
                     speechSynthesisHook.speak(twoPartJoke)
                     setJoke(twoPartJoke);
                 }

@@ -16,6 +16,7 @@ import GesturePaintDemo from "../GestureDemo/GesturePaintDemo";
 import GestureClickMeGame from "../GestureDemo/GestureClickMeGame";
 import {useGreetingMessage} from "../../hooks/useGreetingMessage";
 import HelpPage from "../HelpPage/HelpPage";
+import WikipediaSearchPage from "../Wikipedia/WikipediaSearchPage";
 import GestureShowHands from "../GestureDemo/GestureShowHands";
 import RussianDemoPage from "../RussianDemoPage/RussianDemoPage";
 
@@ -75,7 +76,7 @@ const RoutingBody = (props) => {
     };
 
     const logoutCommand = {
-        command: ["mirror mirror on the wall logout", "mirror mirror on the wall log out", "mirror mirror logout", "mirror mirror log out", "mirror mirror log me out"],
+        command: ["mirror mirror on the wall logout", "mirror mirror logout", "mirror mirror log me out" ],
         answer: "Logging out",
         func: () => {
             loggingContext.addLog("Voice Command: Logging out");
@@ -193,6 +194,15 @@ const RoutingBody = (props) => {
         }
     };
 
+    const searchWikipediaCommand = {
+        command: ["mirror mirror wikipedia page"],
+        answer: "Moving to wikipedia page!",
+        func: () => {
+            loggingContext.addLog("Voice Command: Going to search wikipedia page");
+            history.push("/search_wikipedia")
+        }
+    };
+
     useEffect(() => {
         voiceContext.addCommand(homePageCommand);
         voiceContext.addCommand(testPageCommand);
@@ -207,6 +217,7 @@ const RoutingBody = (props) => {
         voiceContext.addCommand(goBackCommand);
         voiceContext.addCommand(devotionsCommand);
         voiceContext.addCommand(helpPageCommand);
+        voiceContext.addCommand(searchWikipediaCommand);
         voiceContext.addCommand(gestureShowHandsPageCommand);
         voiceContext.addCommand(russianDemoPage);
     }, []);
@@ -263,6 +274,9 @@ const RoutingBody = (props) => {
             </PrivateRoute>
             <PrivateRoute exact path="/russian_page" mongoHook={mongoHook}>
                 <RussianDemoPage/>
+            </PrivateRoute>
+            <PrivateRoute exact path="/search_wikipedia" mongoHook={mongoHook}>
+                <WikipediaSearchPage/>
             </PrivateRoute>
             <Route exact path="/sleep">
                 <Sleep/>
