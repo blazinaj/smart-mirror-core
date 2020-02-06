@@ -42,10 +42,10 @@ const useSpeechRecognition = () => {
     ]);
 
     const setIntendArray = (intend) => {
-        
+
         let intendFound = intendArray.current.some((item) => JSON.stringify(item) === JSON.stringify(intend));
-        
-        if(!intendFound){
+
+        if (!intendFound) {
             intendArray.current.push(intend);
         }
     };
@@ -114,19 +114,18 @@ const useSpeechRecognition = () => {
             let commands = [].concat(intent.command);
             for (let command of commands) {
                 if (value.toString().toLocaleLowerCase().match(command.toString().toLocaleLowerCase())) {
-                    if(value.length === command.length){
-                        if(!commandFound) {
+                    if (value.length === command.length) {
+                        if (!commandFound) {
                             if (intent["answer"]) {
                                 speechSynthesisHook.speak(intent["answer"]);
                             }
                             if (intent.func) {
                                 intent.func(value);
                             }
-
                         }
                         commandFound = true;
                     }
-            }
+                }
             }
         });
     }, [value]);
@@ -138,7 +137,7 @@ const useSpeechRecognition = () => {
     const removeCommand = (command) => {
         let index = intendArray.current.findIndex((item) => JSON.stringify(item) === JSON.stringify(command));
 
-        if(index != -1){
+        if (index > -1) {
             intendArray.current.splice(index, 1);
         }
     };
@@ -160,11 +159,11 @@ const useSpeechRecognition = () => {
             </select>
         </>;
 
-        const changeLanguage = (speakLang) => {
-            if(recognition.current.lang){
-                recognition.current.lang = speakLang;
-            }
-        };
+    const changeLanguage = (speakLang) => {
+        if (recognition.current.lang) {
+            recognition.current.lang = speakLang;
+        }
+    };
 
     const displayTranscript =
         supported ?
