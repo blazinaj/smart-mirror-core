@@ -105,7 +105,7 @@ const Login = (props) => {
         const client = Stitch.defaultAppClient;
 
         const db = client.getServiceClient(RemoteMongoClient.factory, 'mongodb-atlas').db('smart_mirror');
-        loggingContext.addLog("Trying to match Face to user ID: " + client.auth.user.id + "...");
+        loggingContext.addLog("Trying to match Face to user ID: " + client && client.auth && client.auth.user && client.auth.user.id + "...");
         let faces = await db.collection('face_descriptors').find({}, { limit: 100}).asArray();
         loggingContext.addLog("Fetched Faces from database: " + JSON.stringify(faces));
         loggingContext.addLog("Trying to match face..");
