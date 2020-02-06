@@ -11,7 +11,7 @@ const RussianDemoPage = () => {
         answer: "Yes! I know English",
         func: () => {
             SpeechRecognitionHook.changeLanguage('en-AU');
-            SpeechRecognitionHook.setLangVoice('en-AU');
+            SpeechRecognitionHook.setLangVoice('en-US');
         }
     };
 
