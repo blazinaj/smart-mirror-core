@@ -85,7 +85,7 @@ const useSpeechSynthesis = () => {
                 name="voice"
                 value={0}
                 onChange={(event) => {
-                    if (voices[event.target.value]){
+                    if (voices[event.target.value]) {
                         voice.current = voices[event.target.value]
                     }
                 }}
@@ -99,9 +99,15 @@ const useSpeechSynthesis = () => {
             </select>
         </>;
 
-    const setLangVoice = (langIndex) => {
-        if (voices[langIndex])
-            voice.current = voices[langIndex];
+    const setLangVoice = (langToChange) => {
+
+        if (voices.length > 0) {
+            voices.map((item, index) => {
+                if (item && item.lang && item.lang === langToChange) {
+                    voice.current = voices[index];
+                }
+            })
+        }
     };
 
     const ratePitch =
