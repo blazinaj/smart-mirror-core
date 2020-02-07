@@ -281,15 +281,17 @@ const AccountManager = (props) => {
                 <Button disabled color="black" onClick={() => SpeechRecognitionHook.setLangVoice('es-MX')} style={{ marginBottom: '1rem' }}>
                     <img src={require('./flags/spain.gif')} /> Spanish Accent</Button> &nbsp;
                 <Button color="black" onClick={() => SpeechRecognitionHook.setLangVoice('fr-FR')} style={{ marginBottom: '1rem' }}>
-                    French Accent</Button> &nbsp;
+                    <img src={require('./flags/france.gif')} /> French Accent</Button> &nbsp;
                 <Button color="black" onClick={() => SpeechRecognitionHook.setLangVoice('it-IT')} style={{ marginBottom: '1rem' }}>
-                    Italian Accent</Button> &nbsp;
+                    <img src={require('./flags/italy.gif')} /> Italian Accent</Button> &nbsp;
                 <Button color="black" onClick={() => SpeechRecognitionHook.setLangVoice('de-DE')} style={{ marginBottom: '1rem' }}>
-                    Dutch Accent</Button> &nbsp;
-                <Button color="black" onClick={() => SpeechRecognitionHook.setLangVoice('ru-RU')} style={{ marginBottom: '1rem' }}>
-                    Russian Accent</Button> &nbsp;
+                    <img src={require('./flags/dutch.gif')} /> Dutch Accent</Button> &nbsp;
+                <Button color="black" onClick={() => SpeechRecognitionHook.setLangVoice('fr-FR')} style={{ marginBottom: '1rem' }}>
+                    <img src={require('./flags/australia.gif')} /> Australian Accent</Button> &nbsp;
+                <Button color="black" onClick={() => SpeechRecognitionHook.setLangVoice('en-AU')} style={{ marginBottom: '1rem' }}>
+                    <img src={require('./flags/russia.gif')} /> Russian Accent</Button> &nbsp;
                 <Button disabled color="black" onClick={() => SpeechRecognitionHook.setLangVoice('zh')} style={{ marginBottom: '1rem' }}>
-                    Mandarin Accent</Button> &nbsp;
+                    <img src={require('./flags/china.gif')} /> Mandarin Accent</Button> &nbsp;
             </Collapse>
 
             <hr />
