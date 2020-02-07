@@ -20,6 +20,7 @@ import Header from "./containers/Home/Header";
 import FaceDemo from "./containers/FaceDemo/FaceDemo";
 import Dashboard from "./components/Dashboard/Dashboard";
 import VoiceDemo from "./components/VoiceDemo/VoiceDemo";
+import PhotoBooth from "./components/PhotoBooth/PhotoBooth";
 
 const App = () => {
 
@@ -136,7 +137,7 @@ const App = () => {
                             }
                         </>
                         {/* <Routing/> */}
-                        <VoiceDemo/>
+                        <PhotoBooth/>
                     </div>
                 </VoiceCommandsContext.Provider>
             </AppContext.Provider>

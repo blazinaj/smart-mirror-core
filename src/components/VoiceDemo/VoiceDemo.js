@@ -2,10 +2,8 @@ import React, {useState, useEffect, useContext, useRef} from "react";
 import {VoiceCommandsContext} from "../../context/VoiceCommandsContext";
 import {Input, Label, Button, Row, Col} from 'reactstrap';
 import useSpeechSynthesis from "../../hooks/useSpeechSynthesis";
-import {useModal} from "../../hooks/useModal";
 import Search from "../../hooks/useImageSearch";
-import Webcam from "react-webcam";
-//starting WIP PR
+
 const VoiceDemo = (props) => {
 
     const {SpeechRecognitionHook} = useContext(VoiceCommandsContext);
@@ -52,16 +50,16 @@ const VoiceDemo = (props) => {
                 // alert(myJson.joke);
                 if (myJson.type === "single") {
                     // alert("Single " + myJson.joke)
-                    speechSynthesisHook.speak(myJson.joke)
+                    speechSynthesisHook.speak(myJson.joke);
                     setJoke(myJson.joke);
                 } else {
                     //alert(myJson.setup + " " +  myJson.delivery)
-                    const twoPartJoke = myJson.setup + myJson.delivery;
-                    speechSynthesisHook.speak(twoPartJoke)
+                    const twoPartJoke = myJson.setup + " " + myJson.delivery;
+                    speechSynthesisHook.speak(twoPartJoke);
                     setJoke(twoPartJoke);
                 }
             });
-    }
+    };
 
     const imageSearch = {
         //example get request https://pixabay.com/api/?key=12413278-79b713c7e196c7a3defb5330e&q=puppies&page=1
@@ -77,50 +75,8 @@ const VoiceDemo = (props) => {
             //alert(value.substring(24))
             setQuery(value.substring(24)); //"mirror mirror search for puppies" is 24 characters long
             search.searchFor(value.substring(24));
-
         }
     };
-
-
-    ////take picture section  //////////////
-
-    const [imageState, setImageState] = useState(null);
-
-    const videoConstraints = {
-        width: 1280,
-        height: 720,
-        facingMode: "user"
-    };
-
-    const WebcamCapture = () => {
-        const webcamRef = React.useRef(null);
-
-        const capture = React.useCallback(
-            () => {
-                const imageSrc = webcamRef.current.getScreenshot();
-                setImageState(imageSrc);
-               // alert("image captured");
-            },
-            [webcamRef]
-        );
-
-        return (
-            <>
-                <Webcam
-                    audio={false}
-                    height={72}
-                    ref={webcamRef}
-                    screenshotFormat="image/jpeg"
-                    width={128}
-                    videoConstraints={videoConstraints}
-                />
-                <button onClick={capture}>Capture photo</button>
-                <img src={imageState}/>
-            </>
-        );
-    };
-
-    ////end of section ///////////////
 
 
     useEffect(() => {
@@ -130,7 +86,6 @@ const VoiceDemo = (props) => {
         SpeechRecognitionHook.addCommand(imageSearch);
         SpeechRecognitionHook.addCommand(StuCommand);
     }, []);
-
 
 
     return (
@@ -146,21 +101,7 @@ const VoiceDemo = (props) => {
             <Col>
                 <Row>
                     <Col lg={6}>
-                        <Row style={{height: "20vh", align:"top"}}>
-                            <WebcamCapture />
-
-                            {/*
-                             <Webcam
-                                    audio={false}
-                                    height={72}
-                                    ref={webcamRef}
-                                    screenshotFormat="image/jpeg"
-                                    width={128}
-                                    videoConstraints={videoConstraints}
-                                />
-                                <button onClick={capture}>Capture photo</button>
-                                */}
-
+                        <Row style={{height: "20vh", align: "top"}}>
                             <pre>
                                <h2 style={{color: "white"}}> Example Voice Commands: </h2>
                                <h4 style={{color: "white"}}>"Mirror Mirror tell me a joke."</h4>
@@ -171,9 +112,9 @@ const VoiceDemo = (props) => {
                     </Col>
 
                     <Col lg={6}>
-                        <Row style={{height: "20vh", align:"center"}}>
-                                <h2 style={{color: "white",align:"top"}}>Joke:</h2>
-                                <h4 style={{color: "white", align:"top", }}>{showJoke && joke}</h4>
+                        <Row style={{height: "20vh", align: "center"}}>
+                            <h2 style={{color: "white", align: "top"}}>Joke:</h2>
+                            <h4 style={{color: "white", align: "top",}}>{showJoke && joke}</h4>
                         </Row>
                     </Col>
 
