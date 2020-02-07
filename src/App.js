@@ -129,8 +129,8 @@ const App = () => {
                                 SpeechRecognitionHook.displayTranscript
                             }
                         </>
-                        {/* <Routing/> */}
-                        <Inspiration/>
+                        <Routing/>
+                        {/* <Inspiration/> */}
                     </div>
                 </VoiceCommandsContext.Provider>
             </AppContext.Provider>
