@@ -48,10 +48,39 @@ const PhotoBooth = (props) => {
 
     ////end of section ///////////////
 
+
     return(
-        <div>
-            <WebcamCapture/>
+        <div style={{height: "100%", background: "black", padding: "2vw", color: "white"}}>
+            <Row style={{ border: "solid blue 1px"}}>
+                <Col>
+                    <div>
+                    <h1>Photo Booth</h1>
+                    <label  style={{
+                        position: "absolute",
+                        left: "50%",
+                        "-webkit-transform": "translateX(-50%)",
+                        transform: "translateX(-50%)",
+                        color: "white",
+                    }}
+                    >Photo Booth</label>
+                    </div>
+                </Col>
+            </Row >
+            <Row style={{height: "80%", border: "solid green 1px"}}>
+                <Col lg={3}>
+                    <h1>Flash</h1>
+                </Col>
+                <Col lg={6}>
+                    <h1>Pic strip ...</h1>
+                </Col>
+                <Col lg={3}>
+                    <h1>Flash</h1>
+                </Col>
+            </Row>
         </div>
+        // <WebcamCapture/>
+
+
     );
 };
 
