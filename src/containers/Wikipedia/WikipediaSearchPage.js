@@ -133,10 +133,10 @@ const WikipediaSearchPage = () => {
     };
 
     const searchCommandVoice = {
-        command: ["mirror mirror search for"],
+        command: ["mirror mirror search wikipedia for"],
         answer: "",
         func: (value) => {
-            setSearchQuery(value.substring(25));
+            setSearchQuery(value.substring(35));
             setTimeout(() => {
                 setVoiceSearch(voiceSearch => !voiceSearch);
             }, 800);
