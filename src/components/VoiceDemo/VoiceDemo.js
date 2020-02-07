@@ -81,28 +81,47 @@ const VoiceDemo = (props) => {
         }
     };
 
-    ////take picture section
+
+    ////take picture section  //////////////
 
     const [imageState, setImageState] = useState(null);
+
     const videoConstraints = {
         width: 1280,
         height: 720,
         facingMode: "user"
     };
 
-
+    const WebcamCapture = () => {
         const webcamRef = React.useRef(null);
 
         const capture = React.useCallback(
             () => {
                 const imageSrc = webcamRef.current.getScreenshot();
+                setImageState(imageSrc);
+               // alert("image captured");
             },
             [webcamRef]
         );
 
+        return (
+            <>
+                <Webcam
+                    audio={false}
+                    height={72}
+                    ref={webcamRef}
+                    screenshotFormat="image/jpeg"
+                    width={128}
+                    videoConstraints={videoConstraints}
+                />
+                <button onClick={capture}>Capture photo</button>
+                <img src={imageState}/>
+            </>
+        );
+    };
 
+    ////end of section ///////////////
 
-    ////end of section
 
     useEffect(() => {
         SpeechRecognitionHook.addCommand(whoIsTheManCommand);
@@ -128,8 +147,10 @@ const VoiceDemo = (props) => {
                 <Row>
                     <Col lg={6}>
                         <Row style={{height: "20vh", align:"top"}}>
+                            <WebcamCapture />
 
-                                <Webcam
+                            {/*
+                             <Webcam
                                     audio={false}
                                     height={72}
                                     ref={webcamRef}
@@ -138,6 +159,7 @@ const VoiceDemo = (props) => {
                                     videoConstraints={videoConstraints}
                                 />
                                 <button onClick={capture}>Capture photo</button>
+                                */}
 
                             <pre>
                                <h2 style={{color: "white"}}> Example Voice Commands: </h2>
