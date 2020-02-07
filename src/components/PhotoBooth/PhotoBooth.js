@@ -50,7 +50,7 @@ const PhotoBooth = (props) => {
 
     return(
         <div>
-            <WebcamCapture />
+            <WebcamCapture/>
         </div>
     );
 };

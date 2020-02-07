@@ -18,6 +18,7 @@ import {useGreetingMessage} from "../../hooks/useGreetingMessage";
 import HelpPage from "../HelpPage/HelpPage";
 import WikipediaSearchPage from "../Wikipedia/WikipediaSearchPage";
 import GestureShowHands from "../GestureDemo/GestureShowHands";
+import PhotoBooth from "../../components/PhotoBooth/PhotoBooth";
 
 const RoutingBody = (props) => {
 
@@ -192,6 +193,14 @@ const RoutingBody = (props) => {
         }
     };
 
+    const photoBoothPageCommand = {
+        command: ["Mirror mirror on the wall go to photobooth", "Mirror mirror go to photobooth"],
+        answer: "Going to photobooth",
+        func: () => {
+            loggingContext.addLog("Voice Command: Going to photobooth");
+            history.push("/photo_booth")
+        }
+    };
     useEffect(() => {
         voiceContext.addCommand(homePageCommand);
         voiceContext.addCommand(testPageCommand);
@@ -208,6 +217,7 @@ const RoutingBody = (props) => {
         voiceContext.addCommand(helpPageCommand);
         voiceContext.addCommand(searchWikipediaCommand);
         voiceContext.addCommand(gestureShowHandsPageCommand);
+        voiceContext.addCommand(photoBoothPageCommand);
     }, []);
 
     useEffect(() => {
@@ -262,6 +272,9 @@ const RoutingBody = (props) => {
             </PrivateRoute>
             <PrivateRoute exact path="/search_wikipedia" mongoHook={mongoHook}>
                 <WikipediaSearchPage/>
+            </PrivateRoute>
+            <PrivateRoute exact path="/photo_booth" mongoHook={mongoHook}>
+                <PhotoBooth/>
             </PrivateRoute>
             <Route exact path="/sleep">
                 <Sleep/>
