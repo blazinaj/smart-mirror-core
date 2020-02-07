@@ -284,6 +284,10 @@ const AccountManager = (props) => {
 
             <hr />
 
+            <Button color="warning" onClick={() => SpeechRecognitionHook.setLangVoice('en-US')} style={{ marginBottom: '1rem' }}>English Accent</Button>
+            <Button color="warning" onClick={() => SpeechRecognitionHook.setLangVoice('fr-FR')} style={{ marginBottom: '1rem' }}>French Accent</Button>
+            <Button color="warning" onClick={() => SpeechRecognitionHook.setLangVoice('ru-RU')} style={{ marginBottom: '1rem' }}>Russian Accent</Button>
+
             {/*{*/}
             {/*    !isGuest ?*/}
             {/*        <Button color="danger" onClick={() => deleteAccount()}>Delete Account</Button>*/}
