@@ -20,6 +20,7 @@ import WikipediaSearchPage from "../Wikipedia/WikipediaSearchPage";
 import GestureShowHands from "../GestureDemo/GestureShowHands";
 import Header from "../Home/Header";
 import RussianDemoPage from "../RussianDemoPage/RussianDemoPage";
+import FrenchDemoPage from "../FrenchDemoPage/FrenchDemoPage";
 
 const RoutingBody = (props) => {
 
@@ -277,6 +278,9 @@ const RoutingBody = (props) => {
                 </PrivateRoute>
                 <PrivateRoute exact path="/russian_page" mongoHook={mongoHook}>
                     <RussianDemoPage/>
+                </PrivateRoute>
+                <PrivateRoute exact path="/french_page" mongoHook={mongoHook}>
+                    <FrenchDemoPage/>
                 </PrivateRoute>
                 <PrivateRoute exact path="/search_wikipedia" mongoHook={mongoHook}>
                     <WikipediaSearchPage/>

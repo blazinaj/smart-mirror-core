@@ -103,7 +103,7 @@ const Header = (props) => {
                                       onClick={() => props.history.push("/russian_page")}>
                             Russian Demo
                         </DropdownItem>
-                        <DropdownItem disabled className="dropdownItem"
+                        <DropdownItem className="dropdownItem"
                                       onClick={() => props.history.push("/french_page")}>
                             French Demo
                         </DropdownItem>
