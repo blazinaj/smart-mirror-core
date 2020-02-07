@@ -1,9 +1,10 @@
-import React, {useState, useEffect, useContext} from "react";
+import React, {useState, useEffect, useContext, useRef} from "react";
 import {VoiceCommandsContext} from "../../context/VoiceCommandsContext";
 import {Input, Label, Button, Row, Col} from 'reactstrap';
 import useSpeechSynthesis from "../../hooks/useSpeechSynthesis";
 import {useModal} from "../../hooks/useModal";
 import Search from "../../hooks/useImageSearch";
+import Webcam from "react-webcam";
 //starting WIP PR
 const VoiceDemo = (props) => {
 
@@ -80,6 +81,29 @@ const VoiceDemo = (props) => {
         }
     };
 
+    ////take picture section
+
+    const [imageState, setImageState] = useState(null);
+    const videoConstraints = {
+        width: 1280,
+        height: 720,
+        facingMode: "user"
+    };
+
+
+        const webcamRef = React.useRef(null);
+
+        const capture = React.useCallback(
+            () => {
+                const imageSrc = webcamRef.current.getScreenshot();
+            },
+            [webcamRef]
+        );
+
+
+
+    ////end of section
+
     useEffect(() => {
         SpeechRecognitionHook.addCommand(whoIsTheManCommand);
         SpeechRecognitionHook.addCommand(tellJoke);
@@ -104,6 +128,17 @@ const VoiceDemo = (props) => {
                 <Row>
                     <Col lg={6}>
                         <Row style={{height: "20vh", align:"top"}}>
+
+                                <Webcam
+                                    audio={false}
+                                    height={72}
+                                    ref={webcamRef}
+                                    screenshotFormat="image/jpeg"
+                                    width={128}
+                                    videoConstraints={videoConstraints}
+                                />
+                                <button onClick={capture}>Capture photo</button>
+
                             <pre>
                                <h2 style={{color: "white"}}> Example Voice Commands: </h2>
                                <h4 style={{color: "white"}}>"Mirror Mirror tell me a joke."</h4>
