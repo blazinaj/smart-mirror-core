@@ -18,17 +18,21 @@ const PhotoBooth = (props) => {
         facingMode: "user"
     };
 
-    const WebcamCapture = () => {
-        const webcamRef = useRef(null);
+    const webcamRef = useRef(null);
+    const capture = useCallback(
+        () => {
+            const imageSrc = webcamRef.current.getScreenshot();
+            setImageArray(imageArray => [...imageArray, imageSrc]);
+            // alert("image captured");
+        },
+        [webcamRef]
+    );
 
-        const capture = useCallback(
-            () => {
-                const imageSrc = webcamRef.current.getScreenshot();
-                setImageArray(imageArray => [...imageArray, imageSrc]);
-                // alert("image captured");
-            },
-            [webcamRef]
-        );
+    const WebcamCapture = () => {
+
+
+
+
 
 
 
@@ -36,20 +40,31 @@ const PhotoBooth = (props) => {
                 <>
                     <Webcam
                         audio={false}
-                        height={720 / 4}
+                        height={720 / 6}
                         ref={webcamRef}
                         screenshotFormat="image/jpeg"
-                        width={1280 / 4}
+                        width={1280 / 6}
                         videoConstraints={videoConstraints}
                     />
                     <button onClick={capture}>Capture photo</button>
-                    <img src={imageArray[0]}/>
+                    {/* <img src={imageArray[0]}/>  */}
                 </>
             );
         };
 
         ////end of section ///////////////
 
+
+    const take4Pics = () => {
+
+        setInterval(() => {
+            capture();
+        }, 4000);
+    };
+
+    useEffect( ()=> {
+        take4Pics();
+    }, []);
 
         return (
             <div style={{height: "100%", background: "black", padding: "2vw", color: "white"}}>
