@@ -36,10 +36,10 @@ const PhotoBooth = (props) => {
                 <>
                     <Webcam
                         audio={false}
-                        height={72}
+                        height={720 / 4}
                         ref={webcamRef}
                         screenshotFormat="image/jpeg"
-                        width={128}
+                        width={1280 / 4}
                         videoConstraints={videoConstraints}
                     />
                     <button onClick={capture}>Capture photo</button>
@@ -53,7 +53,8 @@ const PhotoBooth = (props) => {
 
         return (
             <div style={{height: "100%", background: "black", padding: "2vw", color: "white"}}>
-                <WebcamCapture/>
+                 <WebcamCapture/>
+
                 <Row style={{border: "solid blue 1px"}}>
                     <Col>
                         <div>
