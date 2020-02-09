@@ -1,47 +1,57 @@
 // Author : Art Elikh
 // Started to create Demo Page for Gestures
 
-import React, { useState, useEffect, useContext } from "react";
+import React, {useState, useEffect, useContext} from "react";
 import {Col, Container, Row} from "reactstrap";
+import {useHandGestures} from "../../hooks/useHandGestures";
 
-const GestureDemo =(props)=> {
+const GestureDemo = (props) => {
+
+    const {x, swipeUI} = useHandGestures();
+
+    const [xArray, setXArray] = useState([]);
+    const [xMin, setXMin] = useState(0);
+    const [xMax, setXMax] = useState(0);
+    const [background, setBackground] = useState("black");
+
+    useEffect(() => {
+        if (typeof x === 'number')
+            setXArray(xArray => [...xArray, x]);
+    }, [x]);
+
+    useEffect(() => {
+
+        setXMin(Math.round(Math.min.apply(null, xArray) / 100) * 100);
+        setXMax(Math.round(Math.max.apply(null, xArray) / 100) * 100);
+
+    }, [xArray]);
+
+    useEffect(() => {
+        if (xMin === 100 && xMax === 900) {
+
+            setBackground("#" + ((1 << 24) * Math.random() | 0).toString(16));
+
+            setXMin(0);
+            setXMax(0);
+            setXArray([]);
+        }
+    }, [xMin, xMax]);
+
     return (
-        <div style={{height: "100vh", background: "black", padding: "5vw"}}>
-            <h1>Gesture Demo Page</h1>
-            <Col>
-                <Row>
-                    <Col lg={3}>
-                        <Row style={{height: "50vh"}}>
-                            <h4 style={{color: "white"}}>
-                                Gesture Feature:
-                            </h4>
-                        </Row>
-                        <Row style={{height: "50vh"}}>
-                            <h4 style={{color: "white"}}>
-                                Gesture Feature:
-                            </h4>
-                        </Row>
-                    </Col>
-                    <Col lg={6}>
-                        <div style={{height: "50vh", margin: "auto auto", background: "grey"}}>
-                            <h4 style={{color: "white"}}>Camera Feed will go here if needed?</h4>
-                        </div>
-                    </Col>
-                    <Col lg={3}>
-                        <Row style={{height: "50vh"}}>
-                            <h4 style={{color: "white"}}>
-                                Something else here:
-                            </h4>
-                        </Row>
-                        <Row style={{height: "50vh"}}>
-                            <h4 style={{color: "white"}}>
-                                Something else here:
-                            </h4>
-                        </Row>
-                    </Col>
-                </Row>
-            </Col>
-
+        <div style={{
+            height: "100vh",
+            background: `${background}`,
+            padding: "5vw"
+        }}>
+            <div style={{
+                position: "absolute",
+                top: "0",
+                right: "0"
+            }}>
+                {
+                    swipeUI
+                }
+            </div>
         </div>
     )
 };
