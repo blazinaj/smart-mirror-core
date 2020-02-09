@@ -38,12 +38,19 @@ const Login = (props) => {
     };
 
     const faceLoginCommand = {
-        command: ["Face Login", "mirror mirror on the wall check my face", "mirror mirror on the wall face log in", "mirror mirror check my face", "mirror mirror face log in"],
+        command: [
+            "mirror mirror on the wall check my face",
+            "mirror mirror on the wall face log in",
+            "mirror mirror check my face",
+            "mirror mirror face log in",
+            "mirror mirror log in with my face"
+        ],
         answer: "I'm Trying to detect your face",
         func: async () => {
             let descriptor = await faceApiHook.getDescriptorsFromImage("jacob", "video-feed");
             console.log("Got Descriptor: " + JSON.stringify(descriptor));
             await matchFace(descriptor);
+            // voiceContext.SpeechRecognitionHook.removeCommand(faceLoginCommand);
         }
     };
 
@@ -62,7 +69,7 @@ const Login = (props) => {
     const faceApiHook = useFace();
     const loggingContext = useContext(LoggingContext).logger;
     const voiceContext = useContext(VoiceCommandsContext);
-    const debuggingTools = useContext(AppContext).debuggingTools;
+    const {debuggingTools, webcamTools} = useContext(AppContext);
 
     useEffect(() => {
         voiceContext.SpeechRecognitionHook.addCommand(manualLoginCommand);
@@ -98,7 +105,7 @@ const Login = (props) => {
         const client = Stitch.defaultAppClient;
 
         const db = client.getServiceClient(RemoteMongoClient.factory, 'mongodb-atlas').db('smart_mirror');
-        loggingContext.addLog("Trying to match Face to user ID: " + client.auth.user.id + "...");
+        loggingContext.addLog("Trying to match Face to user ID: " + client && client.auth && client.auth.user && client.auth.user.id + "...");
         let faces = await db.collection('face_descriptors').find({}, { limit: 100}).asArray();
         loggingContext.addLog("Fetched Faces from database: " + JSON.stringify(faces));
         loggingContext.addLog("Trying to match face..");
@@ -288,9 +295,9 @@ const Login = (props) => {
                 </div>
             </Collapse>
             <div>
-            {
-                faceApiHook.videoFeed
-            }
+                {
+                    faceApiHook.videoFeed
+                }
                 {
                     faceLoginStatus &&
                     <Alert color="info" isOpen={faceLoginStatus !== null}>

@@ -2,7 +2,8 @@ import React, {useState, useEffect, useContext} from "react";
 import {VoiceCommandsContext} from "../../context/VoiceCommandsContext";
 import {Input, Label, Button, Row, Col} from 'reactstrap';
 import useSpeechSynthesis from "../../hooks/useSpeechSynthesis";
-
+import {useModal} from "../../hooks/useModal";
+import Search from "../../hooks/useImageSearch";
 
 const VoiceDemo = (props) => {
 
@@ -10,10 +11,17 @@ const VoiceDemo = (props) => {
     const speechSynthesisHook = useSpeechSynthesis();
     const [showJoke, setShowJoke] = useState(true);
     const [joke, setJoke] = useState("");
+    const [query, setQuery] = useState("");
+    const search = Search();
 
     const whoIsTheManCommand = {
         command: ["mirror mirror on the wall who is the man", "mirror mirror who is the man"],
         answer: "Jeff is the man"
+    };
+
+    const StuCommand = {
+        command: ["mirror mirror on the wall who's the prettiest of them all"],
+        answer: "Stu Steiner of course!"
     };
 
     const showJokeText = {
@@ -47,65 +55,76 @@ const VoiceDemo = (props) => {
                     setJoke(myJson.joke);
                 } else {
                     //alert(myJson.setup + " " +  myJson.delivery)
-                    const twoPartJoke = myJson.setup + myJson.delivery;
+                    const twoPartJoke = myJson.setup + " " + myJson.delivery;
                     speechSynthesisHook.speak(twoPartJoke)
                     setJoke(twoPartJoke);
                 }
             });
     }
 
+    const imageSearch = {
+        //example get request https://pixabay.com/api/?key=12413278-79b713c7e196c7a3defb5330e&q=puppies&page=1
+        //API key is from the sample code
+        command: ["mirror mirror search for"],
+        answer: "",
+        func: (value) => {
+
+            //const searchForRegExp = /search for/i;
+            //let found = value.match(searchForRegExp);
+            //alert(value.length);
+            //console.log(found.index);
+            //alert(value.substring(24))
+            setQuery(value.substring(24)); //"mirror mirror search for puppies" is 24 characters long
+            search.searchFor(value.substring(24));
+
+        }
+    };
+
     useEffect(() => {
         SpeechRecognitionHook.addCommand(whoIsTheManCommand);
         SpeechRecognitionHook.addCommand(tellJoke);
         SpeechRecognitionHook.addCommand(showJokeText);
+        SpeechRecognitionHook.addCommand(imageSearch);
+        SpeechRecognitionHook.addCommand(StuCommand);
     }, []);
+
 
 
     return (
 
         <div style={{height: "100vh", background: "black", padding: "5vw"}}>
-            <h1>Voice Demo Page</h1>
+            <h1>🎤 Voice Demo Page</h1>
             <>
                 {
                     SpeechRecognitionHook.displayTranscript
                 }
             </>
+            <br/>
             <Col>
                 <Row>
-                    <Col lg={3}>
-                        <Row style={{height: "50vh"}}>
-                            <h4 style={{color: "white"}}>
-                                Example Voice Commands:
-                            </h4>
-                            <h6 style={{color: "white"}}>"Mirror Mirror tell me a joke."</h6>
-                            <h6 style={{color: "white"}}>"Mirror Mirror who is the man?"</h6>
-                            <h6 style={{color: "white"}}>"Mirror Mirror toggle joke text."</h6>
-                        </Row>
-                        <Row style={{height: "50vh"}}>
-                            <h4 style={{color: "white"}}>
-                                Other info:
-                            </h4>
-                        </Row>
-                    </Col>
                     <Col lg={6}>
-                        <div style={{height: "50vh", margin: "auto auto", background: "black"}}>
-                            <h2 style={{color: "white"}}>Joke</h2>
-                            <h3 style={{color: "white"}}>{showJoke && joke}</h3>
-                        </div>
-                    </Col>
-                    <Col lg={3}>
-                        <Row style={{height: "50vh"}}>
-                            <h4 style={{color: "white"}}>
-                                Voice command and answer:
-                            </h4>
-                            <h5>{}</h5>
-                        </Row>
-                        <Row style={{height: "50vh"}}>
-                            <h4 style={{color: "white"}}>
-                                Fill stuff in:
-                            </h4>
+                        <Row style={{height: "20vh", align:"top"}}>
+                            <pre>
+                               <h2 style={{color: "white"}}> Example Voice Commands: </h2>
+                               <h4 style={{color: "white"}}>"Mirror Mirror tell me a joke."</h4>
+                               <h4 style={{color: "white"}}>"Mirror Mirror who is the man?"</h4>
+                               <h4 style={{color: "white"}}>"Mirror Mirror search for puppies."</h4>
+                            </pre>
                         </Row>
                     </Col>
+
+                    <Col lg={6}>
+                        <Row style={{height: "20vh", align:"center"}}>
+                                <h2 style={{color: "white",align:"top"}}>Joke:</h2>
+                                <h4 style={{color: "white", align:"top", }}>{showJoke && joke}</h4>
+                        </Row>
+                    </Col>
+
+                    <Row style={{height: "20vh"}}>
+                        {search.mySearchBox}
+                        {search.renderSearchResults()}
+                    </Row>
+
                 </Row>
             </Col>
         </div>

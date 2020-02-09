@@ -119,10 +119,25 @@ export const useHandGestures = () => {
             false, false, false, false, /* modifier keys */
             0 /*left*/, null
         );
-
-        if (el && el.dispatchEvent)
+        if (el && el.dispatchEvent && ev) {
             el.dispatchEvent(ev);
+        }
     };
+
+    const handUI =
+        <div>
+            <h1 style={{color: "white"}}>Gesture Paint Page</h1>
+            {
+                model ? null : <Spinner color="primary"/>
+            }
+
+            <canvas id="video-canvas"></canvas>
+            <canvas id="draw-canvas" style={{display: "none"}}></canvas>
+
+            <video autoPlay="autoplay" style={{display: "none"}} id="video" width="1000px"
+                   height="720px">
+            </video>
+        </div>;
 
     const paintUI =
         <div>
@@ -212,6 +227,7 @@ export const useHandGestures = () => {
 
     return {
         paintUI,
-        clickUI
+        clickUI,
+        handUI
     }
 };

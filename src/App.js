@@ -4,25 +4,29 @@
  *              Login Gate will be displayed upon Auth.
  */
 
-import React, {useState, useEffect, useContext} from 'react';
+import React, {useState, useEffect} from 'react';
 import './App.css';
 import {LoggingContext} from "./context/LoggingContext";
 import {useLogger} from "./hooks/useLogger";
-import {Col, Row} from "reactstrap";
 import {VoiceCommandsContext} from "./context/VoiceCommandsContext";
 import useSpeechRecognition from "./hooks/useSpeechRecognition";
 import {Stitch} from "mongodb-stitch-browser-sdk";
 import {useMongo} from "./hooks/useMongo";
 import {AppContext} from "./context/AppContext";
 import Routing from "./containers/__Routing/Routing";
-import CommandArray from "./components/Application/CommandArray";
-import Devotions from "./components/Devotions/Devotions";
+
 const App = () => {
 
     const [client, setClient] = useState(null);
     const [showLogger, setShowLogger] = useState(false);
     const [showTranscript, setShowTranscript] = useState(false);
     const [showIntendArray, setShowIntendArray] = useState(false);
+    const [disableWebCam, setDisableWebCam] = useState(false);
+
+    const webcamTools = {
+        disableWebCam,
+        setDisableWebCam
+    };
 
     const debuggingTools = {
         showLogger,
@@ -97,6 +101,12 @@ const App = () => {
         }
     };
 
+    const refreshCommand = {
+        command: "mirror mirror refresh",
+        answer: "",
+        func: () => window.location.reload()
+    };
+
     useEffect(() => {
         SpeechRecognitionHook.addCommand(openLogsCommand);
         SpeechRecognitionHook.addCommand(hideLogsCommand);
@@ -104,41 +114,26 @@ const App = () => {
         SpeechRecognitionHook.addCommand(hideTranscriptCommand);
         SpeechRecognitionHook.addCommand(showIntendArrayCommand);
         SpeechRecognitionHook.addCommand(hideIntendArrayCommand);
+        SpeechRecognitionHook.addCommand(refreshCommand);
     }, []);
 
     return (
-        <div style={{background: "black", color: "white"}} className="App">
-            <LoggingContext.Provider value={{logger}}>
-                <AppContext.Provider value={{mongoHook, debuggingTools}}>
-                    <VoiceCommandsContext.Provider value={{SpeechRecognitionHook}}>
+        <LoggingContext.Provider value={{logger}}>
+            <AppContext.Provider value={{mongoHook, debuggingTools, webcamTools}}>
+                <VoiceCommandsContext.Provider value={{SpeechRecognitionHook}}>
+                    <div style={{background: "black", color: "white"}} className="App">
                         <>
                             {
                                 showTranscript &&
                                 SpeechRecognitionHook.displayTranscript
                             }
                         </>
-                        <Row>
-                            {
-                                showIntendArray &&
-                                <Col lg={3}>
-                                    <CommandArray commandArray={SpeechRecognitionHook.intendArray}/>
-                                </Col>
-                            }
-                            <Col>
-                                {/* <Devotions/> */}
-                                <Routing/>
-                            </Col>
-                            {
-                                showLogger &&
-                                <>
-                                    {logger.display}
-                                </>
-                            }
-                        </Row>
-                    </VoiceCommandsContext.Provider>
-                </AppContext.Provider>
-            </LoggingContext.Provider>
-        </div>
+                        <Routing/>
+                    </div>
+                </VoiceCommandsContext.Provider>
+            </AppContext.Provider>
+        </LoggingContext.Provider>
+
     );
 };
 

@@ -2,22 +2,30 @@ import React, {useState, useEffect, useContext, Fragment} from "react";
 import ReactDOM from 'react-dom';
 import {Input, Label, Button, Row, Col} from 'reactstrap';
 import {VoiceCommandsContext} from "../../context/VoiceCommandsContext";
-import AnalogClock from 'analog-clock-react';
 import axios from 'axios';
+import AnalogClock from "analog-clock-react";
+
+
 
 
 
 const Devotions = (props)=>{
     const {SpeechRecognitionHook} = useContext(VoiceCommandsContext);
-    const [quote,setQuote] =  useState(null); //1
+    const [quote,setQuote] =  useState(null); 
     
+    const refreshPageCommand = {
+        command: ["mirror mirror change quote", "mirror mirror change verse","mirror mirror change devotion", "Mirror mirror give me a new verse"],
+        answer: "",
+        // func: () => window.location.reload()
+        func: () => getQuote()
+    };
 
 // clock widget colors
     let options = {
-        width: "300px",
-        border: true,
+        width: "200px",
+        border:  true,
         borderColor: "#2e2e2e",
-        baseColor: "#17a2b8",
+        baseColor: "black",//"#17a2b8",
         centerColor: "#459cff",
         handColors: {
           second: "#d81c7a",
@@ -26,7 +34,7 @@ const Devotions = (props)=>{
         }
     };
 
-   //Jacobs vertion
+   //Json vertion
    /*
     const getRandomQuote = () => {
         fetch("https://beta.ourmanna.com/api/v1/get/?format=text&order=random")
@@ -37,32 +45,38 @@ const Devotions = (props)=>{
         }));
 }
 */
-// Anatolys vertion
-useEffect(() => {
+const getQuote = () => {  
+    axios.get("https://beta.ourmanna.com/api/v1/get/?format=text&order=random")  
+    .then(responce => {  
+    const quote = responce.data;  
+    console.log(quote)  
+    setQuote(quote) ;  
+    })
+}
 
-    axios.get("https://beta.ourmanna.com/api/v1/get/?format=text&order=random")
-    .then(responce => {
-        const quote = responce.data; 
-        console.log(quote)
-        setQuote(quote) ;
-        //console.log("Todays Quotes :"+todaysQuote)
-        
-    });
+useEffect(() => {
+    getQuote()
 },[]);
 
+useEffect(() => {
+    SpeechRecognitionHook.addCommand(refreshPageCommand);
+}, []);
 
     return (
         <div style={{height: "100vh", background: "black", padding: "5vw"}}>
             <h1>DEVOTIONS</h1>
             <><AnalogClock {...options} /></>
-            {/*<>
-                {
-                    SpeechRecognitionHook.displayTranscript
-                }
-            </>
+            {/*<>{SpeechRecognitionHook.displayTranscript}</>
             */}
             <Col>
-                <h1>{JSON.stringify(quote)}</h1>
+            <h1></h1>
+            </Col>
+            <Col>
+                {/* <h1>{JSON.stringify(quote)}</h1> */}
+                <h1>{quote? quote:"Loading ..."}</h1>
+            </Col>
+            <Col><h1> </h1>
+                <h4> To reload say: "Mirror mirror give me a new verse"</h4>
             </Col>
 
         </div>
