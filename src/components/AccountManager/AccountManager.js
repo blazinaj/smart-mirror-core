@@ -236,7 +236,7 @@ const AccountManager = (props) => {
             <Button color="primary" onClick={toggleInfoSetup} style={{ marginBottom: '1rem' }}>Edit Personal Info</Button>
             &nbsp; &nbsp;
             {/*<Button color="primary" onClick={() => console.log("Reset password disabled")} style={{ marginBottom: '1rem' }}>DISABLED</Button>*/}
-            <Button color="info" onClick={toggleAccentSetup} style={{ marginBottom: '1rem' }}>Accents</Button>
+            <Button color="info" onClick={toggleAccentSetup} style={{ marginBottom: '1rem', backgroundColor: '#119CB8' }}>Accents</Button>
             <Collapse isOpen={isInfoSetupOpen}>
                 <label>New Info</label>
                 <InputGroup className={"inputGroupLogin"}>
@@ -276,22 +276,33 @@ const AccountManager = (props) => {
             <Collapse isOpen={isAccentSetupOpen}>
                 <Button color="black" onClick={() => SpeechRecognitionHook.setLangVoice('en-US')} style={{ marginBottom: '1rem' }}>
                     <img src={require('./flags/usa.gif')} /> American Accent</Button> &nbsp;
-                <Button disabled color="black" onClick={() => SpeechRecognitionHook.setLangVoice('en-EU')} style={{ marginBottom: '1rem' }}>
-                    <img src={require('./flags/england.gif')} /> English Accent</Button> &nbsp;
-                <Button disabled color="black" onClick={() => SpeechRecognitionHook.setLangVoice('es-MX')} style={{ marginBottom: '1rem' }}>
+
+                <Button color="black" onClick={() => SpeechRecognitionHook.setLangVoice('en-GB')} style={{ marginBottom: '1rem' }}>
+                    <img src={require('./flags/england.gif')} /> British Accent</Button> &nbsp;
+
+                <Button color="black" onClick={() => SpeechRecognitionHook.setLangVoice('es-ES')} style={{ marginBottom: '1rem' }}>
                     <img src={require('./flags/spain.gif')} /> Spanish Accent</Button> &nbsp;
+
                 <Button color="black" onClick={() => SpeechRecognitionHook.setLangVoice('fr-FR')} style={{ marginBottom: '1rem' }}>
                     <img src={require('./flags/france.gif')} /> French Accent</Button> &nbsp;
+
                 <Button color="black" onClick={() => SpeechRecognitionHook.setLangVoice('it-IT')} style={{ marginBottom: '1rem' }}>
                     <img src={require('./flags/italy.gif')} /> Italian Accent</Button> &nbsp;
+
+                <Button color="black" onClick={() => SpeechRecognitionHook.setLangVoice('pt-BR')} style={{ marginBottom: '1rem' }}>
+                    <img src={require('./flags/brazil.gif')} /> Portuguese Accent</Button> &nbsp;
+
                 <Button color="black" onClick={() => SpeechRecognitionHook.setLangVoice('de-DE')} style={{ marginBottom: '1rem' }}>
                     <img src={require('./flags/dutch.gif')} /> Dutch Accent</Button> &nbsp;
-                <Button color="black" onClick={() => SpeechRecognitionHook.setLangVoice('fr-FR')} style={{ marginBottom: '1rem' }}>
-                    <img src={require('./flags/australia.gif')} /> Australian Accent</Button> &nbsp;
-                <Button color="black" onClick={() => SpeechRecognitionHook.setLangVoice('en-AU')} style={{ marginBottom: '1rem' }}>
+
+                <Button color="black" onClick={() => SpeechRecognitionHook.setLangVoice('ru-RU')} style={{ marginBottom: '1rem' }}>
                     <img src={require('./flags/russia.gif')} /> Russian Accent</Button> &nbsp;
-                <Button disabled color="black" onClick={() => SpeechRecognitionHook.setLangVoice('zh')} style={{ marginBottom: '1rem' }}>
-                    <img src={require('./flags/china.gif')} /> Mandarin Accent</Button> &nbsp;
+
+                <Button color="black" onClick={() => SpeechRecognitionHook.setLangVoice('ja-JP')} style={{ marginBottom: '1rem' }}>
+                    <img src={require('./flags/japan.gif')} /> Japanese Accent</Button> &nbsp;
+
+                <Button color="black" onClick={() => SpeechRecognitionHook.setLangVoice('pt-BR')} style={{ marginBottom: '1rem' }}>
+                    <img src={require('./flags/usa.gif')} /> Test Accent</Button> &nbsp;
             </Collapse>
 
             <hr />
