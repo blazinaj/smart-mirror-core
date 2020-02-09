@@ -124,9 +124,22 @@ export const useHandGestures = () => {
         }
     };
 
+    const swipeUI =
+        <div>
+            {
+                model ? null : <Spinner color="primary"/>
+            }
+
+            <canvas id="video-canvas" style={{width: "250px", height: "135px"}}></canvas>
+            <canvas id="draw-canvas" style={{display: "none"}}></canvas>
+
+            <video autoPlay="autoplay" style={{display: "none"}} id="video" width="1000px"
+                   height="720px">
+            </video>
+        </div>;
+
     const handUI =
         <div>
-            <h1 style={{color: "white"}}>Gesture Paint Page</h1>
             {
                 model ? null : <Spinner color="primary"/>
             }
@@ -226,8 +239,11 @@ export const useHandGestures = () => {
         </div>;
 
     return {
+        swipeUI,
         paintUI,
         clickUI,
-        handUI
+        handUI,
+        x,
+        y
     }
 };
