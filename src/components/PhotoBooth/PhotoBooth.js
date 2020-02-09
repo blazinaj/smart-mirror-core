@@ -43,10 +43,10 @@ const PhotoBooth = (props) => {
                 <>
                     <Webcam
                         audio={false}
-                        height={720 / 6}
+                        height={720 / 3}
                         ref={webcamRef}
                         screenshotFormat="image/jpeg"
-                        width={1280 / 6}
+                        width={1280 / 3}
                         videoConstraints={videoConstraints}
                     />
                     <button onClick={capture}>Capture photo</button>
@@ -59,15 +59,33 @@ const PhotoBooth = (props) => {
 
 
     const take4Pics = () => {
-        for (var i = 0; i < 4; i++){
-            setInterval(() => {
-                let audio = new Audio(soundfile);
-                audio.play();
-                capture();
-
-
-            }, 4000);
-        }
+        // for (var i = 0; i < 4; i++){
+        //     setTimeout(() =>  {
+        //         let audio = new Audio(soundfile);
+        //         audio.play();
+        //         capture();
+        //      }, 2000);
+        // }
+        setTimeout(() =>  {
+            let audio = new Audio(soundfile);
+            audio.play();
+            capture();
+        }, 3000);
+        setTimeout(() =>  {
+            let audio = new Audio(soundfile);
+            audio.play();
+            capture();
+        }, 6000);
+        setTimeout(() =>  {
+            let audio = new Audio(soundfile);
+            audio.play();
+            capture();
+        }, 9000);
+        setTimeout(() =>  {
+            let audio = new Audio(soundfile);
+            audio.play();
+            capture();
+        }, 12000);
 
     };
 
@@ -77,7 +95,7 @@ const PhotoBooth = (props) => {
 
         return (
             <div style={{height: "100%", background: "black", padding: "2vw", color: "white"}}>
-                 <WebcamCapture/>
+                {/* */} <WebcamCapture/>
 
                 <Row style={{border: "solid blue 1px"}}>
                     <Col>
