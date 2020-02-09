@@ -126,8 +126,12 @@ const useSpeechRecognition = () => {
                         commandFound = true;
                     }
                 }
-                if ((value.toString().toLocaleLowerCase().includes("mirror mirror search for") && command.toString().toLocaleLowerCase().includes("mirror mirror search for")
-                || (value.toString().toLocaleLowerCase().includes("mirror mirror search wikipedia for") && command.toString().toLocaleLowerCase().includes("mirror mirror search wikipedia for")))) {
+                if ((value.toString().toLocaleLowerCase().includes("mirror mirror search for") && command.toString().toLocaleLowerCase()
+                        .includes("mirror mirror search for")
+                || (value.toString().toLocaleLowerCase().includes("mirror mirror search wikipedia for") && command.toString().toLocaleLowerCase()
+                        .includes("mirror mirror search wikipedia for")))
+                    || (value.toString().toLocaleLowerCase().includes("mirror mirror accent") && command.toString().toLocaleLowerCase()
+                        .includes("mirror mirror accent"))) {
                         if (!commandFound) {
                             if (intent["answer"]) {
                                 speechSynthesisHook.speak(intent["answer"]);
