@@ -5,9 +5,18 @@ import useSpeechSynthesis from "../../hooks/useSpeechSynthesis";
 import {useModal} from "../../hooks/useModal";
 import Search from "../../hooks/useImageSearch";
 import Webcam from "react-webcam";
+import soundfile from './camera-shutter-click-01.mp3';
 
 const PhotoBooth = (props) => {
 
+    const {SpeechRecognitionHook} = useContext(VoiceCommandsContext);
+    const takePictureVoiceCommand = {
+        command: ["mirror mirror take picture"],
+        answer: "",
+        func: () => {
+            take4Pics();
+        }
+    };
     ////take picture section  //////////////
 
     const [imageArray, setImageArray] = useState([]);
@@ -30,12 +39,6 @@ const PhotoBooth = (props) => {
 
     const WebcamCapture = () => {
 
-
-
-
-
-
-
             return (
                 <>
                     <Webcam
@@ -56,14 +59,20 @@ const PhotoBooth = (props) => {
 
 
     const take4Pics = () => {
+        for (var i = 0; i < 4; i++){
+            setInterval(() => {
+                let audio = new Audio(soundfile);
+                audio.play();
+                capture();
 
-        setInterval(() => {
-            capture();
-        }, 4000);
+
+            }, 4000);
+        }
+
     };
 
-    useEffect( ()=> {
-        take4Pics();
+    useEffect(() => {
+        SpeechRecognitionHook.addCommand(takePictureVoiceCommand);
     }, []);
 
         return (
