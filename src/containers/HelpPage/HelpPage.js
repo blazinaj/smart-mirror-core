@@ -50,23 +50,27 @@ const HelpPage = () => {
                         Magic Mirror, by OpTech.
                     </h5>
                 </Col>
-                <div>
-                    <h3 style={{color: "blue"}}>All Commands</h3>
-                    <h5 style={{color: "blue"}}>(Some commands only work on certain pages)</h5>
-                    {
-                        voiceContext && voiceContext.intendArray && voiceContext.intendArray.current && voiceContext.intendArray.current.map((intend) => {
-                            return <div>
-                                {
-                                    intend && intend.command && intend.command.map((command) => {
-                                        return <a
-                                            style={{fontSize: "18px"}}> {JSON.stringify(command ? command : null)} </a>
-                                    })
-                                }
-                                <hr style={{backgroundColor: "red"}}/>
-                            </div>
-                        })
-                    }
-                </div>
+            </Row>
+            <Row>
+                <Col>
+                    <div>
+                        <h3 style={{color: "blue"}}>All Commands</h3>
+                        <h5 style={{color: "blue"}}>(Some commands only work on certain pages)</h5>
+                        {
+                            voiceContext && voiceContext.intendArray && voiceContext.intendArray.current && voiceContext.intendArray.current.map((intend) => {
+                                return <div>
+                                    {
+                                        intend && intend.command && intend.command.map((command) => {
+                                            return <a
+                                                style={{fontSize: "18px"}}> {JSON.stringify(command ? command : null)} </a>
+                                        })
+                                    }
+                                    <hr style={{backgroundColor: "red"}}/>
+                                </div>
+                            })
+                        }
+                    </div>
+                </Col>
             </Row>
             <hr/>
         </div>
