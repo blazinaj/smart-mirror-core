@@ -76,6 +76,12 @@ const Login = (props) => {
         voiceContext.SpeechRecognitionHook.addCommand(faceLoginCommand);
         voiceContext.SpeechRecognitionHook.addCommand(guestLoginCommand);
         voiceContext.SpeechRecognitionHook.addCommand(demoLoginCommand);
+        return () => {
+            voiceContext.SpeechRecognitionHook.removeCommand(manualLoginCommand);
+            voiceContext.SpeechRecognitionHook.removeCommand(faceLoginCommand);
+            voiceContext.SpeechRecognitionHook.removeCommand(guestLoginCommand);
+            voiceContext.SpeechRecognitionHook.removeCommand(demoLoginCommand);
+        }
     }, []);
 
     useEffect(() => {
