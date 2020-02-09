@@ -214,14 +214,6 @@ const AccountManager = (props) => {
         }
     }, []);
 
-    //Notes
-    /*
-        For the delete feature it will need to delete the users/descriptors value of itself, and the user
-        from the user pool
-
-        When email is changed, it currently only changes in users database, not what you login with
-     */
-
     return (
         <div>
             <label>UserID: {context.mongoHook.authenticatedUser.id}</label>
@@ -301,8 +293,8 @@ const AccountManager = (props) => {
                 <Button color="black" onClick={() => SpeechRecognitionHook.setLangVoice('ja-JP')} style={{ marginBottom: '1rem' }}>
                     <img src={require('./flags/japan.gif')} /> Japanese Accent</Button> &nbsp;
 
-                <Button color="black" onClick={() => SpeechRecognitionHook.setLangVoice('pt-BR')} style={{ marginBottom: '1rem' }}>
-                    <img src={require('./flags/usa.gif')} /> Test Accent</Button> &nbsp;
+                <Button color="black" onClick={() => SpeechRecognitionHook.setLangVoice('zh-CN')} style={{ marginBottom: '1rem' }}>
+                    <img src={require('./flags/china.gif')} /> Chinese Accent</Button> &nbsp;
             </Collapse>
 
             <hr />
