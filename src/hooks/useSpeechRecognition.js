@@ -126,6 +126,18 @@ const useSpeechRecognition = () => {
                         commandFound = true;
                     }
                 }
+                if ((value.toString().toLocaleLowerCase().includes("mirror mirror search for") && command.toString().toLocaleLowerCase().includes("mirror mirror search for")
+                || (value.toString().toLocaleLowerCase().includes("mirror mirror search wikipedia for") && command.toString().toLocaleLowerCase().includes("mirror mirror search wikipedia for")))) {
+                        if (!commandFound) {
+                            if (intent["answer"]) {
+                                speechSynthesisHook.speak(intent["answer"]);
+                            }
+                            if (intent.func) {
+                                intent.func(value);
+                            }
+                        }
+                        commandFound = true;
+                }
             }
         });
     }, [value]);

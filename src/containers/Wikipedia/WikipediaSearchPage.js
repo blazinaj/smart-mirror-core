@@ -133,10 +133,10 @@ const WikipediaSearchPage = () => {
     };
 
     const searchCommandVoice = {
-        command: ["mirror mirror search for"],
+        command: ["mirror mirror search wikipedia for"],
         answer: "",
         func: (value) => {
-            setSearchQuery(value.substring(25));
+            setSearchQuery(value.substring(35));
             setTimeout(() => {
                 setVoiceSearch(voiceSearch => !voiceSearch);
             }, 800);
@@ -147,6 +147,11 @@ const WikipediaSearchPage = () => {
         voiceContext.SpeechRecognitionHook.addCommand(setRadioOne);
         voiceContext.SpeechRecognitionHook.addCommand(setRadioMany);
         voiceContext.SpeechRecognitionHook.addCommand(searchCommandVoice);
+        return () => {
+            voiceContext.SpeechRecognitionHook.removeCommand(setRadioOne);
+            voiceContext.SpeechRecognitionHook.removeCommand(setRadioMany);
+            voiceContext.SpeechRecognitionHook.removeCommand(searchCommandVoice);
+        }
     }, []);
 
     return (
