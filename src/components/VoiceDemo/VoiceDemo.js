@@ -74,6 +74,7 @@ const VoiceDemo = (props) => {
             //alert(value.length);
             //console.log(found.index);
             //alert(value.substring(24))
+            console.log(value.substring(24));
             setQuery(value.substring(24)); //"mirror mirror search for puppies" is 24 characters long
             search.searchFor(value.substring(24));
 
