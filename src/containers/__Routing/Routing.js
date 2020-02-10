@@ -205,6 +205,15 @@ const RoutingBody = (props) => {
         }
     };
 
+    const frenchDemoPage = {
+        command: ["mirror mirror go to French Demo page", "mirror mirror on the wall go to French Demo page"],
+        answer: "Let's party with the French",
+        func: () => {
+            loggingContext.addLog("Voice Command: Going to French page");
+            history.push("/french_page");
+        }
+    };
+
     useEffect(() => {
         voiceContext.addCommand(homePageCommand);
         voiceContext.addCommand(testPageCommand);
@@ -222,6 +231,7 @@ const RoutingBody = (props) => {
         voiceContext.addCommand(searchWikipediaCommand);
         voiceContext.addCommand(gestureShowHandsPageCommand);
         voiceContext.addCommand(russianDemoPage);
+        voiceContext.addCommand(frenchDemoPage);
     }, []);
 
     useEffect(() => {
