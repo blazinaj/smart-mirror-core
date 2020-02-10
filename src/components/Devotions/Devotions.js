@@ -60,6 +60,9 @@ useEffect(() => {
 
 useEffect(() => {
     SpeechRecognitionHook.addCommand(refreshPageCommand);
+    return () => {
+        SpeechRecognitionHook.removeCommand(refreshPageCommand);
+    }
 }, []);
 
     return (

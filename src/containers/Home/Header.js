@@ -3,19 +3,91 @@
  *              Includes the Log Out and User Profile buttons.
  */
 
-import {useContext, useState} from "react";
+import {useContext, useEffect} from "react";
 import {useProfile} from "../../hooks/useProfile";
 import {Button, DropdownItem, DropdownMenu, DropdownToggle, UncontrolledDropdown} from "reactstrap";
 import React from "react";
 import {AppContext} from "../../context/AppContext";
+import {VoiceCommandsContext} from "../../context/VoiceCommandsContext";
+import {LoggingContext} from "../../context/LoggingContext";
 
 const Header = (props) => {
 
     const context = useContext(AppContext);
+    const loggingContext = useContext(LoggingContext).logger;
 
     const profileHook = useProfile();
 
     const {debuggingTools} = context;
+    const {SpeechRecognitionHook} = useContext(VoiceCommandsContext);
+
+    const changeAccent = {
+        command: ["mirror mirror accent"],
+        answer: "",
+        func: (value) => {
+            let accent = value.substring(21).toLocaleLowerCase();
+            switch(accent){
+                case "american": {
+                    SpeechRecognitionHook.setLangVoice('en-US');
+                    loggingContext.addLog("Changed to American accent");
+                    break;
+                }
+                case "british": {
+                    SpeechRecognitionHook.setLangVoice('en-GB');
+                    loggingContext.addLog("Changed to British accent");
+                    break;
+                }
+                case "spanish": {
+                    SpeechRecognitionHook.setLangVoice('es-ES');
+                    loggingContext.addLog("Changed to spanish accent");
+                    break;
+                }
+                case "french": {
+                    SpeechRecognitionHook.setLangVoice('fr-FR');
+                    loggingContext.addLog("Changed to french accent");
+                    break;
+                }
+                case "italian": {
+                    SpeechRecognitionHook.setLangVoice('it-IT');
+                    loggingContext.addLog("Changed to italian accent");
+                    break;
+                }
+                case "portuguese": {
+                    SpeechRecognitionHook.setLangVoice('pt-BR');
+                    loggingContext.addLog("Changed to portuguese accent");
+                    break;
+                }
+                case "dutch": {
+                    SpeechRecognitionHook.setLangVoice('de-DE');
+                    loggingContext.addLog("Changed to dutch accent");
+                    break;
+                }
+                case "russian": {
+                    SpeechRecognitionHook.setLangVoice('ru-RU');
+                    loggingContext.addLog("Changed to russian accent");
+                    break;
+                }
+                case "japanese": {
+                    SpeechRecognitionHook.setLangVoice('ja-JP');
+                    loggingContext.addLog("Changed to japanese accent");
+                    break;
+                }
+                case "chinese": {
+                    SpeechRecognitionHook.setLangVoice('zh-CN');
+                    loggingContext.addLog("Changed to chinese accent");
+                    break;
+                }
+                default: //Do nothing
+            }
+        }
+    };
+
+    useEffect(() => {
+        SpeechRecognitionHook.addCommand(changeAccent);
+        return () => {
+            SpeechRecognitionHook.removeCommand(changeAccent);
+        }
+    }, []);
 
     return (
         <>

@@ -46,6 +46,9 @@ const AccountManager = (props) => {
         if(isResetPasswordOpen){
             toggleResetPassword();
         }
+        if(isAccentSetupOpen){
+            toggleAccentSetup()
+        }
         setInfoSetupOpen(!isInfoSetupOpen);
     };
 
@@ -54,7 +57,21 @@ const AccountManager = (props) => {
         if(isInfoSetupOpen){
             toggleInfoSetup()
         }
+        if(isAccentSetupOpen){
+            toggleAccentSetup()
+        }
         setResetPasswordOpen(!isResetPasswordOpen);
+    };
+
+    const [isAccentSetupOpen, setIsAccentSetupOpen] = useState(false);
+    const toggleAccentSetup = () => {
+        if(isInfoSetupOpen){
+            toggleInfoSetup();
+        }
+        if(isResetPasswordOpen){
+            toggleResetPassword();
+        }
+        setIsAccentSetupOpen(!isAccentSetupOpen);
     };
 
     const [isFaceSetupOpen, setFaceSetupOpen] = useState(false);
@@ -197,14 +214,6 @@ const AccountManager = (props) => {
         }
     }, []);
 
-    //Notes
-    /*
-        For the delete feature it will need to delete the users/descriptors value of itself, and the user
-        from the user pool
-
-        When email is changed, it currently only changes in users database, not what you login with
-     */
-
     return (
         <div>
             <label>UserID: {context.mongoHook.authenticatedUser.id}</label>
@@ -217,7 +226,9 @@ const AccountManager = (props) => {
             <br />
 
             <Button color="primary" onClick={toggleInfoSetup} style={{ marginBottom: '1rem' }}>Edit Personal Info</Button>
+            &nbsp; &nbsp;
             {/*<Button color="primary" onClick={() => console.log("Reset password disabled")} style={{ marginBottom: '1rem' }}>DISABLED</Button>*/}
+            <Button color="info" onClick={toggleAccentSetup} style={{ marginBottom: '1rem', backgroundColor: '#119CB8' }}>Accents</Button>
             <Collapse isOpen={isInfoSetupOpen}>
                 <label>New Info</label>
                 <InputGroup className={"inputGroupLogin"}>
@@ -253,6 +264,38 @@ const AccountManager = (props) => {
             {/*    <br />*/}
             {/*    <Button color="danger" onClick={() => alert("Unimplemented...")}>{confirmationText}</Button>*/}
             {/*</Collapse>*/}
+
+            <Collapse isOpen={isAccentSetupOpen}>
+                <Button color="black" onClick={() => SpeechRecognitionHook.setLangVoice('en-US')} style={{ marginBottom: '1rem' }}>
+                    <img src={require('./flags/usa.gif')} /> American Accent</Button> &nbsp;
+
+                <Button color="black" onClick={() => SpeechRecognitionHook.setLangVoice('en-GB')} style={{ marginBottom: '1rem' }}>
+                    <img src={require('./flags/england.gif')} /> British Accent</Button> &nbsp;
+
+                <Button color="black" onClick={() => SpeechRecognitionHook.setLangVoice('es-ES')} style={{ marginBottom: '1rem' }}>
+                    <img src={require('./flags/spain.gif')} /> Spanish Accent</Button> &nbsp;
+
+                <Button color="black" onClick={() => SpeechRecognitionHook.setLangVoice('fr-FR')} style={{ marginBottom: '1rem' }}>
+                    <img src={require('./flags/france.gif')} /> French Accent</Button> &nbsp;
+
+                <Button color="black" onClick={() => SpeechRecognitionHook.setLangVoice('it-IT')} style={{ marginBottom: '1rem' }}>
+                    <img src={require('./flags/italy.gif')} /> Italian Accent</Button> &nbsp;
+
+                <Button color="black" onClick={() => SpeechRecognitionHook.setLangVoice('pt-BR')} style={{ marginBottom: '1rem' }}>
+                    <img src={require('./flags/brazil.gif')} /> Portuguese Accent</Button> &nbsp;
+
+                <Button color="black" onClick={() => SpeechRecognitionHook.setLangVoice('de-DE')} style={{ marginBottom: '1rem' }}>
+                    <img src={require('./flags/dutch.gif')} /> Dutch Accent</Button> &nbsp;
+
+                <Button color="black" onClick={() => SpeechRecognitionHook.setLangVoice('ru-RU')} style={{ marginBottom: '1rem' }}>
+                    <img src={require('./flags/russia.gif')} /> Russian Accent</Button> &nbsp;
+
+                <Button color="black" onClick={() => SpeechRecognitionHook.setLangVoice('ja-JP')} style={{ marginBottom: '1rem' }}>
+                    <img src={require('./flags/japan.gif')} /> Japanese Accent</Button> &nbsp;
+
+                <Button color="black" onClick={() => SpeechRecognitionHook.setLangVoice('zh-CN')} style={{ marginBottom: '1rem' }}>
+                    <img src={require('./flags/china.gif')} /> Chinese Accent</Button> &nbsp;
+            </Collapse>
 
             <hr />
 

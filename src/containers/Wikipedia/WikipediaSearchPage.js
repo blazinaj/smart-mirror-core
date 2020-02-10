@@ -147,6 +147,11 @@ const WikipediaSearchPage = () => {
         voiceContext.SpeechRecognitionHook.addCommand(setRadioOne);
         voiceContext.SpeechRecognitionHook.addCommand(setRadioMany);
         voiceContext.SpeechRecognitionHook.addCommand(searchCommandVoice);
+        return () => {
+            voiceContext.SpeechRecognitionHook.removeCommand(setRadioOne);
+            voiceContext.SpeechRecognitionHook.removeCommand(setRadioMany);
+            voiceContext.SpeechRecognitionHook.removeCommand(searchCommandVoice);
+        }
     }, []);
 
     return (
