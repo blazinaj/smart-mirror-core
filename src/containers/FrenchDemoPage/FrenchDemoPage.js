@@ -7,7 +7,7 @@ const FrenchDemoPage = () => {
 
     let fxProps = {
         count: 1,
-        interval: 100,
+        interval: 200,
         colors: ['#1f9fea', '#421c81', '#008991'],
         calc: (props, i) => ({
             ...props,
