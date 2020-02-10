@@ -1,33 +1,28 @@
 import React, {useContext, useEffect, useState} from "react";
 import {VoiceCommandsContext} from "../../context/VoiceCommandsContext";
 import {Row, Col, Button} from "reactstrap"
+import { Fireworks } from 'fireworks/lib/react'
 
-const RussianDemoPage = () => {
+const FrenchDemoPage = () => {
+
+    let fxProps = {
+        count: 1,
+        interval: 100,
+        colors: ['#1f9fea', '#421c81', '#008991'],
+        calc: (props, i) => ({
+            ...props,
+            x: (i + 1) * (window.innerWidth / 4) - (i + 1) * 100,
+            y: 200 + Math.random() * 100 - 50 + (i === 2 ? -80 : 0)
+        })
+    };
 
     const [commandsText, setCommandsText] = useState("Commandes");
     const [getAJokeText, setGetAJokeText] = useState("Obtenez une blague");
     const [jokeQuestion, setJokeQuestion] = useState("");
     const [jokeAnswer, setJokeAnswer] = useState("");
+    const [newJokeAnimation, setNewJokeAnimation] = useState(false);
 
     const {SpeechRecognitionHook} = useContext(VoiceCommandsContext);
-
-    const speakFrench = {
-        command: ["mirror mirror speak in French"],
-        answer: "Oui, je parle français",
-        func: () => {
-            setCommandsText("Commandes");
-            setGetAJokeText("Obtenez une blague");
-            SpeechRecognitionHook.changeLanguage('fr-FR');
-            SpeechRecognitionHook.setLangVoice('fr-FR');
-        }
-    };
-
-    const speakingFrench = {
-        command: ["miroir miroir est-ce que tu parles français"],
-        answer: "Nous parlons maintenant, n'est-ce pas?",
-        func: () => {
-        }
-    };
 
     const speakEnglish = {
         command: ["miroir miroir parlez-vous anglais"],
@@ -40,11 +35,30 @@ const RussianDemoPage = () => {
         }
     };
 
+    const speakFrench = {
+        command: ["mirror mirror speak in French"],
+        answer: "Oui, je parle français",
+        func: () => {
+            setCommandsText("Commandes");
+            setGetAJokeText("Obtenez une blague");
+            SpeechRecognitionHook.changeLanguage('fr-FR');
+            SpeechRecognitionHook.setLangVoice('fr-FR');
+        }
+    };
+
     const tellMeAJokeInFrench = {
         command: ["miroir miroir raconte-moi une blague"],
         answer: "Oui",
         func: () => {
             getFrenchJoke();
+            setNewJokeAnimation(true);
+        }
+    };
+
+    const speakingFrench = {
+        command: ["miroir miroir est-ce que tu parles français"],
+        answer: "Nous parlons maintenant, n'est-ce pas?",
+        func: () => {
         }
     };
 
@@ -66,6 +80,10 @@ const RussianDemoPage = () => {
 
     }, []);
 
+    useEffect(() => {
+        setNewJokeAnimation(false);
+    }, [jokeQuestion]);
+
     // Currently not in use, saving for later
     const getJoke = () => {
         fetch('https://sv443.net/jokeapi/v2/joke/Any?blacklistFlags=nsfw,religious,political,racist,sexist')
@@ -73,9 +91,8 @@ const RussianDemoPage = () => {
                 return response.json();
             })
             .then((myJson) => {
-
                 console.log(myJson);
-            });
+            })
     };
 
     const getFrenchJoke = () => {
@@ -100,7 +117,7 @@ const RussianDemoPage = () => {
         <>
             <Row>
                 <Col>
-                    <Button color="primary" onClick={() => getFrenchJoke()}>{getAJokeText}</Button>
+                    <Button color="primary" onClick={() => {setNewJokeAnimation(true); getFrenchJoke();}}>{getAJokeText}</Button>
                 </Col>
                 <Col>
                     <h2>parles tu français?</h2>
@@ -108,19 +125,20 @@ const RussianDemoPage = () => {
                     <br/>
                     <h4>Blagues</h4>
                     <hr/>
-                    <h5 style={{color: "blue"}}>{jokeQuestion}</h5>
-                    <h5 style={{color: "#8E1600"}}>{jokeAnswer}</h5>
+                    {newJokeAnimation && <Fireworks {...fxProps}/>}
+                    {!newJokeAnimation && <h5 style={{color: "blue"}}>{jokeQuestion}</h5>}
+                    {!newJokeAnimation && <h5 style={{color: "#8E1600"}}>{jokeAnswer}</h5>}
                 </Col>
                 <Col>
                     <h2>{commandsText}</h2>
                     <h5>Mirror Mirror Speak in French</h5>
                     <h5>Miroir miroir parlez-vous anglais?</h5>
                     <h5>Miroir miroir raconte moi une blague</h5>
-                    <h5>miroir miroir est-ce que tu parles français</h5>
+                    <h5>Miroir miroir est-ce que tu parles français</h5>
                 </Col>
             </Row>
         </>
     );
 };
 
-export default RussianDemoPage;
+export default FrenchDemoPage;
