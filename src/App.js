@@ -102,7 +102,7 @@ const App = () => {
     };
 
     const refreshCommand = {
-        command: "mirror mirror refresh",
+        command: ["mirror mirror refresh"],
         answer: "",
         func: () => window.location.reload()
     };

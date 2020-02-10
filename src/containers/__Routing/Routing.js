@@ -20,6 +20,7 @@ import WikipediaSearchPage from "../Wikipedia/WikipediaSearchPage";
 import GestureShowHands from "../GestureDemo/GestureShowHands";
 import Header from "../Home/Header";
 import RussianDemoPage from "../RussianDemoPage/RussianDemoPage";
+import GestureDemo from "../GestureDemo/GestureDemo";
 
 const RoutingBody = (props) => {
 
@@ -77,7 +78,7 @@ const RoutingBody = (props) => {
     };
 
     const logoutCommand = {
-        command: ["mirror mirror on the wall logout", "mirror mirror logout", "mirror mirror log me out" ],
+        command: ["mirror mirror on the wall logout", "mirror mirror logout", "mirror mirror log me out"],
         answer: "Logging out",
         func: () => {
             loggingContext.addLog("Voice Command: Logging out");
@@ -204,6 +205,15 @@ const RoutingBody = (props) => {
         }
     };
 
+    const swipeDemoPage = {
+        command: ["mirror mirror swipe demo page"],
+        answer: "Moving to swipe demo page!",
+        func: () => {
+            loggingContext.addLog("Voice Command: Going to swipe demo page");
+            history.push("/swipe_demo")
+        }
+    };
+
     useEffect(() => {
         voiceContext.addCommand(homePageCommand);
         voiceContext.addCommand(testPageCommand);
@@ -221,6 +231,7 @@ const RoutingBody = (props) => {
         voiceContext.addCommand(searchWikipediaCommand);
         voiceContext.addCommand(gestureShowHandsPageCommand);
         voiceContext.addCommand(russianDemoPage);
+        voiceContext.addCommand(swipeDemoPage);
     }, []);
 
     useEffect(() => {
@@ -286,6 +297,9 @@ const RoutingBody = (props) => {
                 </Route>
                 <Route exact path="/help_page">
                     <HelpPage/>
+                </Route>
+                <Route exact path="/swipe_demo">
+                    <GestureDemo/>
                 </Route>
             </Switch>
         </div>
