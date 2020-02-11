@@ -26,7 +26,7 @@ const Header = (props) => {
         answer: "",
         func: (value) => {
             let accent = value.substring(21).toLocaleLowerCase();
-            switch(accent){
+            switch (accent) {
                 case "american": {
                     SpeechRecognitionHook.setLangVoice('en-US');
                     loggingContext.addLog("Changed to American accent");
@@ -140,47 +140,83 @@ const Header = (props) => {
                         },
                     }}>
                         <DropdownItem className="dropdownItem"
-                                      onClick={() => props.history.push("/")}>
+                                      onClick={() => {
+                                          props.history.push("/");
+                                          SpeechRecognitionHook.setLangVoice('en-US');
+                                          SpeechRecognitionHook.changeLanguage('en-AU');
+                                      }}>
                             Home
                         </DropdownItem>
                         <DropdownItem className="dropdownItem"
-                                      onClick={() => props.history.push("/voice_demo")}>
+                                      onClick={() => {
+                                          props.history.push("/voice_demo");
+                                          SpeechRecognitionHook.setLangVoice('en-US');
+                                          SpeechRecognitionHook.changeLanguage('en-AU');
+                                      }}>
                             Voice Demo
                         </DropdownItem>
                         <DropdownItem className="dropdownItem"
-                                      onClick={() => props.history.push("/gesture_paint")}>
+                                      onClick={() => {
+                                          props.history.push("/gesture_paint");
+                                          SpeechRecognitionHook.setLangVoice('en-US');
+                                          SpeechRecognitionHook.changeLanguage('en-AU');
+                                      }}>
                             Gesture (Paint)
                         </DropdownItem>
                         <DropdownItem className="dropdownItem"
-                                      onClick={() => props.history.push("/gesture_click_me_game")}>
+                                      onClick={() => {
+                                          props.history.push("/gesture_click_me_game");
+                                          SpeechRecognitionHook.setLangVoice('en-US');
+                                          SpeechRecognitionHook.changeLanguage('en-AU');
+                                      }}>
                             Gesture (ClickGame)
                         </DropdownItem>
                         <DropdownItem className="dropdownItem"
-                                      onClick={() => props.history.push("/gesture_show_hands")}>
+                                      onClick={() => {
+                                          props.history.push("/gesture_show_hands");
+                                          SpeechRecognitionHook.setLangVoice('en-US');
+                                          SpeechRecognitionHook.changeLanguage('en-AU');
+                                      }}>
                             Gesture (ShowHands)
                         </DropdownItem>
                         <DropdownItem className="dropdownItem"
-                                      onClick={() => props.history.push("/devotions")}>
+                                      onClick={() => {
+                                          props.history.push("/devotions");
+                                          SpeechRecognitionHook.setLangVoice('en-US');
+                                          SpeechRecognitionHook.changeLanguage('en-AU');
+                                      }}>
                             Devotions
                         </DropdownItem>
                         <DropdownItem className="dropdownItem"
-                                      onClick={() => props.history.push("/face_demo")}>
+                                      onClick={() => {
+                                          props.history.push("/face_demo");
+                                          SpeechRecognitionHook.setLangVoice('en-US');
+                                          SpeechRecognitionHook.changeLanguage('en-AU');
+                                      }}>
                             Face Demo
                         </DropdownItem>
                         <DropdownItem className="dropdownItem"
-                                      onClick={() => props.history.push("/search_wikipedia")}>
+                                      onClick={() => {
+                                          props.history.push("/search_wikipedia");
+                                          SpeechRecognitionHook.setLangVoice('en-US');
+                                          SpeechRecognitionHook.changeLanguage('en-AU');
+                                      }}>
                             Search Wikipedia
                         </DropdownItem>
                         <DropdownItem className="dropdownItem"
                                       onClick={() => props.history.push("/russian_page")}>
                             Russian Demo
                         </DropdownItem>
-                        <DropdownItem disabled className="dropdownItem"
+                        <DropdownItem className="dropdownItem"
                                       onClick={() => props.history.push("/french_page")}>
                             French Demo
                         </DropdownItem>
-                        <DropdownItem disabled className="dropdownItem"
-                                      onClick={() => props.history.push("/help_page")}>
+                        <DropdownItem className="dropdownItem"
+                                      onClick={() => {
+                                          props.history.push("/help_page");
+                                          SpeechRecognitionHook.setLangVoice('en-US');
+                                          SpeechRecognitionHook.changeLanguage('en-AU');
+                                      }}>
                             Help Page
                         </DropdownItem>
                     </DropdownMenu>
@@ -198,7 +234,8 @@ const Header = (props) => {
                         Developers
                     </DropdownToggle>
                     <DropdownMenu right id="dropdownMenu">
-                        <DropdownItem className="dropdownItem" href="https://github.com/blazinaj/smart-mirror-core/tree/master">
+                        <DropdownItem className="dropdownItem"
+                                      href="https://github.com/blazinaj/smart-mirror-core/tree/master">
                             Github
                         </DropdownItem>
                         <DropdownItem

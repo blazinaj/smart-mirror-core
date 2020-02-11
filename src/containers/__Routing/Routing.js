@@ -20,6 +20,7 @@ import WikipediaSearchPage from "../Wikipedia/WikipediaSearchPage";
 import GestureShowHands from "../GestureDemo/GestureShowHands";
 import Header from "../Home/Header";
 import RussianDemoPage from "../RussianDemoPage/RussianDemoPage";
+import FrenchDemoPage from "../FrenchDemoPage/FrenchDemoPage";
 import GestureDemo from "../GestureDemo/GestureDemo";
 
 const RoutingBody = (props) => {
@@ -205,6 +206,15 @@ const RoutingBody = (props) => {
         }
     };
 
+    const frenchDemoPage = {
+        command: ["mirror mirror go to French Demo page", "mirror mirror on the wall go to French Demo page"],
+        answer: "Let's party with the French",
+        func: () => {
+            loggingContext.addLog("Voice Command: Going to French page");
+            history.push("/french_page");
+        }
+    };
+
     const swipeDemoPage = {
         command: ["mirror mirror swipe demo page"],
         answer: "Moving to swipe demo page!",
@@ -231,6 +241,7 @@ const RoutingBody = (props) => {
         voiceContext.addCommand(searchWikipediaCommand);
         voiceContext.addCommand(gestureShowHandsPageCommand);
         voiceContext.addCommand(russianDemoPage);
+        voiceContext.addCommand(frenchDemoPage);
         voiceContext.addCommand(swipeDemoPage);
     }, []);
 
@@ -288,6 +299,9 @@ const RoutingBody = (props) => {
                 </PrivateRoute>
                 <PrivateRoute exact path="/russian_page" mongoHook={mongoHook}>
                     <RussianDemoPage/>
+                </PrivateRoute>
+                <PrivateRoute exact path="/french_page" mongoHook={mongoHook}>
+                    <FrenchDemoPage/>
                 </PrivateRoute>
                 <PrivateRoute exact path="/search_wikipedia" mongoHook={mongoHook}>
                     <WikipediaSearchPage/>
