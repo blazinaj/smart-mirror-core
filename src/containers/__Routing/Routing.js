@@ -241,7 +241,7 @@ const RoutingBody = (props) => {
 
     const stopRainCommand = {
         command: ["mirror mirror stop raining"],
-        answer: "Raining",
+        answer: "Stopping rain",
         func: () => {
             setIsRaining(false);
         }
@@ -258,7 +258,7 @@ const RoutingBody = (props) => {
 
     const stopSnowCommand = {
         command: ["mirror mirror stop snowing"],
-        answer: "Snowing",
+        answer: "Stopping snow",
         func: () => {
             setIsSnowing(false);
         }
