@@ -340,12 +340,12 @@ const RoutingBody = (props) => {
                         }
                         case "Snow": {
                             setIsRaining(false);
-                            setIsRaining(true);
+                            setIsSnowing(true);
                             break;
                         }
                         case "Clear": {
                             setIsRaining(false);
-                            setIsRaining(false);
+                            setIsSnowing(false);
                             break;
                         }
                         default: break;
