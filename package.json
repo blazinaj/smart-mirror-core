@@ -32,6 +32,7 @@
     "react-resizable": "^1.9.0",
     "react-router-dom": "^5.1.2",
     "react-scripts": "3.2.0",
+    "react-snowstorm": "0.0.3",
     "react-social-login": "^3.4.6",
     "react-webcam": "^4.0.0",
     "reactstrap": "^8.1.1"
