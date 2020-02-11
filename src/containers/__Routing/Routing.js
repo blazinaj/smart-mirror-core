@@ -265,7 +265,7 @@ const RoutingBody = (props) => {
     };
 
     const enableWeatherAnimationsCommand = {
-        command: ["mirror mirror enable weather animation"],
+        command: ["mirror mirror enable weather animations"],
         answer: "Enabling weather animations",
         func: () => {
             setWeatherAnimationsEnabled(true);
@@ -273,7 +273,7 @@ const RoutingBody = (props) => {
     };
 
     const disableWeatherAnimationsCommand = {
-        command: ["mirror mirror disable weather animation"],
+        command: ["mirror mirror disable weather animations"],
         answer: "Disabling weather animations",
         func: () => {
             setWeatherAnimationsEnabled(false);
