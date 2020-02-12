@@ -10,6 +10,8 @@ import soundfile from './camera-shutter-click-01.mp3';
 const PhotoBooth = (props) => {
 
     const {SpeechRecognitionHook} = useContext(VoiceCommandsContext);
+    const [flash, setFlash] = useState(false);
+
     const takePictureVoiceCommand = {
         command: ["mirror mirror take picture"],
         answer: "",
@@ -59,6 +61,23 @@ const PhotoBooth = (props) => {
 
         ////end of section ///////////////
 
+    const CameraFlash = () => {
+
+        if(flash) {
+            return (
+                <Col lg={3} style={{background: "white"}}>
+                    <h1>Flash - Left</h1>
+                </Col>
+            );
+        }
+        else{
+            return (
+            <Col lg={3} style={{background: "black"}}>
+                <h1>Flash - Left</h1>
+            </Col>
+            );
+        }
+ };
 
     const take4Pics = () => {
         for (var i = 1; i <= 4; i++){
@@ -70,7 +89,7 @@ const PhotoBooth = (props) => {
         }
     };
 
-    
+
     useEffect(() => {
         SpeechRecognitionHook.addCommand(takePictureVoiceCommand);
     }, []);
@@ -95,9 +114,7 @@ const PhotoBooth = (props) => {
                     </Col>
                 </Row>
                 <Row style={{height: "80%", border: "solid green 1px"}}>
-                    <Col lg={3} style={{background: "white"}}>
-                        <h1>Flash - Left</h1>
-                    </Col>
+                    <CameraFlash/>
                     <Col lg={6}>
                         <Row>
                             <Col style={{height: "20vh", border: "solid yellow 1px"}}>
