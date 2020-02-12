@@ -43,10 +43,10 @@ const PhotoBooth = (props) => {
                 <>
                     <Webcam
                         audio={false}
-                        height={720 / 3}
+                        height={720 / 6}
                         ref={webcamRef}
                         screenshotFormat="image/jpeg"
-                        width={1280 / 3}
+                        width={1280 / 6}
                         videoConstraints={videoConstraints}
                     />
                     <button onClick={capture}>Capture photo</button>
@@ -59,33 +59,34 @@ const PhotoBooth = (props) => {
 
 
     const take4Pics = () => {
-        // for (var i = 0; i < 4; i++){
-        //     setTimeout(() =>  {
-        //         let audio = new Audio(soundfile);
-        //         audio.play();
-        //         capture();
-        //      }, 2000);
-        // }
-        setTimeout(() =>  {
-            let audio = new Audio(soundfile);
-            audio.play();
-            capture();
-        }, 3000);
-        setTimeout(() =>  {
-            let audio = new Audio(soundfile);
-            audio.play();
-            capture();
-        }, 6000);
-        setTimeout(() =>  {
-            let audio = new Audio(soundfile);
-            audio.play();
-            capture();
-        }, 9000);
-        setTimeout(() =>  {
-            let audio = new Audio(soundfile);
-            audio.play();
-            capture();
-        }, 12000);
+        for (var i = 1; i <= 4; i++){
+            setTimeout(() =>  {
+                let audio = new Audio(soundfile);
+                audio.play();
+                capture();
+             }, i * 2000);
+        }
+
+        // setTimeout(() =>  {
+        //     let audio = new Audio(soundfile);
+        //     audio.play();
+        //     capture();
+        // }, 3000);
+        // setTimeout(() =>  {
+        //     let audio = new Audio(soundfile);
+        //     audio.play();
+        //     capture();
+        // }, 6000);
+        // setTimeout(() =>  {
+        //     let audio = new Audio(soundfile);
+        //     audio.play();
+        //     capture();
+        // }, 9000);
+        // setTimeout(() =>  {
+        //     let audio = new Audio(soundfile);
+        //     audio.play();
+        //     capture();
+        // }, 12000);
 
     };
 
@@ -113,8 +114,8 @@ const PhotoBooth = (props) => {
                     </Col>
                 </Row>
                 <Row style={{height: "80%", border: "solid green 1px"}}>
-                    <Col lg={3}>
-                        <h1>Flash</h1>
+                    <Col lg={3} style={{background: "white"}}>
+                        <h1>Flash - Left</h1>
                     </Col>
                     <Col lg={6}>
                         <Row>
@@ -142,8 +143,8 @@ const PhotoBooth = (props) => {
                             </Col>
                         </Row>
                     </Col>
-                    <Col lg={3}>
-                        <h1>Flash</h1>
+                    <Col lg={3} style={{ background: "white"}}>
+                        <h1>Flash - Right</h1>
                     </Col>
                 </Row>
             </div>
