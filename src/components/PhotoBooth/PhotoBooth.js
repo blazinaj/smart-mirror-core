@@ -118,7 +118,7 @@ const PhotoBooth = (props) => {
                     </Col>
                     <Col lg={6}>
                         <Row>
-                            <Col style={{height: "20vh"}}>
+                            <Col style={{height: "20vh", border: "solid yellow 1px"}}>
                                 {imageArray[0] ?
                                     <img src={imageArray[0]}/>
                                     : null
@@ -127,12 +127,12 @@ const PhotoBooth = (props) => {
 
                         </Row>
                         <Row>
-                            <Col style={{height: "20vh"}}>
+                            <Col style={{height: "20vh", border: "solid red 1px"}}>
                                 <img src={imageArray[1]}/>
                             </Col>
                         </Row>
                         <Row>
-                            <Col style={{height: "20vh"}}>
+                            <Col style={{height: "20vh", border: "solid brown 1px"}}>
                                 <img src={imageArray[2]}/>
                             </Col>
                         </Row>
