@@ -30,6 +30,8 @@ const PhotoBooth = (props) => {
     const webcamRef = useRef(null);
     const capture = useCallback(
         () => {
+            let audio = new Audio(soundfile);
+            audio.play();
             const imageSrc = webcamRef.current.getScreenshot();
             setImageArray(imageArray => [...imageArray, imageSrc]);
             // alert("image captured");
@@ -60,36 +62,15 @@ const PhotoBooth = (props) => {
 
     const take4Pics = () => {
         for (var i = 1; i <= 4; i++){
-            setTimeout(() =>  {
-                let audio = new Audio(soundfile);
-                audio.play();
-                capture();
-             }, i * 2000);
+
+            setTimeout(() =>
+                {
+                    capture();
+                }, i * 4000);
         }
-
-        // setTimeout(() =>  {
-        //     let audio = new Audio(soundfile);
-        //     audio.play();
-        //     capture();
-        // }, 3000);
-        // setTimeout(() =>  {
-        //     let audio = new Audio(soundfile);
-        //     audio.play();
-        //     capture();
-        // }, 6000);
-        // setTimeout(() =>  {
-        //     let audio = new Audio(soundfile);
-        //     audio.play();
-        //     capture();
-        // }, 9000);
-        // setTimeout(() =>  {
-        //     let audio = new Audio(soundfile);
-        //     audio.play();
-        //     capture();
-        // }, 12000);
-
     };
 
+    
     useEffect(() => {
         SpeechRecognitionHook.addCommand(takePictureVoiceCommand);
     }, []);
