@@ -80,12 +80,19 @@ const PhotoBooth = (props) => {
  };
 
     const take4Pics = () => {
-        for (var i = 1; i <= 4; i++){
+        const secondsBetweenPics = 4000;
+
+        for (var i = 0; i < 4; i++){
+            setTimeout( () => {
+                setFlash(true);
+            }, i * secondsBetweenPics + 1000);
 
             setTimeout(() =>
                 {
+                    setFlash(false);
                     capture();
-                }, i * 4000);
+                }, i * secondsBetweenPics + 4000);
+
         }
     };
 
