@@ -72,14 +72,14 @@ const PhotoBooth = (props) => {
 
         if(flash) {
             return (
-                <Col lg={3} style={{background: "white"}}>
+                <Col lg={2} style={{background: "white"}}>
                     <h1>Flash - Left</h1>
                 </Col>
             );
         }
         else{
             return (
-            <Col lg={3} style={{background: "black"}}>
+            <Col lg={2} style={{background: "black"}}>
                 <h1>Flash - Left</h1>
             </Col>
             );
@@ -129,7 +129,7 @@ const PhotoBooth = (props) => {
                 </Row>
                 <Row style={{height: "83%", border: "solid green 1px"}}>
                     <CameraFlash/>
-                    <Col lg={6}>
+                    <Col lg={8}>
                         <Row>
                             <Col style={{height: "20vh", border: "solid yellow 1px"}}>
                                 {imageArray[0] ?
@@ -155,9 +155,7 @@ const PhotoBooth = (props) => {
                             </Col>
                         </Row>
                     </Col>
-                    <Col lg={3} style={{ background: "white"}}>
-                        <h1>Flash - Right</h1>
-                    </Col>
+                    <CameraFlash/>
                 </Row>
             </div>
             // <WebcamCapture/>
