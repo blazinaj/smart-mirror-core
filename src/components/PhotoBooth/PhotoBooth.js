@@ -11,25 +11,27 @@ const PhotoBooth = (props) => {
 
     const {SpeechRecognitionHook} = useContext(VoiceCommandsContext);
     const [flash, setFlash] = useState(false);
+    const [imageArray, setImageArray] = useState([]);
+    const webcamRef = useRef(null);
+
 
     const takePictureVoiceCommand = {
         command: ["mirror mirror take picture"],
         answer: "",
         func: () => {
+            setImageArray(imageArray => []);
             take4Pics();
         }
     };
     ////take picture section  //////////////
 
-    const [imageArray, setImageArray] = useState([]);
-
     const videoConstraints = {
-        width: 1280,
-        height: 720,
+        width: 711,
+        height: 400,
         facingMode: "user"
     };
 
-    const webcamRef = useRef(null);
+
     const capture = useCallback(
         () => {
             let audio = new Audio(soundfile);
@@ -41,16 +43,21 @@ const PhotoBooth = (props) => {
         [webcamRef]
     );
 
+
+
     const WebcamCapture = () => {
 
             return (
                 <>
                     <Webcam
                         audio={false}
-                        height={720 / 6}
+                        height={400}
+                        mirrored={true}
+                        //{/* was 720  */}
                         ref={webcamRef}
                         screenshotFormat="image/jpeg"
-                        width={1280 / 6}
+                        width={711}
+                       // {/* was 1280  */}
                         videoConstraints={videoConstraints}
                     />
                     <button onClick={capture}>Capture photo</button>
@@ -59,7 +66,7 @@ const PhotoBooth = (props) => {
             );
         };
 
-        ////end of section ///////////////
+
 
     const CameraFlash = () => {
 
@@ -82,16 +89,16 @@ const PhotoBooth = (props) => {
     const take4Pics = () => {
         const secondsBetweenPics = 4000;
 
-        for (var i = 0; i < 4; i++){
-            setTimeout( () => {
-                setFlash(true);
-            }, i * secondsBetweenPics + 1000);
+        for (var i = 1; i <= 4; i++){
+            // setTimeout( () => {
+            //     setFlash(true);
+            // }, i * secondsBetweenPics + 1000);
 
             setTimeout(() =>
                 {
-                    setFlash(false);
+                    //setFlash(false);
                     capture();
-                }, i * secondsBetweenPics + 4000);
+                }, i * secondsBetweenPics);
 
         }
     };
@@ -103,7 +110,7 @@ const PhotoBooth = (props) => {
 
         return (
             <div style={{height: "100%", background: "black", padding: "2vw", color: "white"}}>
-                {/* */} <WebcamCapture/>
+                <WebcamCapture/>
 
                 <Row style={{border: "solid blue 1px"}}>
                     <Col>
@@ -120,7 +127,7 @@ const PhotoBooth = (props) => {
                         </div>
                     </Col>
                 </Row>
-                <Row style={{height: "80%", border: "solid green 1px"}}>
+                <Row style={{height: "83%", border: "solid green 1px"}}>
                     <CameraFlash/>
                     <Col lg={6}>
                         <Row>
