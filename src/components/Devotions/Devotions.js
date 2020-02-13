@@ -34,7 +34,6 @@ const Devotions = (props)=>{
         }
     };
 
-
 const getQuote = () => {  
     axios.get("https://beta.ourmanna.com/api/v1/get/?format=text&order=random")  
     .then(responce => {  
