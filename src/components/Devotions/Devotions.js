@@ -34,17 +34,7 @@ const Devotions = (props)=>{
         }
     };
 
-   //Json vertion
-   /*
-    const getRandomQuote = () => {
-        fetch("https://beta.ourmanna.com/api/v1/get/?format=text&order=random")
-        .then(response => console.log(JSON.stringify(response))
-        .then(quotes =>{
-            const randomIndex = Math.floor(Math.random() * quotes.length);
-            return quotes[randomIndex];
-        }));
-}
-*/
+
 const getQuote = () => {  
     axios.get("https://beta.ourmanna.com/api/v1/get/?format=text&order=random")  
     .then(responce => {  
