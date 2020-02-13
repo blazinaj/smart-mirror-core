@@ -23,19 +23,7 @@ const Inspiration = (props)=>{
         answer: "ok reading again!",
         func: () => readMyQuote(JSON.stringify(readText))
     };
-    
 
-    const [quote,setQuote] =  useState(null);
-    const {SpeechRecognitionHook} = useContext(VoiceCommandsContext);
-    const [readText, setReadText] = useState( null);
-    const speechSynthesisHook = useSpeechSynthesis();
-
-    //NEEDS WORK
-    const readCommand = {
-        command: ["mirror mirror read my quote"],
-        answer: "ok reading again!",
-        func: () => readMyQuote(JSON.stringify(readText))
-    };
 
 // clock widget colors
     let options = {
