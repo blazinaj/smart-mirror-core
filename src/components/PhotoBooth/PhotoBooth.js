@@ -26,8 +26,8 @@ const PhotoBooth = (props) => {
     ////take picture section  //////////////
 
     const videoConstraints = {
-        width: 711,
-        height: 400,
+        width: 1280,
+        height: 720,
         facingMode: "user"
     };
 
@@ -46,7 +46,6 @@ const PhotoBooth = (props) => {
 
 
     const WebcamCapture = () => {
-
             return (
                 <>
                     <Webcam
@@ -60,7 +59,7 @@ const PhotoBooth = (props) => {
                        // {/* was 1280  */}
                         videoConstraints={videoConstraints}
                     />
-                    <button onClick={capture}>Capture photo</button>
+                    {/*<button onClick={capture}>Capture photo</button>*/}
                     {/* <img src={imageArray[0]}/>  */}
                 </>
             );
@@ -110,20 +109,20 @@ const PhotoBooth = (props) => {
 
         return (
             <div style={{height: "100%", background: "black", padding: "2vw", color: "white"}}>
-                <WebcamCapture/>
+               <WebcamCapture/>
 
                 <Row style={{border: "solid blue 1px"}}>
                     <Col>
                         <div>
                             <h1>Photo Booth</h1>
-                            <label style={{
-                                position: "absolute",
-                                left: "50%",
-                                "-webkit-transform": "translateX(-50%)",
-                                transform: "translateX(-50%)",
-                                color: "white",
-                            }}
-                            >Photo Booth</label>
+                            {/*<label style={{*/}
+                            {/*    position: "absolute",*/}
+                            {/*    left: "50%",*/}
+                            {/*    "-webkit-transform": "translateX(-50%)",*/}
+                            {/*    transform: "translateX(-50%)",*/}
+                            {/*    color: "white",*/}
+                            {/*}}*/}
+                            {/*>Photo Booth</label>*/}
                         </div>
                     </Col>
                 </Row>
@@ -132,10 +131,7 @@ const PhotoBooth = (props) => {
                     <Col lg={8}>
                         <Row>
                             <Col style={{height: "20vh", border: "solid yellow 1px"}}>
-                                {imageArray[0] ?
-                                    <img src={imageArray[0]}/>
-                                    : null
-                                }
+                                <img src={imageArray[0]}/>
                             </Col>
 
                         </Row>
@@ -150,7 +146,7 @@ const PhotoBooth = (props) => {
                             </Col>
                         </Row>
                         <Row>
-                            <Col style={{height: "20vh"}}>
+                            <Col style={{height: "20vh", border: "solid purple 1px"}}>
                                 <img src={imageArray[3]}/>
                             </Col>
                         </Row>
@@ -158,8 +154,6 @@ const PhotoBooth = (props) => {
                     <CameraFlash/>
                 </Row>
             </div>
-            // <WebcamCapture/>
-
 
         );
     };
