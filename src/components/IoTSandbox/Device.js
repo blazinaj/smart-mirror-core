@@ -9,7 +9,8 @@ import awsIot from 'aws-iot-device-sdk';
 // to connect with a client identifier which is already in use, the existing
 // connection will be terminated.
 //
-const device = ()=> {
+const Device = ()=> {
+    console.log("starting up the device")
     awsIot.device({
         keyPath: "../../../../public/cert/d5efb49d34-private.pem.key",
         certPath: "../../../../public/cert/d5efb49d34-public.pem.key",
@@ -18,28 +19,29 @@ const device = ()=> {
         host: "Smart_Mirror_IoT"
     });
 
+    console.log(Device());
     //
     // Device is an instance returned by mqtt.Client(), see mqtt.js for full
     // documentation.
     //
-    device
+    Device
         .on('connect', function () {
             console.log('connect');
-            device.subscribe('topic_1');
-            device.publish('topic_2', JSON.stringify({test_data: 1}));
+            Device.subscribe('topic_1');
+            Device.publish('topic_2', JSON.stringify({test_data: 1}));
         });
 
-    device
+    Device
         .on('message', function (topic, payload) {
             console.log('message', topic, payload.toString());
         });
 
     return(
         <div>
-            <device/>
+            <Device/>
         </div>
     );
 
 };
 
-export default device;
+export default Device;
