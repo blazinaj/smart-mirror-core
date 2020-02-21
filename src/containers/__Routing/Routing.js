@@ -22,6 +22,7 @@ import Header from "../Home/Header";
 import RussianDemoPage from "../RussianDemoPage/RussianDemoPage";
 import FrenchDemoPage from "../FrenchDemoPage/FrenchDemoPage";
 import GestureDemo from "../GestureDemo/GestureDemo";
+import axios from "axios";
 
 const RoutingBody = (props) => {
 
@@ -224,6 +225,30 @@ const RoutingBody = (props) => {
         }
     };
 
+    const turnOnShower = {
+        command: ["mirror mirror turn on shower"],
+        answer: "Turning shower on!",
+        func: () => {
+
+            axios.post(`https://e5bzzu7kzc.execute-api.us-west-2.amazonaws.com/Smart_IoT/send`, {data: "shower on"})
+                .then(res => {
+                    console.log(res && res.data);
+                })
+        }
+    };
+
+    const turnOffShower = {
+        command: ["mirror mirror turn off shower"],
+        answer: "Turning shower off!",
+        func: () => {
+
+            axios.post(`https://e5bzzu7kzc.execute-api.us-west-2.amazonaws.com/Smart_IoT/send`, {data: "shower off"})
+                .then(res => {
+                    console.log(res && res.data);
+                })
+        }
+    };
+
     useEffect(() => {
         voiceContext.addCommand(homePageCommand);
         voiceContext.addCommand(testPageCommand);
@@ -243,6 +268,8 @@ const RoutingBody = (props) => {
         voiceContext.addCommand(russianDemoPage);
         voiceContext.addCommand(frenchDemoPage);
         voiceContext.addCommand(swipeDemoPage);
+        voiceContext.addCommand(turnOnShower);
+        voiceContext.addCommand(turnOffShower);
     }, []);
 
     useEffect(() => {
