@@ -104,7 +104,8 @@ const useImageSearch = () => {
     return {
         mySearchBox,
         renderSearchResults,
-        searchFor
+        searchFor,
+        query
     }
 
 };
