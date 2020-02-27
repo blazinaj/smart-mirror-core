@@ -166,7 +166,7 @@ const VoiceDemo = (props) => {
                             :
                             <h3 style={{outline: "1px solid white"}}>
                                 <label style={{padding: "1px"}}>
-                                    Joke text disabled
+                                    Text disabled
                                 </label>
                             </h3>
                         }
