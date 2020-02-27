@@ -12,6 +12,7 @@ import VoiceDemo from "../../components/VoiceDemo/VoiceDemo";
 import {useModal} from "../../hooks/useModal";
 import FaceDemo from "../FaceDemo/FaceDemo";
 import Devotions from "../../components/Devotions/Devotions";
+import Inspiration from "../../components/Inspiration/Inspiration";
 import GesturePaintDemo from "../GestureDemo/GesturePaintDemo";
 import GestureClickMeGame from "../GestureDemo/GestureClickMeGame";
 import {useGreetingMessage} from "../../hooks/useGreetingMessage";
@@ -99,6 +100,15 @@ const RoutingBody = (props) => {
         func: () => {
             loggingContext.addLog("Voice Command: Alright! Ill take you to devotion")
             history.push("/devotions")
+        }
+    };
+
+    const inspireCommand = {
+        command: ["mirror mirror inspire me"],
+        answer: "Alright! let me insprire you",
+        func: () => {
+            loggingContext.addLog("Voice Command: Alright! let me inspire you")
+            history.push("/inspiration")
         }
     };
 
@@ -297,6 +307,7 @@ const RoutingBody = (props) => {
         voiceContext.addCommand(searchWikipediaCommand);
         voiceContext.addCommand(gestureShowHandsPageCommand);
         voiceContext.addCommand(russianDemoPage);
+        voiceContext.addCommand(inspireCommand);
         voiceContext.addCommand(frenchDemoPage);
         voiceContext.addCommand(swipeDemoPage);
         voiceContext.addCommand(rainCommand);
@@ -399,6 +410,9 @@ const RoutingBody = (props) => {
                 </PrivateRoute>
                 <PrivateRoute exact path="/devotions" mongoHook={mongoHook}>
                     <Devotions/>
+                </PrivateRoute>
+                <PrivateRoute exact path="/inspiration" mongoHook={mongoHook}>
+                    <Inspiration/>    
                 </PrivateRoute>
                 <PrivateRoute exact path="/face_demo" mongoHook={mongoHook}>
                     <FaceDemo/>
