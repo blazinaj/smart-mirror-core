@@ -4,15 +4,18 @@ import {Input, Label, Button, Row, Col} from 'reactstrap';
 import useSpeechSynthesis from "../../hooks/useSpeechSynthesis";
 import {useModal} from "../../hooks/useModal";
 import Search from "../../hooks/useImageSearch";
+import {AnimateOnChange} from 'react-animation'
 
 const VoiceDemo = (props) => {
 
     const {SpeechRecognitionHook} = useContext(VoiceCommandsContext);
     const speechSynthesisHook = useSpeechSynthesis();
+    const search = Search();
+
     const [showJoke, setShowJoke] = useState(true);
     const [joke, setJoke] = useState("");
     const [query, setQuery] = useState("");
-    const search = Search();
+    const [showingCommand, setShowingCommand] = useState("tell me a joke");
 
     const whoIsTheManCommand = {
         command: ["mirror mirror on the wall who is the man", "mirror mirror who is the man"],
@@ -28,7 +31,7 @@ const VoiceDemo = (props) => {
         command: ["mirror mirror toggle joke text"],
         answer: "toggled",
         func: () => {
-            showJoke ? setShowJoke(false) : setShowJoke(true);
+            setShowJoke(showJoke => !showJoke);
         }
     };
 
@@ -56,7 +59,7 @@ const VoiceDemo = (props) => {
                 } else {
                     //alert(myJson.setup + " " +  myJson.delivery)
                     const twoPartJoke = myJson.setup + " " + myJson.delivery;
-                    speechSynthesisHook.speak(twoPartJoke)
+                    speechSynthesisHook.speak(twoPartJoke);
                     setJoke(twoPartJoke);
                 }
             });
@@ -95,43 +98,97 @@ const VoiceDemo = (props) => {
         }
     }, []);
 
-
+    useEffect(() => {
+        setTimeout(() => {
+            switch (showingCommand) {
+                case "tell me a joke": {
+                    setShowingCommand("who is the man?");
+                    break;
+                }
+                case "who is the man?": {
+                    setShowingCommand("search for puppies");
+                    break;
+                }
+                case "search for puppies": {
+                    setShowingCommand("tell me a joke");
+                    break;
+                }
+                default:
+                    break;
+            }
+        }, 5000)
+    }, [showingCommand]);
 
     return (
-
-        <div style={{height: "100vh", background: "black", padding: "5vw"}}>
+        <div style={{height: "100vh", background: "black", paddingLeft: "5vw", paddingRight: "5vw"}}>
             <h1>🎤 Voice Demo Page</h1>
             <>
                 {
                     SpeechRecognitionHook.displayTranscript
                 }
             </>
-            <br/>
+            <h5>
+                Try... "Mirror mirror
+                <a> </a>
+                <AnimateOnChange
+                    animationIn="bounceIn"
+                    animationOut="bounceOut"
+                    durationOut={500}
+                >
+                    {showingCommand}
+                </AnimateOnChange>
+                "
+            </h5>
             <Col>
                 <Row>
-                    <Col lg={6}>
-                        <Row style={{height: "20vh", align:"top"}}>
-                            <pre>
-                               <h2 style={{color: "white"}}> Example Voice Commands: </h2>
-                               <h4 style={{color: "white"}}>"Mirror Mirror tell me a joke."</h4>
-                               <h4 style={{color: "white"}}>"Mirror Mirror who is the man?"</h4>
-                               <h4 style={{color: "white"}}>"Mirror Mirror search for puppies."</h4>
-                            </pre>
-                        </Row>
+                    <Col>
+                        <h3>Joke:</h3>
                     </Col>
-
-                    <Col lg={6}>
-                        <Row style={{height: "20vh", align:"center"}}>
-                                <h2 style={{color: "white",align:"top"}}>Joke:</h2>
-                                <h4 style={{color: "white", align:"top", }}>{showJoke && joke}</h4>
-                        </Row>
+                    <Col>
+                        <h3>Searching for</h3>
                     </Col>
-
-                    <Row style={{height: "20vh"}}>
-                        {search.mySearchBox}
+                </Row>
+                <Row>
+                    <Col>
+                        { showJoke ?
+                            joke ?
+                                <h3 style={{outline: "1px solid white"}}>
+                                    <label style={{padding: "1px"}}>
+                                        {joke}
+                                    </label>
+                                </h3>
+                                :
+                                <h3 style={{outline: "1px solid white"}}>
+                                    <label style={{padding: "1px"}}>
+                                        N/A
+                                    </label>
+                                </h3>
+                            :
+                            <h3 style={{outline: "1px solid white"}}>
+                                <label style={{padding: "1px"}}>
+                                    Joke text disabled
+                                </label>
+                            </h3>
+                        }
+                    </Col>
+                    <Col>
+                        <h3 style={{alignItems: "right"}}>
+                            { search.query ?
+                                <div style={{outline: "1px solid white"}}>
+                                    <label style={{padding: "1px"}}>{search.query}</label>
+                                </div>
+                                :
+                                <div style={{outline: "1px solid white"}}>
+                                    <label style={{padding: "1px"}}>N/A</label>
+                                </div>
+                            }
+                        </h3>
+                    </Col>
+                </Row>
+                <Row>
+                    <Row>
                         {search.renderSearchResults()}
                     </Row>
-
                 </Row>
             </Col>
         </div>
