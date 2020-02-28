@@ -23,6 +23,7 @@ import Header from "../Home/Header";
 import RussianDemoPage from "../RussianDemoPage/RussianDemoPage";
 import FrenchDemoPage from "../FrenchDemoPage/FrenchDemoPage";
 import GestureDemo from "../GestureDemo/GestureDemo";
+import axios from "axios";
 import SnowStorm from 'react-snowstorm';
 
 const RoutingBody = (props) => {
@@ -240,6 +241,29 @@ const RoutingBody = (props) => {
         }
     };
 
+
+    const turnOnShower = {
+        command: ["mirror mirror turn on shower"],
+        answer: "Turning shower on!",
+        func: () => {
+
+            axios.post(`https://e5bzzu7kzc.execute-api.us-west-2.amazonaws.com/Smart_IoT/send`, {data: "shower on"})
+                .then(res => {
+                    console.log(res && res.data);
+                })
+        }
+    };
+
+    const turnOffShower = {
+        command: ["mirror mirror turn off shower"],
+        answer: "Turning shower off!",
+        func: () => {
+
+            axios.post(`https://e5bzzu7kzc.execute-api.us-west-2.amazonaws.com/Smart_IoT/send`, {data: "shower off"})
+                .then(res => {
+                    console.log(res && res.data);
+                })
+
     const rainCommand = {
         command: ["mirror mirror rain"],
         answer: "Raining",
@@ -310,6 +334,8 @@ const RoutingBody = (props) => {
         voiceContext.addCommand(inspireCommand);
         voiceContext.addCommand(frenchDemoPage);
         voiceContext.addCommand(swipeDemoPage);
+        voiceContext.addCommand(turnOnShower);
+        voiceContext.addCommand(turnOffShower);
         voiceContext.addCommand(rainCommand);
         voiceContext.addCommand(stopRainCommand);
         voiceContext.addCommand(snowCommand);
