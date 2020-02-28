@@ -243,7 +243,7 @@ const RoutingBody = (props) => {
 
 
     const turnOnShower = {
-        command: ["mirror mirror turn on shower"],
+        command: ["mirror mirror start shower"],
         answer: "Turning shower on!",
         func: () => {
 
@@ -255,7 +255,7 @@ const RoutingBody = (props) => {
     };
 
     const turnOffShower = {
-        command: ["mirror mirror turn off shower"],
+        command: ["mirror mirror stop shower"],
         answer: "Turning shower off!",
         func: () => {
 
@@ -263,7 +263,34 @@ const RoutingBody = (props) => {
                 .then(res => {
                     console.log(res && res.data);
                 })
+        }
+    };
 
+    const turnOnCoffee = {
+        command: ["mirror mirror start coffee"],
+        answer: "Starting coffee machine!",
+        func: () => {
+            
+            axios.post(`https://e5bzzu7kzc.execute-api.us-west-2.amazonaws.com/Smart_IoT/send`, {data: "coffee on"})
+                .then(res => {
+                    console.log(res && res.data);
+                })
+        }
+    };
+            
+    const turnOffCoffee = {
+        command: ["mirror mirror stop coffee"],
+        answer: "Turning coffee off!",
+        func: () => {
+            
+            axios.post(`https://e5bzzu7kzc.execute-api.us-west-2.amazonaws.com/Smart_IoT/send`, {data: "coffee off"})
+                .then(res => {
+                    console.log(res && res.data);
+                })
+        }
+    };
+            
+    
     const rainCommand = {
         command: ["mirror mirror rain"],
         answer: "Raining",
@@ -336,6 +363,8 @@ const RoutingBody = (props) => {
         voiceContext.addCommand(swipeDemoPage);
         voiceContext.addCommand(turnOnShower);
         voiceContext.addCommand(turnOffShower);
+        voiceContext.addCommand(turnOnCoffee);
+        voiceContext.addCommand(turnOffCoffee);
         voiceContext.addCommand(rainCommand);
         voiceContext.addCommand(stopRainCommand);
         voiceContext.addCommand(snowCommand);
