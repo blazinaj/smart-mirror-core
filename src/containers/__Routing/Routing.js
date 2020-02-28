@@ -106,7 +106,7 @@ const RoutingBody = (props) => {
 
     const inspireCommand = {
         command: ["mirror mirror inspire me"],
-        answer: "Alright! let me insprire you",
+        answer: "Alright! let me inspire you",
         func: () => {
             loggingContext.addLog("Voice Command: Alright! let me inspire you")
             history.push("/inspiration")
