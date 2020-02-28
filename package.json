@@ -20,6 +20,7 @@
     "prop-types": "latest",
     "qs": "^6.9.1",
     "react": "^16.11.0",
+    "react-animation": "^1.2.2",
     "react-calendar": "^2.19.2",
     "react-clock": "^2.4.0",
     "react-digital-clock": "^0.1.2",
@@ -32,7 +33,9 @@
     "react-resizable": "^1.9.0",
     "react-router-dom": "^5.1.2",
     "react-scripts": "3.2.0",
+    "react-snowstorm": "0.0.3",
     "react-social-login": "^3.4.6",
+    "react-text-loop": "^2.3.0",
     "react-webcam": "^4.0.0",
     "reactstrap": "^8.1.1"
   },

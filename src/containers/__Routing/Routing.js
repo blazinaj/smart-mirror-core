@@ -1,4 +1,4 @@
-import React, {useEffect, useContext} from "react";
+import React, {useEffect, useContext, useState} from "react";
 import {BrowserRouter as Router, Route, Switch, useHistory} from "react-router-dom";
 import Login from "../../components/Login/Login";
 import Home from "../Home/Home";
@@ -12,6 +12,7 @@ import VoiceDemo from "../../components/VoiceDemo/VoiceDemo";
 import {useModal} from "../../hooks/useModal";
 import FaceDemo from "../FaceDemo/FaceDemo";
 import Devotions from "../../components/Devotions/Devotions";
+import Inspiration from "../../components/Inspiration/Inspiration";
 import GesturePaintDemo from "../GestureDemo/GesturePaintDemo";
 import GestureClickMeGame from "../GestureDemo/GestureClickMeGame";
 import {useGreetingMessage} from "../../hooks/useGreetingMessage";
@@ -23,6 +24,7 @@ import RussianDemoPage from "../RussianDemoPage/RussianDemoPage";
 import FrenchDemoPage from "../FrenchDemoPage/FrenchDemoPage";
 import GestureDemo from "../GestureDemo/GestureDemo";
 import axios from "axios";
+import SnowStorm from 'react-snowstorm';
 
 const RoutingBody = (props) => {
 
@@ -51,6 +53,11 @@ const RoutingBody = (props) => {
                 account</h4>
             <h5>When finished say: </h5><h4 style={{color: "blue"}}>🎤 Mirror mirror hide message</h4></a>,
         `IMPORTANT - PIN: ${mongoHook.pin}`);
+
+    const [isRaining, setIsRaining] = useState(false);
+    const [isSnowing, setIsSnowing] = useState(false);
+    const [weatherAnimationsEnabled, setWeatherAnimationsEnabled] = useState(false);
+    const [weatherAnimationsCheck, setWeatherAnimationsCheck] = useState(false);
 
     const homePageCommand = {
         command: ["Mirror mirror on the wall Go to home page", "mirror mirror on the wall go home", "mirror mirror on the wall wake up", "Mirror mirror Go to home page", "mirror mirror go home", "mirror mirror wake up"],
@@ -94,6 +101,15 @@ const RoutingBody = (props) => {
         func: () => {
             loggingContext.addLog("Voice Command: Alright! Ill take you to devotion")
             history.push("/devotions")
+        }
+    };
+
+    const inspireCommand = {
+        command: ["mirror mirror inspire me"],
+        answer: "Alright! let me insprire you",
+        func: () => {
+            loggingContext.addLog("Voice Command: Alright! let me inspire you")
+            history.push("/inspiration")
         }
     };
 
@@ -225,6 +241,7 @@ const RoutingBody = (props) => {
         }
     };
 
+
     const turnOnShower = {
         command: ["mirror mirror turn on shower"],
         answer: "Turning shower on!",
@@ -246,6 +263,54 @@ const RoutingBody = (props) => {
                 .then(res => {
                     console.log(res && res.data);
                 })
+
+    const rainCommand = {
+        command: ["mirror mirror rain"],
+        answer: "Raining",
+        func: () => {
+            setIsSnowing(false);
+            setIsRaining(true);
+        }
+    };
+
+    const stopRainCommand = {
+        command: ["mirror mirror stop raining"],
+        answer: "Stopping rain",
+        func: () => {
+            setIsRaining(false);
+        }
+    };
+
+    const snowCommand = {
+        command: ["mirror mirror snow"],
+        answer: "Snowing",
+        func: () => {
+            setIsRaining(false);
+            setIsSnowing(true);
+        }
+    };
+
+    const stopSnowCommand = {
+        command: ["mirror mirror stop snowing"],
+        answer: "Stopping snow",
+        func: () => {
+            setIsSnowing(false);
+        }
+    };
+
+    const enableWeatherAnimationsCommand = {
+        command: ["mirror mirror enable weather animations"],
+        answer: "Enabling weather animations",
+        func: () => {
+            setWeatherAnimationsEnabled(true);
+        }
+    };
+
+    const disableWeatherAnimationsCommand = {
+        command: ["mirror mirror disable weather animations"],
+        answer: "Disabling weather animations",
+        func: () => {
+            setWeatherAnimationsEnabled(false);
         }
     };
 
@@ -266,10 +331,17 @@ const RoutingBody = (props) => {
         voiceContext.addCommand(searchWikipediaCommand);
         voiceContext.addCommand(gestureShowHandsPageCommand);
         voiceContext.addCommand(russianDemoPage);
+        voiceContext.addCommand(inspireCommand);
         voiceContext.addCommand(frenchDemoPage);
         voiceContext.addCommand(swipeDemoPage);
         voiceContext.addCommand(turnOnShower);
         voiceContext.addCommand(turnOffShower);
+        voiceContext.addCommand(rainCommand);
+        voiceContext.addCommand(stopRainCommand);
+        voiceContext.addCommand(snowCommand);
+        voiceContext.addCommand(stopSnowCommand);
+        voiceContext.addCommand(enableWeatherAnimationsCommand);
+        voiceContext.addCommand(disableWeatherAnimationsCommand);
     }, []);
 
     useEffect(() => {
@@ -287,8 +359,52 @@ const RoutingBody = (props) => {
         }
     }, [mongoHook.firstName && mongoHook.lastName]);
 
+    // Triggers weather animation
+    useEffect(() => {
+        setTimeout(() => setWeatherAnimationsCheck(weatherAnimationsCheck => !weatherAnimationsCheck), 300000);
+        async function fetchData() {
+            const res = await fetch("https://api.openweathermap.org/data/2.5/weather?zip=" + 99004 + ",us&units=imperial&APPID=91057845b758d5c8a2aa21315a9ae881");
+            res
+                .json()
+                .then(res => {
+                    let weather = res.weather[0].main;
+                    loggingContext.addLog(weather);
+                    switch(weather){
+                        case "Rain": {
+                            setIsSnowing(false);
+                            setIsRaining(true);
+                            break;
+                        }
+                        case "Snow": {
+                            setIsRaining(false);
+                            setIsSnowing(true);
+                            break;
+                        }
+                        case "Clear": {
+                            setIsRaining(false);
+                            setIsSnowing(false);
+                            break;
+                        }
+                        default: break;
+                    }
+                })
+                .catch(err => loggingContext.addLog(err));
+        }
+        if(weatherAnimationsEnabled){
+            fetchData();
+        }
+        else {
+            setIsRaining(false);
+            setIsSnowing(false);
+        }
+    }, [weatherAnimationsEnabled, weatherAnimationsCheck]);
+
     return (
         <div>
+            {isRaining &&
+            <SnowStorm followMouse={false} flakesMax={100} vMaxY={35} vMaxX={5.5} snowCharacter={"•"} snowStick={false}
+                       snowColor={"blue"}/>}
+            {isSnowing && <SnowStorm followMouse={false} flakesMax={48} vMaxY={3} snowCharacter={"*"}/>}
             {mongoHook.isLoggedIn && <Header history={history}/>}
             <Switch>
                 <Route exact path="/login">
@@ -320,6 +436,9 @@ const RoutingBody = (props) => {
                 </PrivateRoute>
                 <PrivateRoute exact path="/devotions" mongoHook={mongoHook}>
                     <Devotions/>
+                </PrivateRoute>
+                <PrivateRoute exact path="/inspiration" mongoHook={mongoHook}>
+                    <Inspiration/>    
                 </PrivateRoute>
                 <PrivateRoute exact path="/face_demo" mongoHook={mongoHook}>
                     <FaceDemo/>
