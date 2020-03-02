@@ -1,6 +1,7 @@
 import React, {useState, useEffect, useContext} from "react";
 
-import awsIot from 'aws-iot-device-sdk';
+import awsIot from "aws-iot-device-sdk";
+
 
 //
 // Replace the values of '<YourUniqueClientIdentifier>' and '<YourCustomEndpoint>'
@@ -10,16 +11,16 @@ import awsIot from 'aws-iot-device-sdk';
 // connection will be terminated.
 //
 const Device = ()=> {
-    console.log("starting up the device")
+
     awsIot.device({
-        keyPath: "../../../../public/cert/d5efb49d34-private.pem.key",
-        certPath: "../../../../public/cert/d5efb49d34-public.pem.key",
-        caPath: "../../../../public/cert/AmazonRootCA1.pem.txt",
-        clientId: "arn:aws:iot:us-west-2:615420348778:thing/Smart_Mirror_IoT",
-        host: "Smart_Mirror_IoT"
+        keyPath: "./cert/d5efb49d34-private.pem.key",
+        certPath: ".cert/d5efb49d34-certificate.pem.crt",
+        caPath: "./cert/AmazonRootCA1.pem",
+        clientId: "Smart_Mirror_IoT",
+        host: "arn:aws:iot:us-west-2:615420348778:thing/Smart_Mirror_IoT"
     });
 
-    console.log(Device());
+
     //
     // Device is an instance returned by mqtt.Client(), see mqtt.js for full
     // documentation.
@@ -34,6 +35,7 @@ const Device = ()=> {
     Device
         .on('message', function (topic, payload) {
             console.log('message', topic, payload.toString());
+
         });
 
     return(

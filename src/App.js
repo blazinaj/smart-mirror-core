@@ -14,6 +14,7 @@ import {Stitch} from "mongodb-stitch-browser-sdk";
 import {useMongo} from "./hooks/useMongo";
 import {AppContext} from "./context/AppContext";
 import Routing from "./containers/__Routing/Routing";
+import Device from "./components/IoTSandbox/Device";
 
 const App = () => {
 
